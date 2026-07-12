@@ -307,11 +307,6 @@
             margin-bottom: 8px;
         }
 
-        .question-item .q-text {
-            color: #dcecf5;
-            font-size: 15px;
-        }
-
         .flex-row {
             display: flex;
             gap: 10px;
@@ -629,9 +624,7 @@
 <script>
     const App = {
         tests: [],
-        admins: [
-            { login: 'admin', password: '123mastyrbist', protected: true }
-        ],
+        admins: [],
         currentUser: null,
         isLoggedIn: false,
         currentTest: null,
@@ -653,9 +646,17 @@
                 try {
                     const data = JSON.parse(saved);
                     this.tests = data.tests || [];
-                    this.admins = data.admins || [{ login: 'admin', password: '123mastyrbist', protected: true }];
-                    if (!this.admins.some(a => a.login === 'admin')) {
+                    this.admins = data.admins || [];
+                    
+                    const adminExists = this.admins.some(a => a.login === 'admin');
+                    if (!adminExists) {
                         this.admins.unshift({ login: 'admin', password: '123mastyrbist', protected: true });
+                    } else {
+                        const adminIdx = this.admins.findIndex(a => a.login === 'admin');
+                        if (this.admins[adminIdx]) {
+                            this.admins[adminIdx].password = '123mastyrbist';
+                            this.admins[adminIdx].protected = true;
+                        }
                     }
                 } catch(e) {
                     this.setDefaultData();
@@ -666,6 +667,7 @@
         },
 
         setDefaultData() {
+            this.admins = [{ login: 'admin', password: '123mastyrbist', protected: true }];
             this.tests = [
                 {
                     id: 1,
