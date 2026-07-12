@@ -174,7 +174,7 @@
             border: 1px solid #26333d;
             border-radius: 24px;
             padding: 30px;
-            max-width: 700px;
+            max-width: 750px;
             width: 100%;
             max-height: 90vh;
             overflow-y: auto;
@@ -283,6 +283,24 @@
             border-color: #8a3a3a;
         }
 
+        .btn-danger-small {
+            background: #2a1a1a;
+            border: 1px solid #6a2a2a;
+            color: #f0b0b0;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+
+        .btn-danger-small:hover {
+            background: #3a2222;
+            border-color: #8a3a3a;
+        }
+
         .btn-success {
             background: #1a2a2a;
             border: 1px solid #2a5a5a;
@@ -297,6 +315,24 @@
         }
 
         .btn-success:hover {
+            background: #1a3a3a;
+            border-color: #3a7a7a;
+        }
+
+        .btn-success-small {
+            background: #1a2a2a;
+            border: 1px solid #2a5a5a;
+            color: #6fd6b8;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+
+        .btn-success-small:hover {
             background: #1a3a3a;
             border-color: #3a7a7a;
         }
@@ -552,6 +588,21 @@
             max-width: 300px;
             margin: 0 auto;
         }
+
+        .option-row {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            margin-top: 4px;
+        }
+
+        .option-row input {
+            flex: 1;
+        }
+
+        .option-row .btn-danger-small {
+            flex-shrink: 0;
+        }
     </style>
 </head>
 <body>
@@ -560,7 +611,7 @@
     <div class="header">
         <div class="header-title">
             📋 ФСО ТЕСТИРОВАНИЕ
-            <span class="badge">АРБАТ</span>
+            <span class="badge">v2.0</span>
         </div>
         <div class="header-controls">
             <button class="nav-btn active" id="testsTab">📝 Тесты</button>
@@ -785,6 +836,14 @@
             }));
         },
 
+        shuffleArray(arr) {
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        },
+
         renderTests() {
             const grid = document.getElementById('testsGrid');
             grid.innerHTML = '';
@@ -879,6 +938,15 @@
             const total = test.questions.length;
             const timeLeft = test.timeLimit - Math.floor((Date.now() - this.testStartTime) / 1000);
 
+            let shuffledOptions = [...q.options];
+            let shuffledIndices = q.options.map((_, i) => i);
+            if (q.type === 'choice') {
+                const combined = shuffledOptions.map((opt, i) => ({ opt, idx: i }));
+                this.shuffleArray(combined);
+                shuffledOptions = combined.map(item => item.opt);
+                shuffledIndices = combined.map(item => item.idx);
+            }
+
             let html = `
                 <div class="flex-between mb-10">
                     <span style="color:#7a9aa8;font-family:'Courier New',monospace;">
@@ -893,11 +961,12 @@
             `;
 
             if (q.type === 'choice') {
-                q.options.forEach((opt, i) => {
-                    const checked = this.testResults && this.testResults[index] && this.testResults[index].includes(i) ? 'checked' : '';
+                shuffledOptions.forEach((opt, i) => {
+                    const originalIdx = shuffledIndices[i];
+                    const checked = this.testResults && this.testResults[index] && this.testResults[index].includes(originalIdx) ? 'checked' : '';
                     html += `
-                        <label class="option-label" data-index="${i}">
-                            <input type="${q.options.length === 1 ? 'radio' : 'checkbox'}" name="question" value="${i}" ${checked}>
+                        <label class="option-label" data-index="${originalIdx}">
+                            <input type="${q.options.length === 1 ? 'radio' : 'checkbox'}" name="question" value="${originalIdx}" ${checked}>
                             ${opt}
                         </label>
                     `;
@@ -1377,7 +1446,7 @@
             container.innerHTML = html;
 
             const qContainer = document.getElementById('questionsContainer');
-            let questions = t.questions || [{ type: 'choice', text: '', options: ['', ''], correct: [0] }];
+            let questions = JSON.parse(JSON.stringify(t.questions || [{ type: 'choice', text: '', options: ['', ''], correct: [0] }]));
 
             function renderQuestions() {
                 qContainer.innerHTML = '';
@@ -1392,9 +1461,12 @@
                             <div class="form-group">
                                 <label style="font-size:11px;">Варианты ответов (минимум 2)</label>
                                 ${opts.map((opt, oi) => `
-                                    <input type="text" class="form-control q-option-input" style="margin-top:4px;" placeholder="Вариант ${oi + 1}" value="${opt}" data-q="${idx}" data-opt="${oi}">
+                                    <div class="option-row">
+                                        <input type="text" class="form-control q-option-input" placeholder="Вариант ${oi + 1}" value="${opt}" data-q="${idx}" data-opt="${oi}">
+                                        ${opts.length > 2 ? `<button class="btn-danger-small remove-option" data-q="${idx}" data-opt="${oi}">✕</button>` : ''}
+                                    </div>
                                 `).join('')}
-                                <button class="btn-success mt-10" style="font-size:11px;padding:4px 12px;" data-add-option="${idx}">+ Добавить вариант</button>
+                                <button class="btn-success-small mt-10" data-add-option="${idx}">+ Добавить вариант</button>
                             </div>
                             <div class="form-group">
                                 <label style="font-size:11px;">Правильные ответы (номера через запятую, 0-${opts.length-1})</label>
@@ -1436,7 +1508,7 @@
                             questions.splice(idx, 1);
                             renderQuestions();
                         } else {
-                            this.showToast('⚠️ Должен быть хотя бы один вопрос');
+                            App.showToast('⚠️ Должен быть хотя бы один вопрос');
                         }
                     });
                 });
@@ -1448,6 +1520,24 @@
                             if (!questions[idx].options) questions[idx].options = [];
                             questions[idx].options.push('');
                             renderQuestions();
+                        }
+                    });
+                });
+
+                qContainer.querySelectorAll('.remove-option').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const qIdx = parseInt(btn.dataset.q);
+                        const optIdx = parseInt(btn.dataset.opt);
+                        if (questions[qIdx] && questions[qIdx].options.length > 2) {
+                            questions[qIdx].options.splice(optIdx, 1);
+                            if (questions[qIdx].correct) {
+                                questions[qIdx].correct = questions[qIdx].correct
+                                    .filter(c => c !== optIdx)
+                                    .map(c => c > optIdx ? c - 1 : c);
+                            }
+                            renderQuestions();
+                        } else {
+                            App.showToast('⚠️ Должно быть минимум 2 варианта');
                         }
                     });
                 });
@@ -1486,7 +1576,7 @@
                 const passingScore = parseInt(document.getElementById('editPassingScore').value) || 70;
 
                 if (!name) {
-                    this.showToast('⚠️ Введите название теста');
+                    App.showToast('⚠️ Введите название теста');
                     return;
                 }
 
@@ -1499,7 +1589,7 @@
                     const text = item.querySelector('.q-text-input').value.trim();
                     
                     if (!text) {
-                        this.showToast('⚠️ Все вопросы должны иметь текст');
+                        App.showToast('⚠️ Все вопросы должны иметь текст');
                         valid = false;
                         return;
                     }
@@ -1511,12 +1601,12 @@
                         const optInputs = item.querySelectorAll('.q-option-input');
                         options = Array.from(optInputs).map(inp => inp.value.trim());
                         if (options.length < 2) {
-                            this.showToast('⚠️ Для вопросов с выбором нужно минимум 2 варианта');
+                            App.showToast('⚠️ Для вопросов с выбором нужно минимум 2 варианта');
                             valid = false;
                             return;
                         }
                         if (options.some(o => !o)) {
-                            this.showToast('⚠️ Все варианты ответов должны быть заполнены');
+                            App.showToast('⚠️ Все варианты ответов должны быть заполнены');
                             valid = false;
                             return;
                         }
@@ -1524,7 +1614,7 @@
                         if (correctInput) {
                             correct = correctInput.value.split(',').map(s => parseInt(s.trim())).filter(n => !isNaN(n) && n >= 0 && n < options.length);
                             if (correct.length === 0) {
-                                this.showToast('⚠️ Укажите правильные ответы (номера через запятую)');
+                                App.showToast('⚠️ Укажите правильные ответы (номера через запятую)');
                                 valid = false;
                                 return;
                             }
@@ -1534,7 +1624,7 @@
                         if (correctInput) {
                             correct = correctInput.value.split(',').map(s => s.trim()).filter(s => s);
                             if (correct.length === 0) {
-                                this.showToast('⚠️ Укажите правильные варианты ответов');
+                                App.showToast('⚠️ Укажите правильные варианты ответов');
                                 valid = false;
                                 return;
                             }
@@ -1547,7 +1637,7 @@
                 if (!valid || newQuestions.length === 0) return;
 
                 if (isNew) {
-                    this.tests.push({
+                    App.tests.push({
                         id: Date.now(),
                         name,
                         password: password || '',
@@ -1557,18 +1647,18 @@
                         createdAt: Date.now()
                     });
                 } else {
-                    const idx = this.tests.indexOf(test);
+                    const idx = App.tests.indexOf(test);
                     if (idx !== -1) {
-                        this.tests[idx] = { ...this.tests[idx], name, password: password || '', questions: newQuestions, timeLimit, passingScore };
+                        App.tests[idx] = { ...App.tests[idx], name, password: password || '', questions: newQuestions, timeLimit, passingScore };
                     }
                 }
 
-                this.saveData();
-                this.renderTests();
-                this.renderTestsAdminList();
-                this.updateTestCount();
+                App.saveData();
+                App.renderTests();
+                App.renderTestsAdminList();
+                App.updateTestCount();
                 modal.classList.remove('show');
-                this.showToast('✅ Тест сохранен');
+                App.showToast('✅ Тест сохранен');
             });
 
             document.getElementById('cancelEditBtn').addEventListener('click', () => {
