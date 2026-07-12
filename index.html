@@ -112,6 +112,7 @@
             padding: 20px;
             transition: all 0.25s;
             cursor: pointer;
+            position: relative;
         }
 
         .test-card:hover {
@@ -139,6 +140,14 @@
             margin-top: 10px;
             padding-top: 10px;
             border-top: 1px solid #1f323d;
+        }
+
+        .test-card .lock-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            color: #f5c27a;
+            font-size: 18px;
         }
 
         .modal-overlay {
@@ -529,6 +538,20 @@
         .text-answer textarea:focus {
             border-color: #4a8aa0;
         }
+
+        .password-input-container {
+            background: #0e161f;
+            border: 1px solid #1f323d;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .password-input-container input {
+            max-width: 300px;
+            margin: 0 auto;
+        }
     </style>
 </head>
 <body>
@@ -537,7 +560,7 @@
     <div class="header">
         <div class="header-title">
             📋 ФСО ТЕСТИРОВАНИЕ
-            <span class="badge">v2.0</span>
+            <span class="badge">АРБАТ</span>
         </div>
         <div class="header-controls">
             <button class="nav-btn active" id="testsTab">📝 Тесты</button>
@@ -619,6 +642,21 @@
     </div>
 </div>
 
+<div class="modal-overlay" id="testPasswordModal">
+    <div class="modal">
+        <button class="modal-close" id="closeTestPasswordModal">✕</button>
+        <div class="modal-title">🔒 Введите пароль для доступа к тесту</div>
+        <div id="testPasswordContent">
+            <div class="form-group">
+                <label>Пароль</label>
+                <input type="password" class="form-control" id="testPasswordInput" placeholder="Введите пароль">
+            </div>
+            <button class="btn-primary mt-10" id="testPasswordSubmit">Подтвердить</button>
+            <div style="color:#e8827a;font-size:13px;margin-top:10px;font-family:'Courier New',monospace;" id="testPasswordError"></div>
+        </div>
+    </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
@@ -632,6 +670,7 @@
         testStartTime: null,
         testTimer: null,
         userNick: '',
+        pendingTestId: null,
 
         init() {
             this.loadData();
@@ -672,6 +711,7 @@
                 {
                     id: 1,
                     name: 'Основы безопасности ФСО',
+                    password: '',
                     questions: [
                         { 
                             type: 'choice',
@@ -704,6 +744,7 @@
                 {
                     id: 2,
                     name: 'Устав ФСО 2024',
+                    password: '12345',
                     questions: [
                         { 
                             type: 'choice',
@@ -752,14 +793,27 @@
                 card.className = 'test-card';
                 const qCount = test.questions.length;
                 const textQ = test.questions.filter(q => q.type === 'text').length;
+                const hasPassword = test.password && test.password.length > 0;
                 card.innerHTML = `
+                    ${hasPassword ? '<div class="lock-badge">🔒</div>' : ''}
                     <div class="test-name">${test.name}</div>
                     <div class="test-meta">${qCount} вопросов (${textQ} с вводом текста)</div>
                     <div class="test-stats">
                         ⏱ ${Math.floor(test.timeLimit / 60)} мин | ✅ ${test.passingScore}% для прохождения
+                        ${hasPassword ? ' | 🔒 Защищен паролем' : ''}
                     </div>
                 `;
-                card.addEventListener('click', () => this.startTest(test.id));
+                card.addEventListener('click', () => {
+                    if (hasPassword) {
+                        this.pendingTestId = test.id;
+                        document.getElementById('testPasswordModal').classList.add('show');
+                        document.getElementById('testPasswordInput').value = '';
+                        document.getElementById('testPasswordError').textContent = '';
+                        document.getElementById('testPasswordInput').focus();
+                    } else {
+                        this.startTest(test.id);
+                    }
+                });
                 grid.appendChild(card);
             });
             this.updateTestCount();
@@ -1078,6 +1132,33 @@
                 document.getElementById('testsTab').classList.add('active');
             });
 
+            document.getElementById('closeTestPasswordModal').addEventListener('click', () => {
+                document.getElementById('testPasswordModal').classList.remove('show');
+                this.pendingTestId = null;
+            });
+
+            document.getElementById('testPasswordSubmit').addEventListener('click', () => {
+                const password = document.getElementById('testPasswordInput').value.trim();
+                const test = this.tests.find(t => t.id === this.pendingTestId);
+                if (!test) {
+                    document.getElementById('testPasswordError').textContent = '❌ Тест не найден';
+                    return;
+                }
+                if (password === test.password) {
+                    document.getElementById('testPasswordModal').classList.remove('show');
+                    this.startTest(this.pendingTestId);
+                    this.pendingTestId = null;
+                } else {
+                    document.getElementById('testPasswordError').textContent = '❌ Неверный пароль';
+                    document.getElementById('testPasswordInput').value = '';
+                    document.getElementById('testPasswordInput').focus();
+                }
+            });
+
+            document.getElementById('testPasswordInput').addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') document.getElementById('testPasswordSubmit').click();
+            });
+
             document.getElementById('loginBtn').addEventListener('click', () => {
                 const login = document.getElementById('loginInput').value.trim();
                 const pass = document.getElementById('passwordInput').value.trim();
@@ -1205,11 +1286,15 @@
                 div.style.marginBottom = '10px';
                 const qCount = test.questions.length;
                 const textQ = test.questions.filter(q => q.type === 'text').length;
+                const hasPassword = test.password && test.password.length > 0;
                 div.innerHTML = `
                     <div class="flex-between">
                         <div>
                             <div class="test-name">${test.name}</div>
                             <div class="test-meta">${qCount} вопросов (${textQ} с вводом текста)</div>
+                            <div class="test-stats" style="margin-top:4px;color:#5d8b9a;font-size:11px;">
+                                ${hasPassword ? '🔒 Защищен паролем' : '🔓 Без пароля'}
+                            </div>
                         </div>
                         <div class="flex-row">
                             <button class="btn-success" data-idx="${idx}">✏️ Редактировать</button>
@@ -1252,6 +1337,7 @@
             const t = test || { 
                 id: Date.now(), 
                 name: '', 
+                password: '',
                 questions: [{ type: 'choice', text: '', options: ['', ''], correct: [0] }], 
                 timeLimit: 300, 
                 passingScore: 70 
@@ -1261,6 +1347,10 @@
                 <div class="form-group">
                     <label>Название теста</label>
                     <input type="text" class="form-control" id="editTestName" value="${t.name}">
+                </div>
+                <div class="form-group">
+                    <label>Пароль для доступа (оставьте пустым для открытого доступа)</label>
+                    <input type="text" class="form-control" id="editTestPassword" value="${t.password || ''}" placeholder="Введите пароль или оставьте пустым">
                 </div>
                 <div class="form-group">
                     <label>Время на тест (секунд)</label>
@@ -1391,6 +1481,7 @@
 
             document.getElementById('saveTestBtn').addEventListener('click', () => {
                 const name = document.getElementById('editTestName').value.trim();
+                const password = document.getElementById('editTestPassword').value.trim();
                 const timeLimit = parseInt(document.getElementById('editTimeLimit').value) || 300;
                 const passingScore = parseInt(document.getElementById('editPassingScore').value) || 70;
 
@@ -1459,6 +1550,7 @@
                     this.tests.push({
                         id: Date.now(),
                         name,
+                        password: password || '',
                         questions: newQuestions,
                         timeLimit,
                         passingScore,
@@ -1467,7 +1559,7 @@
                 } else {
                     const idx = this.tests.indexOf(test);
                     if (idx !== -1) {
-                        this.tests[idx] = { ...this.tests[idx], name, questions: newQuestions, timeLimit, passingScore };
+                        this.tests[idx] = { ...this.tests[idx], name, password: password || '', questions: newQuestions, timeLimit, passingScore };
                     }
                 }
 
