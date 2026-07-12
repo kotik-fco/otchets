@@ -1,0 +1,1186 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>ФСО Тестирование</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0a0e14;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .app-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: #111820;
+            border-radius: 24px;
+            padding: 20px 30px;
+            border: 1px solid #26333d;
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.8), 0 0 0 1px #1f2f3a inset;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .header-title {
+            color: #9fc8d9;
+            font-family: 'Courier New', monospace;
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-title .badge {
+            background: #1a2f3a;
+            padding: 2px 12px;
+            border-radius: 40px;
+            font-size: 13px;
+            color: #6fa3b5;
+            border: 1px solid #2a4857;
+        }
+
+        .header-controls {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            background: #1a3340;
+            border: 1px solid #2f5465;
+            color: #c4e4f0;
+            padding: 10px 24px;
+            border-radius: 40px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.25s;
+            text-transform: uppercase;
+        }
+
+        .nav-btn:hover {
+            background: #234a5a;
+            border-color: #4a8aa0;
+            box-shadow: 0 0 30px rgba(74, 138, 160, 0.15);
+        }
+
+        .nav-btn.active {
+            background: #2a4a5a;
+            border-color: #4a8aa0;
+            box-shadow: 0 0 20px rgba(74, 138, 160, 0.2);
+        }
+
+        .content {
+            background: #111820;
+            border-radius: 24px;
+            padding: 30px;
+            border: 1px solid #26333d;
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.8), 0 0 0 1px #1f2f3a inset;
+            min-height: 500px;
+        }
+
+        .tests-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .test-card {
+            background: #0e161f;
+            border: 1px solid #1f323d;
+            border-radius: 16px;
+            padding: 20px;
+            transition: all 0.25s;
+            cursor: pointer;
+        }
+
+        .test-card:hover {
+            border-color: #3a6072;
+            box-shadow: 0 0 30px rgba(0, 180, 255, 0.05);
+            transform: translateY(-2px);
+        }
+
+        .test-card .test-name {
+            color: #dcecf5;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .test-card .test-meta {
+            color: #7a9aa8;
+            font-size: 13px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .test-card .test-stats {
+            color: #5d8b9a;
+            font-size: 12px;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #1f323d;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal {
+            background: #111820;
+            border: 1px solid #26333d;
+            border-radius: 24px;
+            padding: 30px;
+            max-width: 700px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.9);
+        }
+
+        .modal-title {
+            color: #9fc8d9;
+            font-family: 'Courier New', monospace;
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #1f313b;
+            padding-bottom: 15px;
+        }
+
+        .modal-close {
+            float: right;
+            background: transparent;
+            border: none;
+            color: #5d8b9a;
+            font-size: 28px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .modal-close:hover {
+            color: #e8827a;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #7a9aa8;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            font-family: 'Courier New', monospace;
+            margin-bottom: 4px;
+        }
+
+        .form-control {
+            background: #0e161e;
+            border: 1px solid #21343f;
+            border-radius: 10px;
+            padding: 10px 14px;
+            color: #dcecf5;
+            font-size: 14px;
+            width: 100%;
+            outline: none;
+            transition: 0.25s;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .form-control:focus {
+            border-color: #4a8aa0;
+            box-shadow: 0 0 0 3px rgba(74, 138, 160, 0.15);
+        }
+
+        .form-control.error {
+            border-color: #8a3a3a;
+            box-shadow: 0 0 0 3px rgba(138, 58, 58, 0.2);
+        }
+
+        .btn-primary {
+            background: #1a3340;
+            border: 1px solid #2f5465;
+            color: #c4e4f0;
+            padding: 12px 28px;
+            border-radius: 40px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.25s;
+            text-transform: uppercase;
+        }
+
+        .btn-primary:hover {
+            background: #234a5a;
+            border-color: #4a8aa0;
+            box-shadow: 0 0 30px rgba(74, 138, 160, 0.15);
+        }
+
+        .btn-danger {
+            background: #2a1a1a;
+            border: 1px solid #6a2a2a;
+            color: #f0b0b0;
+            padding: 8px 16px;
+            border-radius: 40px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+
+        .btn-danger:hover {
+            background: #3a2222;
+            border-color: #8a3a3a;
+        }
+
+        .btn-success {
+            background: #1a2a2a;
+            border: 1px solid #2a5a5a;
+            color: #6fd6b8;
+            padding: 8px 16px;
+            border-radius: 40px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+
+        .btn-success:hover {
+            background: #1a3a3a;
+            border-color: #3a7a7a;
+        }
+
+        .question-item {
+            background: #0e161f;
+            border: 1px solid #1f323d;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 12px;
+        }
+
+        .question-item .q-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .question-item .q-text {
+            color: #dcecf5;
+            font-size: 15px;
+        }
+
+        .question-item .q-options {
+            color: #7a9aa8;
+            font-size: 13px;
+            margin-top: 6px;
+        }
+
+        .question-item .q-correct {
+            color: #6fd6b8;
+            font-size: 12px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .flex-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .flex-between {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .mt-10 { margin-top: 10px; }
+        .mt-20 { margin-top: 20px; }
+        .mb-10 { margin-bottom: 10px; }
+        .mb-20 { margin-bottom: 20px; }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1a3340;
+            border: 1px solid #4a8aa0;
+            color: #cce2ec;
+            padding: 12px 28px;
+            border-radius: 40px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        .toast.show {
+            opacity: 1;
+        }
+
+        .test-taking {
+            display: none;
+        }
+
+        .test-taking.active {
+            display: block;
+        }
+
+        .test-list {
+            display: block;
+        }
+
+        .test-list.hidden {
+            display: none;
+        }
+
+        .option-label {
+            display: block;
+            color: #cce2ec;
+            padding: 8px 12px;
+            margin: 4px 0;
+            border: 1px solid #1f323d;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .option-label:hover {
+            border-color: #3a6072;
+            background: #14242e;
+        }
+
+        .option-label input[type="radio"] {
+            margin-right: 10px;
+            accent-color: #4a8aa0;
+        }
+
+        .option-label.correct {
+            border-color: #3ccf9e;
+            background: #0a2a2a;
+        }
+
+        .option-label.wrong {
+            border-color: #e8827a;
+            background: #2a1818;
+        }
+
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .admin-table th {
+            color: #7a9aa8;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            text-transform: uppercase;
+            text-align: left;
+            padding: 8px 12px;
+            border-bottom: 1px solid #1f323d;
+        }
+
+        .admin-table td {
+            color: #cce2ec;
+            padding: 8px 12px;
+            border-bottom: 1px solid #1f323d;
+        }
+
+        .admin-table tr:hover td {
+            background: #0e161f;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 2px 12px;
+            border-radius: 40px;
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .status-badge.protected {
+            color: #6fd6b8;
+            border: 1px solid #2b6a5c;
+            background: #0f2e2a;
+        }
+
+        .status-badge.normal {
+            color: #8ab8d4;
+            border: 1px solid #2a4a6a;
+            background: #18222e;
+        }
+
+        .timer-test {
+            font-family: 'Courier New', monospace;
+            font-size: 24px;
+            color: #6fd6b8;
+            text-align: center;
+            padding: 15px;
+            background: #0a1818;
+            border: 1px solid #1a4a4a;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .timer-test.warning {
+            color: #f5c27a;
+            border-color: #7a6a3a;
+        }
+
+        .timer-test.danger {
+            color: #e8827a;
+            border-color: #7a3a3a;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        .score-display {
+            background: #0e161f;
+            border: 1px solid #1f323d;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .score-display .score-number {
+            font-size: 48px;
+            font-weight: 700;
+            color: #6fd6b8;
+            font-family: 'Courier New', monospace;
+        }
+
+        .score-display .score-label {
+            color: #7a9aa8;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <div class="header">
+        <div class="header-title">
+            📋 ФСО ТЕСТИРОВАНИЕ
+            <span class="badge">v2.0</span>
+        </div>
+        <div class="header-controls">
+            <button class="nav-btn active" id="testsTab">📝 Тесты</button>
+            <button class="nav-btn" id="editTab">⚙️ Редактирование</button>
+        </div>
+    </div>
+
+    <div class="content" id="mainContent">
+        <div class="test-list" id="testList">
+            <div class="flex-between mb-20">
+                <h2 style="color:#9fc8d9;font-family:'Courier New',monospace;font-size:20px;">Доступные тесты</h2>
+                <span style="color:#5d8b9a;font-size:13px;" id="testCount">0 тестов</span>
+            </div>
+            <div class="tests-grid" id="testsGrid"></div>
+        </div>
+
+        <div class="test-taking" id="testTaking">
+            <button class="btn-primary mb-20" id="backToTests">← Назад к тестам</button>
+            <div id="testContent"></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="editModal">
+    <div class="modal">
+        <button class="modal-close" id="closeEditModal">✕</button>
+        <div class="modal-title">⚙️ Редактирование тестов</div>
+        <div id="loginForm">
+            <div class="form-group">
+                <label>Логин</label>
+                <input type="text" class="form-control" id="loginInput" value="admin">
+            </div>
+            <div class="form-group">
+                <label>Пароль</label>
+                <input type="password" class="form-control" id="passwordInput" value="12354">
+            </div>
+            <button class="btn-primary" id="loginBtn">Войти</button>
+            <div style="color:#e8827a;font-size:13px;margin-top:10px;font-family:'Courier New',monospace;" id="loginError"></div>
+        </div>
+        <div id="adminPanel" style="display:none;">
+            <div class="flex-between mb-20">
+                <span style="color:#9fc8d9;font-family:'Courier New',monospace;font-size:18px;">Панель управления</span>
+                <button class="btn-danger" id="logoutBtn">Выйти</button>
+            </div>
+
+            <div class="flex-row mb-20">
+                <button class="btn-success" id="newTestBtn">+ Новый тест</button>
+            </div>
+
+            <div id="testsAdminList"></div>
+
+            <div class="mt-20">
+                <h3 style="color:#7a9aa8;font-family:'Courier New',monospace;font-size:14px;margin-bottom:10px;">👥 Администраторы</h3>
+                <div class="flex-row mb-10">
+                    <input type="text" class="form-control" style="flex:1;min-width:150px;" id="newAdminLogin" placeholder="Логин">
+                    <input type="text" class="form-control" style="flex:1;min-width:150px;" id="newAdminPass" placeholder="Пароль">
+                    <button class="btn-success" id="addAdminBtn">Добавить</button>
+                </div>
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Логин</th>
+                            <th>Статус</th>
+                            <th>Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminListBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="testEditorModal">
+    <div class="modal">
+        <button class="modal-close" id="closeTestEditor">✕</button>
+        <div class="modal-title" id="editorTitle">Редактирование теста</div>
+        <div id="editorContent"></div>
+    </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+    const App = {
+        tests: [],
+        admins: [
+            { login: 'admin', password: '12354', protected: true }
+        ],
+        currentUser: null,
+        isLoggedIn: false,
+        currentTest: null,
+        testResults: null,
+
+        init() {
+            this.loadData();
+            this.renderTests();
+            this.setupEventListeners();
+            this.updateTestCount();
+        },
+
+        loadData() {
+            const saved = localStorage.getItem('fso_tests_data');
+            if (saved) {
+                try {
+                    const data = JSON.parse(saved);
+                    this.tests = data.tests || [];
+                    this.admins = data.admins || [{ login: 'admin', password: '12354', protected: true }];
+                    if (!this.admins.some(a => a.login === 'admin')) {
+                        this.admins.unshift({ login: 'admin', password: '12354', protected: true });
+                    }
+                } catch(e) {
+                    this.setDefaultData();
+                }
+            } else {
+                this.setDefaultData();
+            }
+        },
+
+        setDefaultData() {
+            this.tests = [
+                {
+                    id: 1,
+                    name: 'Основы безопасности ФСО',
+                    questions: [
+                        { text: 'Что означает аббревиатура ФСО?', options: ['Федеральная служба охраны', 'Федеральная служба обороны', 'Федеральная служба опеки', 'Федеральная служба образования'], correct: 0 },
+                        { text: 'Кто является главой ФСО?', options: ['Президент РФ', 'Директор ФСО', 'Министр обороны', 'Председатель Правительства'], correct: 1 },
+                        { text: 'Основная задача ФСО - это...', options: ['Охрана государственных объектов', 'Охрана Президента', 'Охрана общественного порядка', 'Охрана государственных границ'], correct: 0 }
+                    ],
+                    timeLimit: 300,
+                    passingScore: 80,
+                    createdAt: Date.now()
+                },
+                {
+                    id: 2,
+                    name: 'Устав ФСО 2024',
+                    questions: [
+                        { text: 'Сколько часов составляет суточный наряд?', options: ['12 часов', '24 часа', '8 часов', '6 часов'], correct: 1 },
+                        { text: 'Что запрещается делать на посту?', options: ['Спать', 'Курить', 'Разговаривать по телефону', 'Все вышеперечисленное'], correct: 3 },
+                        { text: 'Какой сигнал означает "Тревога"?', options: ['Один короткий', 'Два длинных', 'Три коротких', 'Непрерывный'], correct: 2 }
+                    ],
+                    timeLimit: 240,
+                    passingScore: 70,
+                    createdAt: Date.now()
+                }
+            ];
+            this.saveData();
+        },
+
+        saveData() {
+            localStorage.setItem('fso_tests_data', JSON.stringify({
+                tests: this.tests,
+                admins: this.admins
+            }));
+        },
+
+        renderTests() {
+            const grid = document.getElementById('testsGrid');
+            grid.innerHTML = '';
+            this.tests.forEach(test => {
+                const card = document.createElement('div');
+                card.className = 'test-card';
+                card.innerHTML = `
+                    <div class="test-name">${test.name}</div>
+                    <div class="test-meta">${test.questions.length} вопросов</div>
+                    <div class="test-stats">
+                        ⏱ ${Math.floor(test.timeLimit / 60)} мин | ✅ ${test.passingScore}% для прохождения
+                    </div>
+                `;
+                card.addEventListener('click', () => this.startTest(test.id));
+                grid.appendChild(card);
+            });
+            this.updateTestCount();
+        },
+
+        updateTestCount() {
+            document.getElementById('testCount').textContent = `${this.tests.length} тестов`;
+        },
+
+        startTest(testId) {
+            const test = this.tests.find(t => t.id === testId);
+            if (!test) return;
+
+            this.currentTest = test;
+            this.testResults = null;
+
+            document.getElementById('testList').classList.add('hidden');
+            document.getElementById('testTaking').classList.add('active');
+
+            this.renderTestQuestion(0);
+        },
+
+        renderTestQuestion(index) {
+            const container = document.getElementById('testContent');
+            const test = this.currentTest;
+            if (!test) return;
+
+            if (index >= test.questions.length) {
+                this.showResults();
+                return;
+            }
+
+            const q = test.questions[index];
+            const total = test.questions.length;
+            const timeLeft = test.timeLimit - Math.floor((Date.now() - this.testStartTime) / 1000);
+
+            let html = `
+                <div class="timer-test" id="testTimer">${this.formatTime(timeLeft)}</div>
+                <div style="color:#7a9aa8;font-family:'Courier New',monospace;margin-bottom:15px;">
+                    Вопрос ${index + 1} из ${total}
+                </div>
+                <div style="color:#dcecf5;font-size:18px;margin-bottom:15px;">${q.text}</div>
+            `;
+
+            q.options.forEach((opt, i) => {
+                html += `
+                    <label class="option-label" data-index="${i}">
+                        <input type="radio" name="question" value="${i}">
+                        ${opt}
+                    </label>
+                `;
+            });
+
+            html += `
+                <div class="flex-row mt-20">
+                    <button class="btn-primary" id="nextQuestionBtn">Ответить</button>
+                    ${index > 0 ? `<button class="btn-primary" id="prevQuestionBtn">← Назад</button>` : ''}
+                </div>
+            `;
+
+            container.innerHTML = html;
+
+            if (!this.testStartTime) {
+                this.testStartTime = Date.now();
+                this.testTimer = setInterval(() => {
+                    const elapsed = Math.floor((Date.now() - this.testStartTime) / 1000);
+                    const remaining = test.timeLimit - elapsed;
+                    if (remaining <= 0) {
+                        clearInterval(this.testTimer);
+                        this.showResults();
+                        return;
+                    }
+                    const timerEl = document.getElementById('testTimer');
+                    if (timerEl) {
+                        timerEl.textContent = this.formatTime(remaining);
+                        if (remaining < 30) timerEl.className = 'timer-test danger';
+                        else if (remaining < 60) timerEl.className = 'timer-test warning';
+                    }
+                }, 1000);
+            }
+
+            document.getElementById('nextQuestionBtn').addEventListener('click', () => {
+                const selected = document.querySelector('input[name="question"]:checked');
+                if (!selected) {
+                    this.showToast('⚠️ Выберите ответ');
+                    return;
+                }
+                if (!this.testResults) this.testResults = [];
+                this.testResults[index] = parseInt(selected.value) === q.correct;
+                this.renderTestQuestion(index + 1);
+            });
+
+            const prevBtn = document.getElementById('prevQuestionBtn');
+            if (prevBtn) {
+                prevBtn.addEventListener('click', () => {
+                    this.renderTestQuestion(index - 1);
+                });
+            }
+        },
+
+        showResults() {
+            clearInterval(this.testTimer);
+            const container = document.getElementById('testContent');
+            const test = this.currentTest;
+            const correct = this.testResults ? this.testResults.filter(r => r === true).length : 0;
+            const total = test.questions.length;
+            const percentage = Math.round((correct / total) * 100);
+            const passed = percentage >= test.passingScore;
+            const score = Math.round((correct / total) * 5);
+
+            let html = `
+                <div class="score-display">
+                    <div class="score-number">${score}/5</div>
+                    <div class="score-label">Баллов</div>
+                    <div style="color:#7a9aa8;font-size:18px;margin-top:10px;">${percentage}%</div>
+                    <div style="color:${passed ? '#6fd6b8' : '#e8827a'};font-size:16px;margin-top:5px;font-weight:600;">
+                        ${passed ? '✅ ТЕСТ СДАН' : '❌ ТЕСТ НЕ СДАН'}
+                    </div>
+                    <div style="color:#5d8b9a;font-size:13px;margin-top:10px;">
+                        Правильных ответов: ${correct} из ${total}
+                    </div>
+                </div>
+                <div class="flex-row mt-20">
+                    <button class="btn-primary" id="retryTestBtn">🔄 Пройти заново</button>
+                    <button class="btn-primary" id="finishTestBtn">📋 Завершить</button>
+                </div>
+            `;
+
+            container.innerHTML = html;
+
+            document.getElementById('retryTestBtn').addEventListener('click', () => {
+                this.testResults = null;
+                this.testStartTime = null;
+                this.renderTestQuestion(0);
+            });
+
+            document.getElementById('finishTestBtn').addEventListener('click', () => {
+                document.getElementById('testList').classList.remove('hidden');
+                document.getElementById('testTaking').classList.remove('active');
+                clearInterval(this.testTimer);
+            });
+        },
+
+        formatTime(seconds) {
+            const m = Math.floor(seconds / 60);
+            const s = seconds % 60;
+            return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+        },
+
+        setupEventListeners() {
+            document.getElementById('testsTab').addEventListener('click', () => {
+                document.getElementById('testsTab').classList.add('active');
+                document.getElementById('editTab').classList.remove('active');
+                document.getElementById('testList').classList.remove('hidden');
+                document.getElementById('testTaking').classList.remove('active');
+                this.renderTests();
+            });
+
+            document.getElementById('editTab').addEventListener('click', () => {
+                document.getElementById('editTab').classList.add('active');
+                document.getElementById('testsTab').classList.remove('active');
+                document.getElementById('editModal').classList.add('show');
+                if (this.isLoggedIn) {
+                    this.showAdminPanel();
+                } else {
+                    document.getElementById('loginForm').style.display = 'block';
+                    document.getElementById('adminPanel').style.display = 'none';
+                }
+            });
+
+            document.getElementById('closeEditModal').addEventListener('click', () => {
+                document.getElementById('editModal').classList.remove('show');
+                document.getElementById('editTab').classList.remove('active');
+                document.getElementById('testsTab').classList.add('active');
+            });
+
+            document.getElementById('loginBtn').addEventListener('click', () => {
+                const login = document.getElementById('loginInput').value.trim();
+                const pass = document.getElementById('passwordInput').value.trim();
+                const admin = this.admins.find(a => a.login === login && a.password === pass);
+                if (admin) {
+                    this.currentUser = admin;
+                    this.isLoggedIn = true;
+                    document.getElementById('loginError').textContent = '';
+                    this.showAdminPanel();
+                } else {
+                    document.getElementById('loginError').textContent = '❌ Неверный логин или пароль';
+                }
+            });
+
+            document.getElementById('logoutBtn').addEventListener('click', () => {
+                this.isLoggedIn = false;
+                this.currentUser = null;
+                document.getElementById('loginForm').style.display = 'block';
+                document.getElementById('adminPanel').style.display = 'none';
+                document.getElementById('loginInput').value = 'admin';
+                document.getElementById('passwordInput').value = '12354';
+                document.getElementById('loginError').textContent = '';
+                this.showToast('👋 Вы вышли из системы');
+            });
+
+            document.getElementById('newTestBtn').addEventListener('click', () => {
+                this.openTestEditor(null);
+            });
+
+            document.getElementById('addAdminBtn').addEventListener('click', () => {
+                const login = document.getElementById('newAdminLogin').value.trim();
+                const pass = document.getElementById('newAdminPass').value.trim();
+                if (!login || !pass) {
+                    this.showToast('⚠️ Заполните все поля');
+                    return;
+                }
+                if (this.admins.some(a => a.login === login)) {
+                    this.showToast('⚠️ Пользователь уже существует');
+                    return;
+                }
+                this.admins.push({ login, password: pass, protected: false });
+                this.saveData();
+                this.renderAdminList();
+                document.getElementById('newAdminLogin').value = '';
+                document.getElementById('newAdminPass').value = '';
+                this.showToast('✅ Администратор добавлен');
+            });
+
+            document.getElementById('closeTestEditor').addEventListener('click', () => {
+                document.getElementById('testEditorModal').classList.remove('show');
+                this.renderTests();
+            });
+
+            document.getElementById('backToTests').addEventListener('click', () => {
+                document.getElementById('testList').classList.remove('hidden');
+                document.getElementById('testTaking').classList.remove('active');
+                clearInterval(this.testTimer);
+                this.renderTests();
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    document.querySelectorAll('.modal-overlay.show').forEach(el => {
+                        el.classList.remove('show');
+                    });
+                }
+            });
+        },
+
+        showAdminPanel() {
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('adminPanel').style.display = 'block';
+            this.renderAdminList();
+            this.renderTestsAdminList();
+        },
+
+        renderAdminList() {
+            const tbody = document.getElementById('adminListBody');
+            tbody.innerHTML = '';
+            this.admins.forEach((admin, idx) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${admin.login}</td>
+                    <td><span class="status-badge ${admin.protected ? 'protected' : 'normal'}">${admin.protected ? '🔒 Защищен' : '👤 Пользователь'}</span></td>
+                    <td>
+                        ${!admin.protected ? `<button class="btn-danger" data-idx="${idx}">Удалить</button>` : '—'}
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            tbody.querySelectorAll('.btn-danger').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const idx = parseInt(btn.dataset.idx);
+                    if (this.admins[idx] && !this.admins[idx].protected) {
+                        if (confirm(`Удалить пользователя "${this.admins[idx].login}"?`)) {
+                            this.admins.splice(idx, 1);
+                            this.saveData();
+                            this.renderAdminList();
+                            this.showToast('🗑 Пользователь удален');
+                        }
+                    }
+                });
+            });
+        },
+
+        renderTestsAdminList() {
+            const container = document.getElementById('testsAdminList');
+            container.innerHTML = '';
+            this.tests.forEach((test, idx) => {
+                const div = document.createElement('div');
+                div.className = 'test-card';
+                div.style.marginBottom = '10px';
+                div.innerHTML = `
+                    <div class="flex-between">
+                        <div>
+                            <div class="test-name">${test.name}</div>
+                            <div class="test-meta">${test.questions.length} вопросов | ${Math.floor(test.timeLimit / 60)} мин</div>
+                        </div>
+                        <div class="flex-row">
+                            <button class="btn-success" data-idx="${idx}">✏️ Редактировать</button>
+                            <button class="btn-danger" data-idx="${idx}">🗑 Удалить</button>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+
+            container.querySelectorAll('.btn-success').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const idx = parseInt(btn.dataset.idx);
+                    this.openTestEditor(this.tests[idx]);
+                });
+            });
+
+            container.querySelectorAll('.btn-danger').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const idx = parseInt(btn.dataset.idx);
+                    if (confirm(`Удалить тест "${this.tests[idx].name}"?`)) {
+                        this.tests.splice(idx, 1);
+                        this.saveData();
+                        this.renderTestsAdminList();
+                        this.renderTests();
+                        this.updateTestCount();
+                        this.showToast('🗑 Тест удален');
+                    }
+                });
+            });
+        },
+
+        openTestEditor(test) {
+            const modal = document.getElementById('testEditorModal');
+            const container = document.getElementById('editorContent');
+            const isNew = !test;
+
+            document.getElementById('editorTitle').textContent = isNew ? '📝 Новый тест' : `✏️ ${test.name}`;
+
+            const t = test || { id: Date.now(), name: '', questions: [{ text: '', options: ['', '', '', ''], correct: 0 }], timeLimit: 300, passingScore: 70 };
+
+            let html = `
+                <div class="form-group">
+                    <label>Название теста</label>
+                    <input type="text" class="form-control" id="editTestName" value="${t.name}">
+                </div>
+                <div class="form-group">
+                    <label>Время на тест (секунд)</label>
+                    <input type="number" class="form-control" id="editTimeLimit" value="${t.timeLimit}">
+                </div>
+                <div class="form-group">
+                    <label>Проходной балл (%)</label>
+                    <input type="number" class="form-control" id="editPassingScore" value="${t.passingScore}" min="0" max="100">
+                </div>
+                <div class="form-group">
+                    <label>Вопросы</label>
+                    <div id="questionsContainer"></div>
+                    <button class="btn-success mt-10" id="addQuestionBtn">+ Добавить вопрос</button>
+                </div>
+                <div class="flex-row mt-20">
+                    <button class="btn-primary" id="saveTestBtn">💾 Сохранить</button>
+                    <button class="btn-danger" id="cancelEditBtn">Отмена</button>
+                </div>
+            `;
+
+            container.innerHTML = html;
+
+            const qContainer = document.getElementById('questionsContainer');
+            let questions = t.questions || [{ text: '', options: ['', '', '', ''], correct: 0 }];
+
+            function renderQuestions() {
+                qContainer.innerHTML = '';
+                questions.forEach((q, idx) => {
+                    const div = document.createElement('div');
+                    div.className = 'question-item';
+                    div.innerHTML = `
+                        <div class="q-header">
+                            <span style="color:#9fc8d9;font-weight:600;">Вопрос ${idx + 1}</span>
+                            <button class="btn-danger" data-idx="${idx}">✕</button>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control q-text-input" placeholder="Текст вопроса" value="${q.text}" data-idx="${idx}">
+                        </div>
+                        <div class="form-group">
+                            <label style="font-size:11px;">Варианты ответов</label>
+                            ${q.options.map((opt, oi) => `
+                                <input type="text" class="form-control q-option-input" style="margin-top:4px;" placeholder="Вариант ${oi + 1}" value="${opt}" data-q="${idx}" data-opt="${oi}">
+                            `).join('')}
+                        </div>
+                        <div class="form-group">
+                            <label style="font-size:11px;">Правильный ответ (номер варианта, 0-3)</label>
+                            <input type="number" class="form-control q-correct-input" min="0" max="3" value="${q.correct}" data-idx="${idx}">
+                        </div>
+                    `;
+                    qContainer.appendChild(div);
+                });
+
+                qContainer.querySelectorAll('.btn-danger').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const idx = parseInt(btn.dataset.idx);
+                        if (questions.length > 1) {
+                            questions.splice(idx, 1);
+                            renderQuestions();
+                        } else {
+                            this.showToast('⚠️ Должен быть хотя бы один вопрос');
+                        }
+                    });
+                });
+            }
+
+            renderQuestions();
+
+            document.getElementById('addQuestionBtn').addEventListener('click', () => {
+                questions.push({ text: '', options: ['', '', '', ''], correct: 0 });
+                renderQuestions();
+            });
+
+            document.getElementById('saveTestBtn').addEventListener('click', () => {
+                const name = document.getElementById('editTestName').value.trim();
+                const timeLimit = parseInt(document.getElementById('editTimeLimit').value) || 300;
+                const passingScore = parseInt(document.getElementById('editPassingScore').value) || 70;
+
+                if (!name) {
+                    this.showToast('⚠️ Введите название теста');
+                    return;
+                }
+
+                const qInputs = qContainer.querySelectorAll('.question-item');
+                const newQuestions = [];
+                let valid = true;
+
+                qInputs.forEach(item => {
+                    const text = item.querySelector('.q-text-input').value.trim();
+                    const options = item.querySelectorAll('.q-option-input');
+                    const opts = Array.from(options).map(inp => inp.value.trim());
+                    const correct = parseInt(item.querySelector('.q-correct-input').value) || 0;
+
+                    if (!text) {
+                        this.showToast('⚠️ Все вопросы должны иметь текст');
+                        valid = false;
+                        return;
+                    }
+                    if (opts.some(o => !o)) {
+                        this.showToast('⚠️ Все варианты ответов должны быть заполнены');
+                        valid = false;
+                        return;
+                    }
+                    if (correct < 0 || correct > 3) {
+                        this.showToast('⚠️ Номер правильного ответа должен быть от 0 до 3');
+                        valid = false;
+                        return;
+                    }
+                    newQuestions.push({ text, options: opts, correct });
+                });
+
+                if (!valid || newQuestions.length === 0) return;
+
+                if (isNew) {
+                    this.tests.push({
+                        id: Date.now(),
+                        name,
+                        questions: newQuestions,
+                        timeLimit,
+                        passingScore,
+                        createdAt: Date.now()
+                    });
+                } else {
+                    const idx = this.tests.indexOf(test);
+                    if (idx !== -1) {
+                        this.tests[idx] = { ...this.tests[idx], name, questions: newQuestions, timeLimit, passingScore };
+                    }
+                }
+
+                this.saveData();
+                this.renderTests();
+                this.renderTestsAdminList();
+                this.updateTestCount();
+                modal.classList.remove('show');
+                this.showToast('✅ Тест сохранен');
+            });
+
+            document.getElementById('cancelEditBtn').addEventListener('click', () => {
+                modal.classList.remove('show');
+            });
+
+            modal.classList.add('show');
+        },
+
+        showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            clearTimeout(toast._timeout);
+            toast._timeout = setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2500);
+        }
+    };
+
+    document.addEventListener('DOMContentLoaded', () => App.init());
+</script>
+
+</body>
+</html>
