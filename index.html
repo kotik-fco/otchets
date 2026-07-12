@@ -507,6 +507,13 @@
             font-size: 14px;
             margin-top: 5px;
         }
+
+        .hint-text {
+            color: #5d8b9a;
+            font-size: 12px;
+            font-family: 'Courier New', monospace;
+            margin-top: 4px;
+        }
     </style>
 </head>
 <body>
@@ -546,13 +553,14 @@
         <div id="loginForm">
             <div class="form-group">
                 <label>Логин</label>
-                <input type="text" class="form-control" id="loginInput" value="admin">
+                <input type="text" class="form-control" id="loginInput" placeholder="Введите логин">
             </div>
             <div class="form-group">
                 <label>Пароль</label>
-                <input type="password" class="form-control" id="passwordInput" value="12354">
+                <input type="password" class="form-control" id="passwordInput" placeholder="Введите пароль">
             </div>
-            <button class="btn-primary" id="loginBtn">Войти</button>
+            <div class="hint-text">По умолчанию: admin / 12354</div>
+            <button class="btn-primary mt-10" id="loginBtn">Войти</button>
             <div style="color:#e8827a;font-size:13px;margin-top:10px;font-family:'Courier New',monospace;" id="loginError"></div>
         </div>
         <div id="adminPanel" style="display:none;">
@@ -609,6 +617,8 @@
         isLoggedIn: false,
         currentTest: null,
         testResults: null,
+        testStartTime: null,
+        testTimer: null,
 
         init() {
             this.loadData();
@@ -701,6 +711,7 @@
 
             this.currentTest = test;
             this.testResults = null;
+            this.testStartTime = null;
 
             document.getElementById('testList').classList.add('hidden');
             document.getElementById('testTaking').classList.add('active');
@@ -723,7 +734,7 @@
             const timeLeft = test.timeLimit - Math.floor((Date.now() - this.testStartTime) / 1000);
 
             let html = `
-                <div class="timer-test" id="testTimer">${this.formatTime(timeLeft)}</div>
+                <div class="timer-test" id="testTimer">${this.formatTime(timeLeft > 0 ? timeLeft : 0)}</div>
                 <div style="color:#7a9aa8;font-family:'Courier New',monospace;margin-bottom:15px;">
                     Вопрос ${index + 1} из ${total}
                 </div>
@@ -750,6 +761,7 @@
 
             if (!this.testStartTime) {
                 this.testStartTime = Date.now();
+                if (this.testTimer) clearInterval(this.testTimer);
                 this.testTimer = setInterval(() => {
                     const elapsed = Math.floor((Date.now() - this.testStartTime) / 1000);
                     const remaining = test.timeLimit - elapsed;
@@ -763,20 +775,24 @@
                         timerEl.textContent = this.formatTime(remaining);
                         if (remaining < 30) timerEl.className = 'timer-test danger';
                         else if (remaining < 60) timerEl.className = 'timer-test warning';
+                        else timerEl.className = 'timer-test';
                     }
                 }, 1000);
             }
 
-            document.getElementById('nextQuestionBtn').addEventListener('click', () => {
-                const selected = document.querySelector('input[name="question"]:checked');
-                if (!selected) {
-                    this.showToast('⚠️ Выберите ответ');
-                    return;
-                }
-                if (!this.testResults) this.testResults = [];
-                this.testResults[index] = parseInt(selected.value) === q.correct;
-                this.renderTestQuestion(index + 1);
-            });
+            const nextBtn = document.getElementById('nextQuestionBtn');
+            if (nextBtn) {
+                nextBtn.addEventListener('click', () => {
+                    const selected = document.querySelector('input[name="question"]:checked');
+                    if (!selected) {
+                        this.showToast('⚠️ Выберите ответ');
+                        return;
+                    }
+                    if (!this.testResults) this.testResults = [];
+                    this.testResults[index] = parseInt(selected.value) === q.correct;
+                    this.renderTestQuestion(index + 1);
+                });
+            }
 
             const prevBtn = document.getElementById('prevQuestionBtn');
             if (prevBtn) {
@@ -787,7 +803,10 @@
         },
 
         showResults() {
-            clearInterval(this.testTimer);
+            if (this.testTimer) {
+                clearInterval(this.testTimer);
+                this.testTimer = null;
+            }
             const container = document.getElementById('testContent');
             const test = this.currentTest;
             const correct = this.testResults ? this.testResults.filter(r => r === true).length : 0;
@@ -819,17 +838,26 @@
             document.getElementById('retryTestBtn').addEventListener('click', () => {
                 this.testResults = null;
                 this.testStartTime = null;
+                if (this.testTimer) {
+                    clearInterval(this.testTimer);
+                    this.testTimer = null;
+                }
                 this.renderTestQuestion(0);
             });
 
             document.getElementById('finishTestBtn').addEventListener('click', () => {
                 document.getElementById('testList').classList.remove('hidden');
                 document.getElementById('testTaking').classList.remove('active');
-                clearInterval(this.testTimer);
+                if (this.testTimer) {
+                    clearInterval(this.testTimer);
+                    this.testTimer = null;
+                }
+                this.renderTests();
             });
         },
 
         formatTime(seconds) {
+            if (seconds < 0) seconds = 0;
             const m = Math.floor(seconds / 60);
             const s = seconds % 60;
             return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
@@ -841,6 +869,10 @@
                 document.getElementById('editTab').classList.remove('active');
                 document.getElementById('testList').classList.remove('hidden');
                 document.getElementById('testTaking').classList.remove('active');
+                if (this.testTimer) {
+                    clearInterval(this.testTimer);
+                    this.testTimer = null;
+                }
                 this.renderTests();
             });
 
@@ -853,6 +885,9 @@
                 } else {
                     document.getElementById('loginForm').style.display = 'block';
                     document.getElementById('adminPanel').style.display = 'none';
+                    document.getElementById('loginInput').value = '';
+                    document.getElementById('passwordInput').value = '';
+                    document.getElementById('loginError').textContent = '';
                 }
             });
 
@@ -871,6 +906,7 @@
                     this.isLoggedIn = true;
                     document.getElementById('loginError').textContent = '';
                     this.showAdminPanel();
+                    this.showToast('✅ Добро пожаловать, ' + login);
                 } else {
                     document.getElementById('loginError').textContent = '❌ Неверный логин или пароль';
                 }
@@ -881,8 +917,8 @@
                 this.currentUser = null;
                 document.getElementById('loginForm').style.display = 'block';
                 document.getElementById('adminPanel').style.display = 'none';
-                document.getElementById('loginInput').value = 'admin';
-                document.getElementById('passwordInput').value = '12354';
+                document.getElementById('loginInput').value = '';
+                document.getElementById('passwordInput').value = '';
                 document.getElementById('loginError').textContent = '';
                 this.showToast('👋 Вы вышли из системы');
             });
@@ -913,12 +949,16 @@
             document.getElementById('closeTestEditor').addEventListener('click', () => {
                 document.getElementById('testEditorModal').classList.remove('show');
                 this.renderTests();
+                this.renderTestsAdminList();
             });
 
             document.getElementById('backToTests').addEventListener('click', () => {
                 document.getElementById('testList').classList.remove('hidden');
                 document.getElementById('testTaking').classList.remove('active');
-                clearInterval(this.testTimer);
+                if (this.testTimer) {
+                    clearInterval(this.testTimer);
+                    this.testTimer = null;
+                }
                 this.renderTests();
             });
 
@@ -928,6 +968,13 @@
                         el.classList.remove('show');
                     });
                 }
+            });
+
+            document.getElementById('loginInput').addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') document.getElementById('loginBtn').click();
+            });
+            document.getElementById('passwordInput').addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') document.getElementById('loginBtn').click();
             });
         },
 
