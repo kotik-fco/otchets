@@ -312,18 +312,6 @@
             font-size: 15px;
         }
 
-        .question-item .q-options {
-            color: #7a9aa8;
-            font-size: 13px;
-            margin-top: 6px;
-        }
-
-        .question-item .q-correct {
-            color: #6fd6b8;
-            font-size: 12px;
-            font-family: 'Courier New', monospace;
-        }
-
         .flex-row {
             display: flex;
             gap: 10px;
@@ -398,7 +386,7 @@
             background: #14242e;
         }
 
-        .option-label input[type="radio"] {
+        .option-label input[type="radio"], .option-label input[type="checkbox"] {
             margin-right: 10px;
             accent-color: #4a8aa0;
         }
@@ -514,6 +502,45 @@
             font-family: 'Courier New', monospace;
             margin-top: 4px;
         }
+
+        .nick-input-container {
+            background: #0e161f;
+            border: 1px solid #1f323d;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .nick-input-container input {
+            max-width: 300px;
+            margin: 0 auto;
+        }
+
+        .text-answer {
+            color: #cce2ec;
+            padding: 8px 12px;
+            margin: 4px 0;
+            border: 1px solid #1f323d;
+            border-radius: 8px;
+            background: #0e161e;
+        }
+
+        .text-answer textarea {
+            background: transparent;
+            border: none;
+            color: #cce2ec;
+            width: 100%;
+            resize: vertical;
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 14px;
+            outline: none;
+            padding: 4px;
+        }
+
+        .text-answer textarea:focus {
+            border-color: #4a8aa0;
+        }
     </style>
 </head>
 <body>
@@ -559,7 +586,7 @@
                 <label>Пароль</label>
                 <input type="password" class="form-control" id="passwordInput" placeholder="Введите пароль">
             </div>
-            <div class="hint-text">По умолчанию: admin / 12354</div>
+            <div class="hint-text">По умолчанию: admin / 123mastyrbist</div>
             <button class="btn-primary mt-10" id="loginBtn">Войти</button>
             <div style="color:#e8827a;font-size:13px;margin-top:10px;font-family:'Courier New',monospace;" id="loginError"></div>
         </div>
@@ -611,7 +638,7 @@
     const App = {
         tests: [],
         admins: [
-            { login: 'admin', password: '12354', protected: true }
+            { login: 'admin', password: '123mastyrbist', protected: true }
         ],
         currentUser: null,
         isLoggedIn: false,
@@ -619,6 +646,7 @@
         testResults: null,
         testStartTime: null,
         testTimer: null,
+        userNick: '',
 
         init() {
             this.loadData();
@@ -633,9 +661,9 @@
                 try {
                     const data = JSON.parse(saved);
                     this.tests = data.tests || [];
-                    this.admins = data.admins || [{ login: 'admin', password: '12354', protected: true }];
+                    this.admins = data.admins || [{ login: 'admin', password: '123mastyrbist', protected: true }];
                     if (!this.admins.some(a => a.login === 'admin')) {
-                        this.admins.unshift({ login: 'admin', password: '12354', protected: true });
+                        this.admins.unshift({ login: 'admin', password: '123mastyrbist', protected: true });
                     }
                 } catch(e) {
                     this.setDefaultData();
@@ -651,24 +679,64 @@
                     id: 1,
                     name: 'Основы безопасности ФСО',
                     questions: [
-                        { text: 'Что означает аббревиатура ФСО?', options: ['Федеральная служба охраны', 'Федеральная служба обороны', 'Федеральная служба опеки', 'Федеральная служба образования'], correct: 0 },
-                        { text: 'Кто является главой ФСО?', options: ['Президент РФ', 'Директор ФСО', 'Министр обороны', 'Председатель Правительства'], correct: 1 },
-                        { text: 'Основная задача ФСО - это...', options: ['Охрана государственных объектов', 'Охрана Президента', 'Охрана общественного порядка', 'Охрана государственных границ'], correct: 0 }
+                        { 
+                            type: 'choice',
+                            text: 'Что означает аббревиатура ФСО?', 
+                            options: ['Федеральная служба охраны', 'Федеральная служба обороны', 'Федеральная служба опеки', 'Федеральная служба образования'], 
+                            correct: [0] 
+                        },
+                        { 
+                            type: 'choice',
+                            text: 'Кто является главой ФСО?', 
+                            options: ['Президент РФ', 'Директор ФСО', 'Министр обороны', 'Председатель Правительства'], 
+                            correct: [1] 
+                        },
+                        { 
+                            type: 'choice',
+                            text: 'Основная задача ФСО - это...', 
+                            options: ['Охрана государственных объектов', 'Охрана Президента', 'Охрана общественного порядка', 'Охрана государственных границ'], 
+                            correct: [0] 
+                        },
+                        {
+                            type: 'text',
+                            text: 'Напишите полное название ФСО',
+                            correct: ['Федеральная служба охраны']
+                        }
                     ],
                     timeLimit: 300,
-                    passingScore: 80,
+                    passingScore: 70,
                     createdAt: Date.now()
                 },
                 {
                     id: 2,
                     name: 'Устав ФСО 2024',
                     questions: [
-                        { text: 'Сколько часов составляет суточный наряд?', options: ['12 часов', '24 часа', '8 часов', '6 часов'], correct: 1 },
-                        { text: 'Что запрещается делать на посту?', options: ['Спать', 'Курить', 'Разговаривать по телефону', 'Все вышеперечисленное'], correct: 3 },
-                        { text: 'Какой сигнал означает "Тревога"?', options: ['Один короткий', 'Два длинных', 'Три коротких', 'Непрерывный'], correct: 2 }
+                        { 
+                            type: 'choice',
+                            text: 'Сколько часов составляет суточный наряд?', 
+                            options: ['12 часов', '24 часа', '8 часов', '6 часов'], 
+                            correct: [1] 
+                        },
+                        { 
+                            type: 'choice',
+                            text: 'Что запрещается делать на посту?', 
+                            options: ['Спать', 'Курить', 'Разговаривать по телефону', 'Все вышеперечисленное'], 
+                            correct: [3] 
+                        },
+                        { 
+                            type: 'choice',
+                            text: 'Какой сигнал означает "Тревога"?', 
+                            options: ['Один короткий', 'Два длинных', 'Три коротких', 'Непрерывный'], 
+                            correct: [2] 
+                        },
+                        {
+                            type: 'text',
+                            text: 'Опишите действия дежурного при возникновении пожара',
+                            correct: ['вызвать пожарную охрану', 'сообщить начальнику']
+                        }
                     ],
                     timeLimit: 240,
-                    passingScore: 70,
+                    passingScore: 60,
                     createdAt: Date.now()
                 }
             ];
@@ -688,9 +756,11 @@
             this.tests.forEach(test => {
                 const card = document.createElement('div');
                 card.className = 'test-card';
+                const qCount = test.questions.length;
+                const textQ = test.questions.filter(q => q.type === 'text').length;
                 card.innerHTML = `
                     <div class="test-name">${test.name}</div>
-                    <div class="test-meta">${test.questions.length} вопросов</div>
+                    <div class="test-meta">${qCount} вопросов (${textQ} с вводом текста)</div>
                     <div class="test-stats">
                         ⏱ ${Math.floor(test.timeLimit / 60)} мин | ✅ ${test.passingScore}% для прохождения
                     </div>
@@ -712,11 +782,39 @@
             this.currentTest = test;
             this.testResults = null;
             this.testStartTime = null;
+            this.userNick = '';
 
             document.getElementById('testList').classList.add('hidden');
             document.getElementById('testTaking').classList.add('active');
 
-            this.renderTestQuestion(0);
+            this.showNickInput();
+        },
+
+        showNickInput() {
+            const container = document.getElementById('testContent');
+            container.innerHTML = `
+                <div class="nick-input-container">
+                    <h3 style="color:#9fc8d9;font-family:'Courier New',monospace;margin-bottom:15px;">👤 Введите ваше имя</h3>
+                    <input type="text" class="form-control" id="nickInput" placeholder="Ваше имя или позывной" style="max-width:300px;margin:0 auto;">
+                    <button class="btn-primary mt-10" id="startTestBtn">Начать тест</button>
+                </div>
+            `;
+
+            document.getElementById('startTestBtn').addEventListener('click', () => {
+                const nick = document.getElementById('nickInput').value.trim();
+                if (!nick) {
+                    this.showToast('⚠️ Введите ваше имя');
+                    document.getElementById('nickInput').classList.add('error');
+                    return;
+                }
+                this.userNick = nick;
+                document.getElementById('nickInput').classList.remove('error');
+                this.renderTestQuestion(0);
+            });
+
+            document.getElementById('nickInput').addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') document.getElementById('startTestBtn').click();
+            });
         },
 
         renderTestQuestion(index) {
@@ -734,28 +832,46 @@
             const timeLeft = test.timeLimit - Math.floor((Date.now() - this.testStartTime) / 1000);
 
             let html = `
-                <div class="timer-test" id="testTimer">${this.formatTime(timeLeft > 0 ? timeLeft : 0)}</div>
-                <div style="color:#7a9aa8;font-family:'Courier New',monospace;margin-bottom:15px;">
-                    Вопрос ${index + 1} из ${total}
+                <div class="flex-between mb-10">
+                    <span style="color:#7a9aa8;font-family:'Courier New',monospace;">
+                        👤 ${this.userNick} | Вопрос ${index + 1} из ${total}
+                    </span>
+                    <span style="color:#7a9aa8;font-family:'Courier New',monospace;">
+                        Тип: ${q.type === 'choice' ? 'Выбор ответа' : 'Ввод текста'}
+                    </span>
                 </div>
+                <div class="timer-test" id="testTimer">${this.formatTime(timeLeft > 0 ? timeLeft : 0)}</div>
                 <div style="color:#dcecf5;font-size:18px;margin-bottom:15px;">${q.text}</div>
             `;
 
-            q.options.forEach((opt, i) => {
+            if (q.type === 'choice') {
+                q.options.forEach((opt, i) => {
+                    const checked = this.testResults && this.testResults[index] && this.testResults[index].includes(i) ? 'checked' : '';
+                    html += `
+                        <label class="option-label" data-index="${i}">
+                            <input type="${q.options.length === 1 ? 'radio' : 'checkbox'}" name="question" value="${i}" ${checked}>
+                            ${opt}
+                        </label>
+                    `;
+                });
                 html += `
-                    <label class="option-label" data-index="${i}">
-                        <input type="radio" name="question" value="${i}">
-                        ${opt}
-                    </label>
+                    <div class="flex-row mt-20">
+                        <button class="btn-primary" id="nextQuestionBtn">${index === total - 1 ? 'Завершить' : 'Далее →'}</button>
+                        ${index > 0 ? `<button class="btn-primary" id="prevQuestionBtn">← Назад</button>` : ''}
+                    </div>
                 `;
-            });
-
-            html += `
-                <div class="flex-row mt-20">
-                    <button class="btn-primary" id="nextQuestionBtn">Ответить</button>
-                    ${index > 0 ? `<button class="btn-primary" id="prevQuestionBtn">← Назад</button>` : ''}
-                </div>
-            `;
+            } else {
+                const val = this.testResults && this.testResults[index] ? this.testResults[index][0] || '' : '';
+                html += `
+                    <div class="text-answer">
+                        <textarea rows="3" id="textAnswer" placeholder="Введите ваш ответ...">${val}</textarea>
+                    </div>
+                    <div class="flex-row mt-20">
+                        <button class="btn-primary" id="nextQuestionBtn">${index === total - 1 ? 'Завершить' : 'Далее →'}</button>
+                        ${index > 0 ? `<button class="btn-primary" id="prevQuestionBtn">← Назад</button>` : ''}
+                    </div>
+                `;
+            }
 
             container.innerHTML = html;
 
@@ -783,13 +899,27 @@
             const nextBtn = document.getElementById('nextQuestionBtn');
             if (nextBtn) {
                 nextBtn.addEventListener('click', () => {
-                    const selected = document.querySelector('input[name="question"]:checked');
-                    if (!selected) {
-                        this.showToast('⚠️ Выберите ответ');
-                        return;
+                    if (q.type === 'choice') {
+                        const selected = document.querySelectorAll('input[name="question"]:checked');
+                        if (selected.length === 0) {
+                            this.showToast('⚠️ Выберите ответ');
+                            return;
+                        }
+                        const values = Array.from(selected).map(el => parseInt(el.value));
+                        if (!this.testResults) this.testResults = [];
+                        this.testResults[index] = values;
+                    } else {
+                        const textarea = document.getElementById('textAnswer');
+                        if (textarea) {
+                            const val = textarea.value.trim();
+                            if (!val) {
+                                this.showToast('⚠️ Введите ответ');
+                                return;
+                            }
+                            if (!this.testResults) this.testResults = [];
+                            this.testResults[index] = [val];
+                        }
                     }
-                    if (!this.testResults) this.testResults = [];
-                    this.testResults[index] = parseInt(selected.value) === q.correct;
                     this.renderTestQuestion(index + 1);
                 });
             }
@@ -809,14 +939,52 @@
             }
             const container = document.getElementById('testContent');
             const test = this.currentTest;
-            const correct = this.testResults ? this.testResults.filter(r => r === true).length : 0;
-            const total = test.questions.length;
-            const percentage = Math.round((correct / total) * 100);
+            
+            let correctCount = 0;
+            let totalQuestions = test.questions.length;
+            let details = [];
+
+            test.questions.forEach((q, idx) => {
+                const userAnswer = this.testResults && this.testResults[idx] ? this.testResults[idx] : null;
+                let isCorrect = false;
+                let userAnswerStr = '';
+
+                if (q.type === 'choice') {
+                    if (userAnswer) {
+                        const correctArr = q.correct || [];
+                        isCorrect = JSON.stringify(userAnswer.sort()) === JSON.stringify(correctArr.slice().sort());
+                        userAnswerStr = userAnswer.map(i => q.options[i] || 'не выбран').join(', ');
+                    } else {
+                        userAnswerStr = 'не отвечено';
+                    }
+                } else {
+                    if (userAnswer && userAnswer.length > 0) {
+                        const userText = userAnswer[0].toLowerCase().trim();
+                        const correctTexts = (q.correct || []).map(c => c.toLowerCase().trim());
+                        isCorrect = correctTexts.some(c => userText.includes(c) || c.includes(userText));
+                        userAnswerStr = userAnswer[0] || 'не введено';
+                    } else {
+                        userAnswerStr = 'не введено';
+                    }
+                }
+
+                if (isCorrect) correctCount++;
+                
+                details.push({
+                    question: q.text,
+                    type: q.type === 'choice' ? 'Выбор' : 'Ввод текста',
+                    userAnswer: userAnswerStr,
+                    isCorrect: isCorrect
+                });
+            });
+
+            const percentage = Math.round((correctCount / totalQuestions) * 100);
             const passed = percentage >= test.passingScore;
-            const score = Math.round((correct / total) * 5);
+            const score = Math.round((correctCount / totalQuestions) * 5);
 
             let html = `
                 <div class="score-display">
+                    <div style="color:#7a9aa8;font-size:16px;margin-bottom:10px;">👤 ${this.userNick}</div>
                     <div class="score-number">${score}/5</div>
                     <div class="score-label">Баллов</div>
                     <div style="color:#7a9aa8;font-size:18px;margin-top:10px;">${percentage}%</div>
@@ -824,8 +992,27 @@
                         ${passed ? '✅ ТЕСТ СДАН' : '❌ ТЕСТ НЕ СДАН'}
                     </div>
                     <div style="color:#5d8b9a;font-size:13px;margin-top:10px;">
-                        Правильных ответов: ${correct} из ${total}
+                        Правильных ответов: ${correctCount} из ${totalQuestions}
                     </div>
+                </div>
+                <div style="margin-top:20px;">
+                    <h4 style="color:#9fc8d9;font-family:'Courier New',monospace;margin-bottom:10px;">📊 Детали ответов</h4>
+            `;
+
+            details.forEach((d, i) => {
+                html += `
+                    <div style="background:#0e161f;border:1px solid ${d.isCorrect ? '#2a5a3a' : '#5a2a2a'};border-radius:8px;padding:10px;margin-bottom:8px;">
+                        <div style="color:#7a9aa8;font-size:12px;font-family:'Courier New',monospace;">Вопрос ${i+1} (${d.type})</div>
+                        <div style="color:#cce2ec;font-size:14px;">${d.question}</div>
+                        <div style="color:#5d8b9a;font-size:13px;margin-top:4px;">Ответ: ${d.userAnswer}</div>
+                        <div style="color:${d.isCorrect ? '#6fd6b8' : '#e8827a'};font-size:12px;font-weight:600;margin-top:2px;">
+                            ${d.isCorrect ? '✅ Правильно' : '❌ Неправильно'}
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += `
                 </div>
                 <div class="flex-row mt-20">
                     <button class="btn-primary" id="retryTestBtn">🔄 Пройти заново</button>
@@ -842,7 +1029,7 @@
                     clearInterval(this.testTimer);
                     this.testTimer = null;
                 }
-                this.renderTestQuestion(0);
+                this.showNickInput();
             });
 
             document.getElementById('finishTestBtn').addEventListener('click', () => {
@@ -1022,11 +1209,13 @@
                 const div = document.createElement('div');
                 div.className = 'test-card';
                 div.style.marginBottom = '10px';
+                const qCount = test.questions.length;
+                const textQ = test.questions.filter(q => q.type === 'text').length;
                 div.innerHTML = `
                     <div class="flex-between">
                         <div>
                             <div class="test-name">${test.name}</div>
-                            <div class="test-meta">${test.questions.length} вопросов | ${Math.floor(test.timeLimit / 60)} мин</div>
+                            <div class="test-meta">${qCount} вопросов (${textQ} с вводом текста)</div>
                         </div>
                         <div class="flex-row">
                             <button class="btn-success" data-idx="${idx}">✏️ Редактировать</button>
@@ -1066,7 +1255,13 @@
 
             document.getElementById('editorTitle').textContent = isNew ? '📝 Новый тест' : `✏️ ${test.name}`;
 
-            const t = test || { id: Date.now(), name: '', questions: [{ text: '', options: ['', '', '', ''], correct: 0 }], timeLimit: 300, passingScore: 70 };
+            const t = test || { 
+                id: Date.now(), 
+                name: '', 
+                questions: [{ type: 'choice', text: '', options: ['', ''], correct: [0] }], 
+                timeLimit: 300, 
+                passingScore: 70 
+            };
 
             let html = `
                 <div class="form-group">
@@ -1084,7 +1279,10 @@
                 <div class="form-group">
                     <label>Вопросы</label>
                     <div id="questionsContainer"></div>
-                    <button class="btn-success mt-10" id="addQuestionBtn">+ Добавить вопрос</button>
+                    <div class="flex-row mt-10">
+                        <button class="btn-success" id="addChoiceQuestion">+ Вопрос с выбором</button>
+                        <button class="btn-success" id="addTextQuestion">+ Вопрос с вводом</button>
+                    </div>
                 </div>
                 <div class="flex-row mt-20">
                     <button class="btn-primary" id="saveTestBtn">💾 Сохранить</button>
@@ -1095,31 +1293,54 @@
             container.innerHTML = html;
 
             const qContainer = document.getElementById('questionsContainer');
-            let questions = t.questions || [{ text: '', options: ['', '', '', ''], correct: 0 }];
+            let questions = t.questions || [{ type: 'choice', text: '', options: ['', ''], correct: [0] }];
 
             function renderQuestions() {
                 qContainer.innerHTML = '';
                 questions.forEach((q, idx) => {
                     const div = document.createElement('div');
                     div.className = 'question-item';
+                    
+                    let optionsHtml = '';
+                    if (q.type === 'choice') {
+                        const opts = q.options || ['', ''];
+                        optionsHtml = `
+                            <div class="form-group">
+                                <label style="font-size:11px;">Варианты ответов (минимум 2)</label>
+                                ${opts.map((opt, oi) => `
+                                    <input type="text" class="form-control q-option-input" style="margin-top:4px;" placeholder="Вариант ${oi + 1}" value="${opt}" data-q="${idx}" data-opt="${oi}">
+                                `).join('')}
+                                <button class="btn-success mt-10" style="font-size:11px;padding:4px 12px;" data-add-option="${idx}">+ Добавить вариант</button>
+                            </div>
+                            <div class="form-group">
+                                <label style="font-size:11px;">Правильные ответы (номера через запятую, 0-${opts.length-1})</label>
+                                <input type="text" class="form-control q-correct-input" placeholder="0,2" value="${(q.correct || []).join(',')}" data-idx="${idx}">
+                            </div>
+                        `;
+                    } else {
+                        optionsHtml = `
+                            <div class="form-group">
+                                <label style="font-size:11px;">Правильные варианты (через запятую)</label>
+                                <input type="text" class="form-control q-correct-text" placeholder="правильный ответ, вариант 2" value="${(q.correct || []).join(', ')}" data-idx="${idx}">
+                            </div>
+                        `;
+                    }
+
                     div.innerHTML = `
                         <div class="q-header">
-                            <span style="color:#9fc8d9;font-weight:600;">Вопрос ${idx + 1}</span>
+                            <span style="color:#9fc8d9;font-weight:600;">Вопрос ${idx + 1} (${q.type === 'choice' ? 'Выбор' : 'Ввод текста'})</span>
                             <button class="btn-danger" data-idx="${idx}">✕</button>
+                        </div>
+                        <div class="form-group">
+                            <select class="form-control q-type-select" data-idx="${idx}">
+                                <option value="choice" ${q.type === 'choice' ? 'selected' : ''}>Выбор ответа</option>
+                                <option value="text" ${q.type === 'text' ? 'selected' : ''}>Ввод текста</option>
+                            </select>
                         </div>
                         <div class="form-group">
                             <input type="text" class="form-control q-text-input" placeholder="Текст вопроса" value="${q.text}" data-idx="${idx}">
                         </div>
-                        <div class="form-group">
-                            <label style="font-size:11px;">Варианты ответов</label>
-                            ${q.options.map((opt, oi) => `
-                                <input type="text" class="form-control q-option-input" style="margin-top:4px;" placeholder="Вариант ${oi + 1}" value="${opt}" data-q="${idx}" data-opt="${oi}">
-                            `).join('')}
-                        </div>
-                        <div class="form-group">
-                            <label style="font-size:11px;">Правильный ответ (номер варианта, 0-3)</label>
-                            <input type="number" class="form-control q-correct-input" min="0" max="3" value="${q.correct}" data-idx="${idx}">
-                        </div>
+                        ${optionsHtml}
                     `;
                     qContainer.appendChild(div);
                 });
@@ -1135,12 +1356,42 @@
                         }
                     });
                 });
+
+                qContainer.querySelectorAll('[data-add-option]').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const idx = parseInt(btn.dataset.addOption);
+                        if (questions[idx]) {
+                            if (!questions[idx].options) questions[idx].options = [];
+                            questions[idx].options.push('');
+                            renderQuestions();
+                        }
+                    });
+                });
+
+                qContainer.querySelectorAll('.q-type-select').forEach(sel => {
+                    sel.addEventListener('change', () => {
+                        const idx = parseInt(sel.dataset.idx);
+                        questions[idx].type = sel.value;
+                        if (sel.value === 'choice' && !questions[idx].options) {
+                            questions[idx].options = ['', ''];
+                        }
+                        if (sel.value === 'text') {
+                            questions[idx].options = [];
+                        }
+                        renderQuestions();
+                    });
+                });
             }
 
             renderQuestions();
 
-            document.getElementById('addQuestionBtn').addEventListener('click', () => {
-                questions.push({ text: '', options: ['', '', '', ''], correct: 0 });
+            document.getElementById('addChoiceQuestion').addEventListener('click', () => {
+                questions.push({ type: 'choice', text: '', options: ['', ''], correct: [0] });
+                renderQuestions();
+            });
+
+            document.getElementById('addTextQuestion').addEventListener('click', () => {
+                questions.push({ type: 'text', text: '', correct: [] });
                 renderQuestions();
             });
 
@@ -1154,32 +1405,58 @@
                     return;
                 }
 
-                const qInputs = qContainer.querySelectorAll('.question-item');
+                const qItems = qContainer.querySelectorAll('.question-item');
                 const newQuestions = [];
                 let valid = true;
 
-                qInputs.forEach(item => {
+                qItems.forEach(item => {
+                    const type = item.querySelector('.q-type-select').value;
                     const text = item.querySelector('.q-text-input').value.trim();
-                    const options = item.querySelectorAll('.q-option-input');
-                    const opts = Array.from(options).map(inp => inp.value.trim());
-                    const correct = parseInt(item.querySelector('.q-correct-input').value) || 0;
-
+                    
                     if (!text) {
                         this.showToast('⚠️ Все вопросы должны иметь текст');
                         valid = false;
                         return;
                     }
-                    if (opts.some(o => !o)) {
-                        this.showToast('⚠️ Все варианты ответов должны быть заполнены');
-                        valid = false;
-                        return;
+
+                    let correct = [];
+                    let options = [];
+
+                    if (type === 'choice') {
+                        const optInputs = item.querySelectorAll('.q-option-input');
+                        options = Array.from(optInputs).map(inp => inp.value.trim());
+                        if (options.length < 2) {
+                            this.showToast('⚠️ Для вопросов с выбором нужно минимум 2 варианта');
+                            valid = false;
+                            return;
+                        }
+                        if (options.some(o => !o)) {
+                            this.showToast('⚠️ Все варианты ответов должны быть заполнены');
+                            valid = false;
+                            return;
+                        }
+                        const correctInput = item.querySelector('.q-correct-input');
+                        if (correctInput) {
+                            correct = correctInput.value.split(',').map(s => parseInt(s.trim())).filter(n => !isNaN(n) && n >= 0 && n < options.length);
+                            if (correct.length === 0) {
+                                this.showToast('⚠️ Укажите правильные ответы (номера через запятую)');
+                                valid = false;
+                                return;
+                            }
+                        }
+                    } else {
+                        const correctInput = item.querySelector('.q-correct-text');
+                        if (correctInput) {
+                            correct = correctInput.value.split(',').map(s => s.trim()).filter(s => s);
+                            if (correct.length === 0) {
+                                this.showToast('⚠️ Укажите правильные варианты ответов');
+                                valid = false;
+                                return;
+                            }
+                        }
                     }
-                    if (correct < 0 || correct > 3) {
-                        this.showToast('⚠️ Номер правильного ответа должен быть от 0 до 3');
-                        valid = false;
-                        return;
-                    }
-                    newQuestions.push({ text, options: opts, correct });
+
+                    newQuestions.push({ type, text, options, correct });
                 });
 
                 if (!valid || newQuestions.length === 0) return;
