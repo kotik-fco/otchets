@@ -575,20 +575,6 @@
             border-color: #4a8aa0;
         }
 
-        .password-input-container {
-            background: #0e161f;
-            border: 1px solid #1f323d;
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .password-input-container input {
-            max-width: 300px;
-            margin: 0 auto;
-        }
-
         .option-row {
             display: flex;
             gap: 8px;
@@ -596,11 +582,26 @@
             margin-top: 4px;
         }
 
-        .option-row input {
+        .option-row input[type="text"] {
             flex: 1;
         }
 
+        .option-row input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #4a8aa0;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
         .option-row .btn-danger-small {
+            flex-shrink: 0;
+        }
+
+        .option-row .correct-label {
+            color: #6fd6b8;
+            font-size: 11px;
+            font-family: 'Courier New', monospace;
             flex-shrink: 0;
         }
     </style>
@@ -659,6 +660,7 @@
 
             <div class="flex-row mb-20">
                 <button class="btn-success" id="newTestBtn">+ Новый тест</button>
+                <button class="btn-success" id="continueDraftBtn">📂 Продолжить черновик</button>
             </div>
 
             <div id="testsAdminList"></div>
@@ -722,12 +724,19 @@
         testTimer: null,
         userNick: '',
         pendingTestId: null,
+        draftData: null,
 
         init() {
             this.loadData();
+            this.loadSession();
+            this.loadDraft();
             this.renderTests();
             this.setupEventListeners();
             this.updateTestCount();
+            
+            if (this.isLoggedIn) {
+                document.getElementById('editTab').click();
+            }
         },
 
         loadData() {
@@ -753,6 +762,52 @@
                 }
             } else {
                 this.setDefaultData();
+            }
+        },
+
+        loadSession() {
+            const session = localStorage.getItem('fso_session');
+            if (session) {
+                try {
+                    const data = JSON.parse(session);
+                    if (data.login && data.loggedIn) {
+                        const admin = this.admins.find(a => a.login === data.login);
+                        if (admin) {
+                            this.currentUser = admin;
+                            this.isLoggedIn = true;
+                        }
+                    }
+                } catch(e) {}
+            }
+        },
+
+        saveSession() {
+            if (this.isLoggedIn && this.currentUser) {
+                localStorage.setItem('fso_session', JSON.stringify({
+                    login: this.currentUser.login,
+                    loggedIn: true
+                }));
+            } else {
+                localStorage.removeItem('fso_session');
+            }
+        },
+
+        loadDraft() {
+            const draft = localStorage.getItem('fso_draft');
+            if (draft) {
+                try {
+                    this.draftData = JSON.parse(draft);
+                } catch(e) {
+                    this.draftData = null;
+                }
+            }
+        },
+
+        saveDraft() {
+            if (this.draftData) {
+                localStorage.setItem('fso_draft', JSON.stringify(this.draftData));
+            } else {
+                localStorage.removeItem('fso_draft');
             }
         },
 
@@ -964,9 +1019,10 @@
                 shuffledOptions.forEach((opt, i) => {
                     const originalIdx = shuffledIndices[i];
                     const checked = this.testResults && this.testResults[index] && this.testResults[index].includes(originalIdx) ? 'checked' : '';
+                    const inputType = q.correct && q.correct.length > 1 ? 'checkbox' : 'radio';
                     html += `
                         <label class="option-label" data-index="${originalIdx}">
-                            <input type="${q.options.length === 1 ? 'radio' : 'checkbox'}" name="question" value="${originalIdx}" ${checked}>
+                            <input type="${inputType}" name="question" value="${originalIdx}" ${checked}>
                             ${opt}
                         </label>
                     `;
@@ -1235,6 +1291,7 @@
                 if (admin) {
                     this.currentUser = admin;
                     this.isLoggedIn = true;
+                    this.saveSession();
                     document.getElementById('loginError').textContent = '';
                     this.showAdminPanel();
                     this.showToast('✅ Добро пожаловать, ' + login);
@@ -1246,6 +1303,7 @@
             document.getElementById('logoutBtn').addEventListener('click', () => {
                 this.isLoggedIn = false;
                 this.currentUser = null;
+                this.saveSession();
                 document.getElementById('loginForm').style.display = 'block';
                 document.getElementById('adminPanel').style.display = 'none';
                 document.getElementById('loginInput').value = '';
@@ -1255,7 +1313,17 @@
             });
 
             document.getElementById('newTestBtn').addEventListener('click', () => {
+                this.draftData = null;
+                this.saveDraft();
                 this.openTestEditor(null);
+            });
+
+            document.getElementById('continueDraftBtn').addEventListener('click', () => {
+                if (this.draftData) {
+                    this.openTestEditor(null, true);
+                } else {
+                    this.showToast('⚠️ Нет сохраненных черновиков');
+                }
             });
 
             document.getElementById('addAdminBtn').addEventListener('click', () => {
@@ -1396,21 +1464,29 @@
             });
         },
 
-        openTestEditor(test) {
+        openTestEditor(test, fromDraft = false) {
             const modal = document.getElementById('testEditorModal');
             const container = document.getElementById('editorContent');
             const isNew = !test;
 
-            document.getElementById('editorTitle').textContent = isNew ? '📝 Новый тест' : `✏️ ${test.name}`;
-
-            const t = test ? JSON.parse(JSON.stringify(test)) : { 
-                id: Date.now(), 
-                name: '', 
-                password: '',
-                questions: [{ type: 'choice', text: '', options: ['', ''], correct: [0] }], 
-                timeLimit: 300, 
-                passingScore: 70 
-            };
+            let t;
+            if (fromDraft && this.draftData) {
+                t = this.draftData;
+                document.getElementById('editorTitle').textContent = '📝 Черновик';
+            } else if (test) {
+                t = JSON.parse(JSON.stringify(test));
+                document.getElementById('editorTitle').textContent = `✏️ ${test.name}`;
+            } else {
+                t = { 
+                    id: Date.now(), 
+                    name: '', 
+                    password: '',
+                    questions: [{ type: 'choice', text: '', options: ['', ''], correct: [0] }], 
+                    timeLimit: 300, 
+                    passingScore: 70 
+                };
+                document.getElementById('editorTitle').textContent = '📝 Новый тест';
+            }
 
             let html = `
                 <div class="form-group">
@@ -1439,6 +1515,7 @@
                 </div>
                 <div class="flex-row mt-20">
                     <button class="btn-primary" id="saveTestBtn">💾 Сохранить</button>
+                    <button class="btn-success" id="saveDraftBtn">📂 Сохранить черновик</button>
                     <button class="btn-danger" id="cancelEditBtn">Отмена</button>
                 </div>
             `;
@@ -1463,14 +1540,12 @@
                                 ${opts.map((opt, oi) => `
                                     <div class="option-row">
                                         <input type="text" class="form-control q-option-input" placeholder="Вариант ${oi + 1}" value="${opt || ''}" data-q="${idx}" data-opt="${oi}">
+                                        <input type="checkbox" class="q-option-correct" data-q="${idx}" data-opt="${oi}" ${(q.correct || []).includes(oi) ? 'checked' : ''}>
+                                        <span class="correct-label">✔</span>
                                         ${opts.length > 2 ? `<button class="btn-danger-small remove-option" data-q="${idx}" data-opt="${oi}">✕</button>` : ''}
                                     </div>
                                 `).join('')}
                                 <button class="btn-success-small mt-10" data-add-option="${idx}">+ Добавить вариант</button>
-                            </div>
-                            <div class="form-group">
-                                <label style="font-size:11px;">Правильные ответы (номера через запятую, 0-${opts.length-1})</label>
-                                <input type="text" class="form-control q-correct-input" placeholder="0,2" value="${(q.correct || []).join(',')}" data-idx="${idx}">
                             </div>
                         `;
                     } else {
@@ -1507,6 +1582,7 @@
                         if (questions.length > 1) {
                             questions.splice(idx, 1);
                             renderQuestions();
+                            autoSaveDraft();
                         } else {
                             App.showToast('⚠️ Должен быть хотя бы один вопрос');
                         }
@@ -1520,6 +1596,7 @@
                             if (!questions[idx].options) questions[idx].options = [];
                             questions[idx].options.push('');
                             renderQuestions();
+                            autoSaveDraft();
                         }
                     });
                 });
@@ -1536,6 +1613,7 @@
                                     .map(c => c > optIdx ? c - 1 : c);
                             }
                             renderQuestions();
+                            autoSaveDraft();
                         } else {
                             App.showToast('⚠️ Должно быть минимум 2 варианта');
                         }
@@ -1548,12 +1626,14 @@
                         questions[idx].type = sel.value;
                         if (sel.value === 'choice' && !questions[idx].options) {
                             questions[idx].options = ['', ''];
+                            questions[idx].correct = [0];
                         }
                         if (sel.value === 'text') {
                             questions[idx].options = [];
                             questions[idx].correct = [];
                         }
                         renderQuestions();
+                        autoSaveDraft();
                     });
                 });
 
@@ -1562,6 +1642,7 @@
                         const idx = parseInt(inp.dataset.idx);
                         if (questions[idx]) {
                             questions[idx].text = inp.value;
+                            autoSaveDraft();
                         }
                     });
                 });
@@ -1572,16 +1653,25 @@
                         const optIdx = parseInt(inp.dataset.opt);
                         if (questions[qIdx] && questions[qIdx].options) {
                             questions[qIdx].options[optIdx] = inp.value;
+                            autoSaveDraft();
                         }
                     });
                 });
 
-                qContainer.querySelectorAll('.q-correct-input').forEach(inp => {
-                    inp.addEventListener('input', () => {
-                        const idx = parseInt(inp.dataset.idx);
-                        if (questions[idx]) {
-                            const vals = inp.value.split(',').map(s => parseInt(s.trim())).filter(n => !isNaN(n));
-                            questions[idx].correct = vals;
+                qContainer.querySelectorAll('.q-option-correct').forEach(cb => {
+                    cb.addEventListener('change', () => {
+                        const qIdx = parseInt(cb.dataset.q);
+                        const optIdx = parseInt(cb.dataset.opt);
+                        if (questions[qIdx]) {
+                            if (!questions[qIdx].correct) questions[qIdx].correct = [];
+                            if (cb.checked) {
+                                if (!questions[qIdx].correct.includes(optIdx)) {
+                                    questions[qIdx].correct.push(optIdx);
+                                }
+                            } else {
+                                questions[qIdx].correct = questions[qIdx].correct.filter(c => c !== optIdx);
+                            }
+                            autoSaveDraft();
                         }
                     });
                 });
@@ -1591,9 +1681,26 @@
                         const idx = parseInt(inp.dataset.idx);
                         if (questions[idx]) {
                             questions[idx].correct = inp.value.split(',').map(s => s.trim()).filter(s => s);
+                            autoSaveDraft();
                         }
                     });
                 });
+            }
+
+            function autoSaveDraft() {
+                const name = document.getElementById('editTestName').value.trim();
+                const password = document.getElementById('editTestPassword').value.trim();
+                const timeLimit = parseInt(document.getElementById('editTimeLimit').value) || 300;
+                const passingScore = parseInt(document.getElementById('editPassingScore').value) || 70;
+
+                App.draftData = {
+                    name: name,
+                    password: password,
+                    questions: JSON.parse(JSON.stringify(questions)),
+                    timeLimit: timeLimit,
+                    passingScore: passingScore
+                };
+                App.saveDraft();
             }
 
             renderQuestions();
@@ -1601,11 +1708,18 @@
             document.getElementById('addChoiceQuestion').addEventListener('click', () => {
                 questions.push({ type: 'choice', text: '', options: ['', ''], correct: [0] });
                 renderQuestions();
+                autoSaveDraft();
             });
 
             document.getElementById('addTextQuestion').addEventListener('click', () => {
                 questions.push({ type: 'text', text: '', correct: [] });
                 renderQuestions();
+                autoSaveDraft();
+            });
+
+            document.getElementById('saveDraftBtn').addEventListener('click', () => {
+                autoSaveDraft();
+                App.showToast('📂 Черновик сохранен');
             });
 
             document.getElementById('saveTestBtn').addEventListener('click', () => {
@@ -1649,14 +1763,12 @@
                             valid = false;
                             return;
                         }
-                        const correctInput = item.querySelector('.q-correct-input');
-                        if (correctInput) {
-                            correct = correctInput.value.split(',').map(s => parseInt(s.trim())).filter(n => !isNaN(n) && n >= 0 && n < options.length);
-                            if (correct.length === 0) {
-                                App.showToast('⚠️ Укажите правильные ответы (номера через запятую)');
-                                valid = false;
-                                return;
-                            }
+                        const correctCheckboxes = item.querySelectorAll('.q-option-correct:checked');
+                        correct = Array.from(correctCheckboxes).map(cb => parseInt(cb.dataset.opt));
+                        if (correct.length === 0) {
+                            App.showToast('⚠️ Отметьте правильные ответы галочками');
+                            valid = false;
+                            return;
                         }
                     } else {
                         const correctInput = item.querySelector('.q-correct-text');
@@ -1675,7 +1787,19 @@
 
                 if (!valid || newQuestions.length === 0) return;
 
-                if (isNew) {
+                if (fromDraft && App.draftData) {
+                    App.tests.push({
+                        id: Date.now(),
+                        name,
+                        password: password || '',
+                        questions: newQuestions,
+                        timeLimit,
+                        passingScore,
+                        createdAt: Date.now()
+                    });
+                    App.draftData = null;
+                    App.saveDraft();
+                } else if (isNew) {
                     App.tests.push({
                         id: Date.now(),
                         name,
@@ -1703,6 +1827,11 @@
             document.getElementById('cancelEditBtn').addEventListener('click', () => {
                 modal.classList.remove('show');
             });
+
+            document.getElementById('editTestName').addEventListener('input', autoSaveDraft);
+            document.getElementById('editTestPassword').addEventListener('input', autoSaveDraft);
+            document.getElementById('editTimeLimit').addEventListener('input', autoSaveDraft);
+            document.getElementById('editPassingScore').addEventListener('input', autoSaveDraft);
 
             modal.classList.add('show');
         },
