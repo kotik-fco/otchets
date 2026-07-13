@@ -57,6 +57,13 @@
             border: 1px solid #2a4857;
         }
 
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
         .header-controls {
             display: flex;
             gap: 10px;
@@ -88,6 +95,35 @@
             background: #2a4a5a;
             border-color: #4a8aa0;
             box-shadow: 0 0 20px rgba(74, 138, 160, 0.2);
+        }
+
+        .admin-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #1a2a2a;
+            border: 1px solid #2a5a5a;
+            border-radius: 40px;
+            padding: 6px 16px;
+            color: #6fd6b8;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .admin-status .dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #3ccf9e;
+            box-shadow: 0 0 12px rgba(60, 207, 158, 0.3);
+            animation: pulse 1.8s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(0.85); }
         }
 
         .content {
@@ -604,6 +640,19 @@
             font-family: 'Courier New', monospace;
             flex-shrink: 0;
         }
+
+        .user-info {
+            color: #7a9aa8;
+            font-size: 13px;
+            font-family: 'Courier New', monospace;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .user-info .highlight {
+            color: #6fd6b8;
+        }
     </style>
 </head>
 <body>
@@ -614,9 +663,12 @@
             📋 ФСО ТЕСТИРОВАНИЕ
             <span class="badge">v2.0</span>
         </div>
-        <div class="header-controls">
-            <button class="nav-btn active" id="testsTab">📝 Тесты</button>
-            <button class="nav-btn" id="editTab">⚙️ Редактирование</button>
+        <div class="header-right">
+            <div id="adminStatusContainer"></div>
+            <div class="header-controls">
+                <button class="nav-btn active" id="testsTab">📝 Тесты</button>
+                <button class="nav-btn" id="editTab">⚙️ Редактирование</button>
+            </div>
         </div>
     </div>
 
@@ -733,6 +785,7 @@
             this.renderTests();
             this.setupEventListeners();
             this.updateTestCount();
+            this.updateAdminStatus();
             
             if (this.isLoggedIn) {
                 document.getElementById('editTab').click();
@@ -937,6 +990,25 @@
             document.getElementById('testCount').textContent = `${this.tests.length} тестов`;
         },
 
+        updateAdminStatus() {
+            const container = document.getElementById('adminStatusContainer');
+            if (this.isLoggedIn && this.currentUser) {
+                container.innerHTML = `
+                    <div class="admin-status">
+                        <span class="dot"></span>
+                        <span>🔑 ${this.currentUser.login}</span>
+                        <span style="color:#5d8b9a;font-weight:400;font-size:11px;">админ</span>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = `
+                    <div class="admin-status" style="border-color:#3a3a3a;color:#5d8b9a;">
+                        <span style="color:#5a5a5a;">👤 Гость</span>
+                    </div>
+                `;
+            }
+        },
+
         startTest(testId) {
             const test = this.tests.find(t => t.id === testId);
             if (!test) return;
@@ -995,11 +1067,15 @@
 
             let shuffledOptions = [...q.options];
             let shuffledIndices = q.options.map((_, i) => i);
+            let shuffledCorrect = [];
+            
             if (q.type === 'choice') {
                 const combined = shuffledOptions.map((opt, i) => ({ opt, idx: i }));
                 this.shuffleArray(combined);
                 shuffledOptions = combined.map(item => item.opt);
                 shuffledIndices = combined.map(item => item.idx);
+                
+                shuffledCorrect = q.correct.map(oldIdx => shuffledIndices.indexOf(oldIdx));
             }
 
             let html = `
@@ -1017,12 +1093,12 @@
 
             if (q.type === 'choice') {
                 shuffledOptions.forEach((opt, i) => {
-                    const originalIdx = shuffledIndices[i];
-                    const checked = this.testResults && this.testResults[index] && this.testResults[index].includes(originalIdx) ? 'checked' : '';
-                    const inputType = q.correct && q.correct.length > 1 ? 'checkbox' : 'radio';
+                    const isCorrect = shuffledCorrect.includes(i);
+                    const checked = this.testResults && this.testResults[index] && this.testResults[index].includes(i) ? 'checked' : '';
+                    const inputType = shuffledCorrect.length > 1 ? 'checkbox' : 'radio';
                     html += `
-                        <label class="option-label" data-index="${originalIdx}">
-                            <input type="${inputType}" name="question" value="${originalIdx}" ${checked}>
+                        <label class="option-label" data-index="${i}">
+                            <input type="${inputType}" name="question" value="${i}" ${checked}>
                             ${opt}
                         </label>
                     `;
@@ -1294,6 +1370,7 @@
                     this.saveSession();
                     document.getElementById('loginError').textContent = '';
                     this.showAdminPanel();
+                    this.updateAdminStatus();
                     this.showToast('✅ Добро пожаловать, ' + login);
                 } else {
                     document.getElementById('loginError').textContent = '❌ Неверный логин или пароль';
@@ -1304,6 +1381,7 @@
                 this.isLoggedIn = false;
                 this.currentUser = null;
                 this.saveSession();
+                this.updateAdminStatus();
                 document.getElementById('loginForm').style.display = 'block';
                 document.getElementById('adminPanel').style.display = 'none';
                 document.getElementById('loginInput').value = '';
