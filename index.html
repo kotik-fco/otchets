@@ -1065,17 +1065,22 @@
             const total = test.questions.length;
             const timeLeft = test.timeLimit - Math.floor((Date.now() - this.testStartTime) / 1000);
 
-            let shuffledOptions = [...q.options];
-            let shuffledIndices = q.options.map((_, i) => i);
-            let shuffledCorrect = [];
+            const shuffledOptions = [...q.options];
+            const shuffledIndices = q.options.map((_, i) => i);
             
+            let correctIndices = [];
             if (q.type === 'choice') {
                 const combined = shuffledOptions.map((opt, i) => ({ opt, idx: i }));
                 this.shuffleArray(combined);
-                shuffledOptions = combined.map(item => item.opt);
-                shuffledIndices = combined.map(item => item.idx);
+                const shuffledCombined = combined.map(item => item.opt);
+                const shuffledIdxMap = combined.map(item => item.idx);
                 
-                shuffledCorrect = q.correct.map(oldIdx => shuffledIndices.indexOf(oldIdx));
+                for (let i = 0; i < shuffledOptions.length; i++) {
+                    shuffledOptions[i] = shuffledCombined[i];
+                    shuffledIndices[i] = shuffledIdxMap[i];
+                }
+                
+                correctIndices = q.correct.map(oldIdx => shuffledIndices.indexOf(oldIdx));
             }
 
             let html = `
@@ -1093,11 +1098,11 @@
 
             if (q.type === 'choice') {
                 shuffledOptions.forEach((opt, i) => {
-                    const isCorrect = shuffledCorrect.includes(i);
+                    const isCorrect = correctIndices.includes(i);
                     const checked = this.testResults && this.testResults[index] && this.testResults[index].includes(i) ? 'checked' : '';
-                    const inputType = shuffledCorrect.length > 1 ? 'checkbox' : 'radio';
+                    const inputType = correctIndices.length > 1 ? 'checkbox' : 'radio';
                     html += `
-                        <label class="option-label" data-index="${i}">
+                        <label class="option-label" data-index="${i}" data-correct="${isCorrect}">
                             <input type="${inputType}" name="question" value="${i}" ${checked}>
                             ${opt}
                         </label>
@@ -1201,7 +1206,9 @@
                 if (q.type === 'choice') {
                     if (userAnswer) {
                         const correctArr = q.correct || [];
-                        isCorrect = JSON.stringify(userAnswer.sort()) === JSON.stringify(correctArr.slice().sort());
+                        const sortedUser = userAnswer.slice().sort();
+                        const sortedCorrect = correctArr.slice().sort();
+                        isCorrect = JSON.stringify(sortedUser) === JSON.stringify(sortedCorrect);
                         userAnswerStr = userAnswer.map(i => q.options[i] || 'не выбран').join(', ');
                     } else {
                         userAnswerStr = 'не отвечено';
