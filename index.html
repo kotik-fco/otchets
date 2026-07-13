@@ -944,14 +944,6 @@
             }));
         },
 
-        shuffleArray(arr) {
-            for (let i = arr.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [arr[i], arr[j]] = [arr[j], arr[i]];
-            }
-            return arr;
-        },
-
         renderTests() {
             const grid = document.getElementById('testsGrid');
             grid.innerHTML = '';
@@ -1065,23 +1057,7 @@
             const total = test.questions.length;
             const timeLeft = test.timeLimit - Math.floor((Date.now() - this.testStartTime) / 1000);
 
-            const shuffledOptions = [...q.options];
-            const shuffledIndices = q.options.map((_, i) => i);
-            
-            let correctIndices = [];
-            if (q.type === 'choice') {
-                const combined = shuffledOptions.map((opt, i) => ({ opt, idx: i }));
-                this.shuffleArray(combined);
-                const shuffledCombined = combined.map(item => item.opt);
-                const shuffledIdxMap = combined.map(item => item.idx);
-                
-                for (let i = 0; i < shuffledOptions.length; i++) {
-                    shuffledOptions[i] = shuffledCombined[i];
-                    shuffledIndices[i] = shuffledIdxMap[i];
-                }
-                
-                correctIndices = q.correct.map(oldIdx => shuffledIndices.indexOf(oldIdx));
-            }
+            const correctIndices = q.correct || [];
 
             let html = `
                 <div class="flex-between mb-10">
@@ -1097,7 +1073,7 @@
             `;
 
             if (q.type === 'choice') {
-                shuffledOptions.forEach((opt, i) => {
+                q.options.forEach((opt, i) => {
                     const isCorrect = correctIndices.includes(i);
                     const checked = this.testResults && this.testResults[index] && this.testResults[index].includes(i) ? 'checked' : '';
                     const inputType = correctIndices.length > 1 ? 'checkbox' : 'radio';
