@@ -3,272 +3,263 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ФСО-Арбат | Единое меню</title>
+    <title>ФСО-Арбат | Доклады и Тесты</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap');
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        /* ——— RESET & VARIABLES ——— */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
-            --bg-primary: #080c12;
-            --bg-secondary: #0e161f;
-            --bg-card: #111a24;
-            --bg-input: #0a121c;
-            --border-color: #1a2a38;
-            --border-hover: #2a4a5a;
-            --text-primary: #e8f0f8;
-            --text-secondary: #8aacbf;
-            --text-muted: #4a6a7a;
-            --accent-green: #3ccf9e;
-            --accent-green-dim: #1a3a3a;
-            --accent-gold: #f5c27a;
-            --accent-gold-dim: #2e2818;
-            --accent-red: #e8827a;
-            --accent-red-dim: #2e1818;
-            --accent-blue: #4a8aa0;
-            --accent-blue-dim: #1a2a3a;
-            --shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+            --bg-body: #0b0f15;
+            --bg-card: #121a24;
+            --bg-card-hover: #18222e;
+            --bg-input: #0d151f;
+            --border: #1f2d3a;
+            --border-hover: #2f4255;
+            --text-main: #dfeaf2;
+            --text-muted: #7b9aad;
+            --text-dim: #456070;
+            --green: #4dd9b0;
+            --green-dim: #1a3a30;
+            --gold: #f0c87a;
+            --gold-dim: #2a2418;
+            --red: #e8827a;
+            --red-dim: #2a1a18;
+            --blue: #5a9ab0;
+            --blue-dim: #1a2a38;
             --radius: 16px;
             --radius-sm: 10px;
-            --radius-full: 40px;
-            --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            --shadow: 0 10px 40px rgba(0,0,0,0.7);
+            --transition: .22s ease;
         }
 
         body {
-            background: var(--bg-primary);
+            background: var(--bg-body);
             font-family: 'Inter', -apple-system, system-ui, sans-serif;
             min-height: 100vh;
             padding: 20px;
-            color: var(--text-primary);
-            background-image: radial-gradient(ellipse at 50% 0%, #0e1a24 0%, transparent 70%);
+            color: var(--text-main);
+            background-image: radial-gradient(ellipse at 30% 0%, #13202a 0%, transparent 75%);
         }
 
-        .app-container {
-            max-width: 1200px;
+        .app {
+            max-width: 1240px;
             margin: 0 auto;
         }
 
+        /* ——— HEADER ——— */
         .header {
-            background: var(--bg-secondary);
-            border-radius: var(--radius);
-            padding: 12px 20px;
-            border: 1px solid var(--border-color);
-            box-shadow: var(--shadow), inset 0 1px 0 rgba(255,255,255,0.03);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
             flex-wrap: wrap;
-            gap: 10px;
-            backdrop-filter: blur(12px);
+            gap: 14px 20px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 14px 24px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(6px);
             position: sticky;
             top: 16px;
-            z-index: 100;
+            z-index: 50;
         }
 
-        .header-title {
+        .logo {
             display: flex;
             align-items: center;
             gap: 10px;
-            font-size: 20px;
+            font-size: 22px;
             font-weight: 800;
-            letter-spacing: 1px;
-            background: linear-gradient(135deg, #9fc8d9, #6fd6b8);
+            letter-spacing: .5px;
+            background: linear-gradient(135deg, #a8d4e8, #5edbbc);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        .header-title .badge {
-            background: var(--bg-card);
-            padding: 2px 12px;
-            border-radius: var(--radius-full);
-            font-size: 10px;
+        .logo .badge {
+            background: var(--bg-body);
+            padding: 2px 14px;
+            border-radius: 40px;
+            font-size: 11px;
             font-weight: 600;
-            color: var(--text-secondary);
-            border: 1px solid var(--border-color);
-            -webkit-text-fill-color: var(--text-secondary);
-            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            border: 1px solid var(--border);
+            -webkit-text-fill-color: var(--text-muted);
         }
 
-        .header-right {
+        .header-actions {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             flex-wrap: wrap;
         }
 
-        .nav-btn {
-            background: transparent;
-            border: 1px solid var(--border-color);
-            color: var(--text-secondary);
-            padding: 8px 18px;
-            border-radius: var(--radius-full);
-            font-family: 'Inter', sans-serif;
-            font-size: 13px;
+        /* ——— ПЛАШКИ-КНОПКИ МЕНЮ (как на форуме) ——— */
+        .menu-plate {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 22px;
+            border-radius: 60px;
+            background: var(--bg-body);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
             font-weight: 600;
-            letter-spacing: 0.3px;
+            font-size: 14px;
+            letter-spacing: .3px;
             cursor: pointer;
             transition: var(--transition);
-            text-transform: uppercase;
+            text-decoration: none;
+            user-select: none;
         }
 
-        .nav-btn:hover {
+        .menu-plate:hover {
             border-color: var(--border-hover);
-            color: var(--text-primary);
-            background: rgba(255,255,255,0.03);
+            color: var(--text-main);
+            background: var(--bg-card-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.4);
         }
 
-        .nav-btn.active {
-            background: var(--accent-blue-dim);
-            border-color: var(--accent-blue);
-            color: var(--text-primary);
-            box-shadow: 0 0 30px rgba(74, 138, 160, 0.08);
+        .menu-plate.active {
+            background: var(--blue-dim);
+            border-color: var(--blue);
+            color: var(--text-main);
+            box-shadow: 0 0 30px rgba(90, 154, 176, 0.12);
         }
 
-        .content {
-            background: var(--bg-secondary);
-            border-radius: var(--radius);
-            padding: 20px 24px;
-            border: 1px solid var(--border-color);
-            box-shadow: var(--shadow), inset 0 1px 0 rgba(255,255,255,0.02);
-            min-height: 500px;
-        }
+        .menu-plate .icon { font-size: 18px; }
 
-        .module {
-            display: block;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .module.hidden {
-            display: none;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* ——— Стили для доклада (встроенные) ——— */
-        .report-card {
-            background: #111820;
-            border-radius: 24px;
-            padding: 24px 24px;
-            border: 1px solid #26333d;
-            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.8), 0 0 0 1px #1f2f3a inset, 0 0 50px rgba(0, 180, 255, 0.03);
-        }
-
-        .report-card .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #1f313b;
-            padding-bottom: 14px;
-            margin-bottom: 18px;
-            flex-wrap: wrap;
-            gap: 10px;
-            background: transparent;
-            box-shadow: none;
-            position: static;
-        }
-
-        .report-card .title {
-            color: #9fc8d9;
-            font-family: 'Courier New', monospace;
-            font-size: 18px;
-            font-weight: 700;
-            letter-spacing: 2px;
+        .status-pill {
             display: flex;
             align-items: center;
-            gap: 10px;
-        }
-
-        .report-card .title .badge {
-            background: #1a2f3a;
-            padding: 2px 12px;
-            border-radius: 40px;
+            gap: 6px;
+            padding: 4px 14px 4px 10px;
+            border-radius: 60px;
+            background: var(--green-dim);
+            border: 1px solid #2a5a4a;
+            color: var(--green);
+            font-family: 'JetBrains Mono', monospace;
             font-size: 12px;
-            color: #6fa3b5;
-            border: 1px solid #2a4857;
+            font-weight: 600;
         }
 
-        .report-card .header-right {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .report-card .status-led {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: #5d8b9a;
-            font-family: 'Courier New', monospace;
-            font-size: 12px;
-            background: #14242e;
-            padding: 4px 14px;
-            border-radius: 40px;
-            border: 1px solid #1e3845;
-        }
-
-        .report-card .status-led .dot {
-            display: inline-block;
-            width: 10px;
-            height: 10px;
+        .status-pill .dot {
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
-            background: #3ccf9e;
-            box-shadow: 0 0 12px rgba(60, 207, 158, 0.3);
-            animation: pulse 1.8s infinite;
+            background: var(--green);
+            box-shadow: 0 0 12px rgba(77, 217, 176, 0.3);
+            animation: pulse-dot 1.8s infinite ease-in-out;
         }
 
-        .report-card .status-led .dot.off {
-            background: #5a5a5a;
+        .status-pill .dot.off {
+            background: #4a5a5a;
             box-shadow: none;
             animation: none;
         }
 
-        @keyframes pulse {
+        @keyframes pulse-dot {
             0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.4; transform: scale(0.85); }
+            50% { opacity: .3; transform: scale(.8); }
         }
 
-        .report-card .timer-display {
-            font-family: 'Courier New', monospace;
-            font-size: 16px;
-            color: #6fd6b8;
+        /* ——— КОНТЕНТ ——— */
+        .content {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px 28px;
+            box-shadow: var(--shadow);
+            min-height: 460px;
+        }
+
+        .module { display: block; animation: fadeUp .3s ease; }
+        .module.hidden { display: none; }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ——— ДОКЛАД (стили адаптированы) ——— */
+        .report-wrap {
+            background: var(--bg-body);
+            border-radius: var(--radius);
+            padding: 20px 22px;
+            border: 1px solid var(--border);
+        }
+
+        .report-wrap .rheader {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 14px;
+            margin-bottom: 18px;
+        }
+
+        .report-wrap .rtitle {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 18px;
+            font-weight: 700;
+            color: #b0d4e0;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .report-wrap .rtitle .badge {
+            background: var(--blue-dim);
+            padding: 2px 12px;
+            border-radius: 40px;
+            font-size: 11px;
+            color: #7ab0c0;
+            border: 1px solid #2a4857;
+        }
+
+        .r-timer {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 17px;
+            color: var(--green);
             background: #0a1818;
-            padding: 4px 14px;
+            padding: 4px 16px;
             border-radius: 40px;
             border: 1px solid #1a4a4a;
-            min-width: 80px;
+            min-width: 90px;
             text-align: center;
         }
+        .r-timer.inactive { color: #3a5a5a; border-color: #1a2a2a; }
 
-        .report-card .timer-display.inactive {
-            color: #3a5a5a;
-            border-color: #1a2a2a;
+        .r-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 4px 16px;
+            border-radius: 40px;
+            background: #14242e;
+            border: 1px solid #1e3845;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: #6d9aaa;
         }
+        .r-status .dot {
+            width: 10px; height: 10px; border-radius: 50%;
+            background: var(--green);
+            box-shadow: 0 0 12px rgba(77,217,176,0.3);
+            animation: pulse 1.8s infinite;
+        }
+        .r-status .dot.off { background: #5a5a5a; box-shadow: none; animation: none; }
+        @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.85)} }
 
-        .fields-grid {
+        .fields {
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
             gap: 12px 16px;
-        }
-
-        @media (max-width: 768px) {
-            .fields-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-
-        @media (max-width: 500px) {
-            .fields-grid {
-                grid-template-columns: 1fr;
-            }
         }
 
         .field {
@@ -276,364 +267,245 @@
             flex-direction: column;
             gap: 4px;
         }
-
-        .field-label {
-            color: #7a9aa8;
+        .field label {
+            color: var(--text-muted);
             font-size: 11px;
             font-weight: 600;
-            letter-spacing: 0.5px;
             text-transform: uppercase;
-            font-family: 'Courier New', monospace;
+            font-family: 'JetBrains Mono', monospace;
+            letter-spacing: .4px;
         }
+        .field label .req { color: var(--red); margin-left: 4px; }
 
-        .field-label .required {
-            color: #e8827a;
-            margin-left: 4px;
-        }
-
-        .field-control {
-            background: #0e161e;
-            border: 1px solid #21343f;
-            border-radius: 10px;
+        .field input, .field select {
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
             padding: 8px 12px;
-            color: #dcecf5;
+            color: var(--text-main);
             font-size: 14px;
-            font-family: 'Segoe UI', sans-serif;
             outline: none;
-            transition: border-color 0.25s, box-shadow 0.25s;
+            transition: var(--transition);
             width: 100%;
             appearance: none;
             -webkit-appearance: none;
+            font-family: 'Inter', sans-serif;
         }
-
-        .field-control:focus {
-            border-color: #4a8aa0;
-            box-shadow: 0 0 0 3px rgba(74, 138, 160, 0.15);
+        .field input:focus, .field select:focus {
+            border-color: var(--blue);
+            box-shadow: 0 0 0 3px rgba(90, 154, 176, 0.12);
         }
+        .field input.error { border-color: var(--red); box-shadow: 0 0 0 3px rgba(232, 130, 122, 0.15); }
+        .field .hint { color: var(--red); font-size: 11px; font-family: 'JetBrains Mono', monospace; height: 16px; }
 
-        .field-control.error {
-            border-color: #8a3a3a;
-            box-shadow: 0 0 0 3px rgba(138, 58, 58, 0.2);
-        }
-
-        select.field-control {
-            cursor: pointer;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236a9aaa' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 14px center;
-            padding-right: 36px;
-        }
-
-        select.field-control option {
-            background: #111820;
-            color: #dcecf5;
-        }
-
-        .field-control:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        .field-control::placeholder {
-            color: #3d5a68;
-        }
-
-        .btn-group {
+        .btn-row {
             display: flex;
             gap: 12px;
-            margin-top: 16px;
+            margin-top: 18px;
+            flex-wrap: wrap;
         }
 
         .btn {
-            background: #1a3340;
-            border: 1px solid #2f5465;
-            color: #c4e4f0;
-            padding: 11px 24px;
-            border-radius: 40px;
-            font-family: 'Courier New', monospace;
-            font-size: 15px;
+            padding: 10px 28px;
+            border-radius: 60px;
+            border: 1px solid var(--border);
+            background: var(--bg-body);
+            color: var(--text-muted);
             font-weight: 700;
-            letter-spacing: 1px;
+            font-size: 14px;
+            font-family: 'JetBrains Mono', monospace;
+            letter-spacing: .8px;
             cursor: pointer;
-            transition: all 0.25s;
-            flex: 1;
-            text-transform: uppercase;
-            display: flex;
+            transition: var(--transition);
+            display: inline-flex;
             align-items: center;
-            justify-content: center;
             gap: 8px;
+            text-transform: uppercase;
+            flex: 1 1 auto;
+            justify-content: center;
         }
-
         .btn:hover:not(:disabled) {
-            background: #234a5a;
-            border-color: #4a8aa0;
-            box-shadow: 0 0 30px rgba(74, 138, 160, 0.15);
+            border-color: var(--border-hover);
+            color: var(--text-main);
+            background: var(--bg-card-hover);
             transform: translateY(-1px);
         }
+        .btn:disabled { opacity: .4; cursor: not-allowed; }
 
-        .btn:active:not(:disabled) {
-            transform: scale(0.98);
+        .btn-primary {
+            background: var(--blue-dim);
+            border-color: var(--blue);
+            color: var(--text-main);
+        }
+        .btn-primary:hover:not(:disabled) {
+            background: var(--blue);
+            border-color: var(--blue);
+            box-shadow: 0 0 30px rgba(90, 154, 176, 0.15);
         }
 
-        .btn:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
+        .btn-danger {
+            background: var(--red-dim);
+            border-color: #5a2a2a;
+            color: var(--red);
+        }
+        .btn-danger:hover:not(:disabled) {
+            background: #3a1a1a;
+            border-color: var(--red);
         }
 
-        .btn .icon {
-            font-size: 18px;
-        }
-
-        .btn.end-shift {
-            background: #2a1a1a;
-            border-color: #6a2a2a;
-            color: #f0b0b0;
-        }
-
-        .btn.end-shift:hover:not(:disabled) {
-            background: #3a2222;
-            border-color: #8a3a3a;
-        }
-
-        .btn.secondary {
+        .btn-secondary {
             background: #1a1a2a;
             border-color: #2a2a5a;
             color: #9090d0;
-            flex: 0.5;
+            flex: 0.4;
         }
-
-        .btn.secondary:hover:not(:disabled) {
+        .btn-secondary:hover:not(:disabled) {
             background: #2a2a3a;
             border-color: #4a4a7a;
         }
 
-        .reports-grid {
+        .reports-list {
             display: flex;
             flex-direction: column;
             gap: 8px;
-            margin-top: 10px;
+            margin-top: 14px;
         }
 
-        .report-item {
-            background: #0e161f;
-            border: 1px solid #1f323d;
-            border-radius: 14px;
-            padding: 8px 16px;
-            transition: border-color 0.25s, box-shadow 0.25s;
+        .r-item {
             display: grid;
             grid-template-columns: auto 1fr auto;
             align-items: center;
-            gap: 10px;
-            min-height: 46px;
-            width: 100%;
+            gap: 12px;
+            background: var(--bg-body);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 8px 16px;
+            transition: var(--transition);
         }
+        .r-item:hover { border-color: var(--border-hover); }
 
-        .report-item:hover {
-            border-color: #3a6072;
-            box-shadow: 0 0 20px rgba(0, 180, 255, 0.04);
-        }
-
-        .report-item .report-header {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            flex-shrink: 0;
-            white-space: nowrap;
-        }
-
-        .report-item .report-number {
-            color: #3d5a68;
-            font-family: 'Courier New', monospace;
+        .r-item .rnum {
+            font-family: 'JetBrains Mono', monospace;
             font-size: 12px;
             font-weight: 700;
+            color: var(--text-dim);
             background: #14242e;
-            padding: 1px 8px;
+            padding: 1px 10px;
             border-radius: 20px;
-            border: 1px solid #1f323d;
+            border: 1px solid var(--border);
         }
-
-        .report-item .report-title {
-            color: #6f98a8;
-            font-family: 'Courier New', monospace;
+        .r-item .rtitle-sm {
+            font-family: 'JetBrains Mono', monospace;
             font-size: 11px;
             font-weight: 600;
-            letter-spacing: 0.5px;
+            color: #6f98a8;
             text-transform: uppercase;
+            letter-spacing: .4px;
         }
-
-        .report-item .report-body {
-            color: #cce2ec;
+        .r-item .rbody {
             font-size: 13px;
             line-height: 1.5;
-            font-family: 'Segoe UI', sans-serif;
-            min-width: 0;
+            color: var(--text-main);
             word-break: break-word;
-            white-space: pre-wrap;
-            padding-right: 4px;
         }
-
-        .report-item .report-body .status-tag {
+        .r-item .rbody .label { color: var(--text-muted); }
+        .r-item .rbody .val { color: var(--text-main); }
+        .r-item .rbody .tag {
             display: inline-block;
-            padding: 1px 10px;
+            padding: 0 10px;
             border-radius: 40px;
-            font-family: 'Courier New', monospace;
+            font-family: 'JetBrains Mono', monospace;
             font-size: 11px;
             font-weight: 600;
-            vertical-align: middle;
-            flex-shrink: 0;
             margin-left: 4px;
         }
+        .status-0 { color: var(--green); border:1px solid #2b6a5c; background:#0f2e2a; }
+        .status-1 { color: var(--gold); border:1px solid #7a6a3a; background:#2e2818; }
+        .status-2 { color: var(--red); border:1px solid #7a3a3a; background:#2e1818; }
+        .status-3 { color: #8ab8d4; border:1px solid #2a4a6a; background:#18222e; }
+        .status-4 { color: #c4a0d4; border:1px solid #5a3a7a; background:#22182e; }
 
-        .report-item .report-body .label-text {
-            color: #7a9aa8;
-        }
-
-        .report-item .report-body .value-text {
-            color: #dcecf5;
-        }
-
-        .status-0 { color: #6fd6b8; border: 1px solid #2b6a5c; background: #0f2e2a; }
-        .status-1 { color: #f5c27a; border: 1px solid #7a6a3a; background: #2e2818; }
-        .status-2 { color: #e8827a; border: 1px solid #7a3a3a; background: #2e1818; }
-        .status-3 { color: #8ab8d4; border: 1px solid #2a4a6a; background: #18222e; }
-        .status-4 { color: #c4a0d4; border: 1px solid #5a3a7a; background: #22182e; }
-
-        .report-item .copy-btn {
+        .r-item .copy-btn {
             background: transparent;
-            border: 1px solid #1f323d;
-            color: #5d8b9a;
-            padding: 3px 12px;
+            border: 1px solid var(--border);
+            color: var(--text-dim);
+            padding: 2px 12px;
             border-radius: 20px;
             font-size: 11px;
-            font-family: 'Courier New', monospace;
+            font-family: 'JetBrains Mono', monospace;
             cursor: pointer;
-            transition: all 0.2s;
-            flex-shrink: 0;
+            transition: var(--transition);
             white-space: nowrap;
         }
+        .r-item .copy-btn:hover:not(:disabled) {
+            border-color: var(--blue);
+            color: var(--text-main);
+            background: var(--blue-dim);
+        }
+        .r-item .copy-btn:disabled { opacity: .3; cursor: not-allowed; }
+        .r-item.empty .rbody { color: var(--text-dim); }
 
-        .report-item .copy-btn:hover:not(:disabled) {
-            border-color: #4a8aa0;
-            color: #9fc8d9;
-            background: #1a2f3a;
+        @media (max-width: 700px) {
+            .r-item { grid-template-columns: 1fr; gap: 4px; }
+            .fields { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 480px) {
+            .fields { grid-template-columns: 1fr; }
+            .btn-row .btn { flex: 1 1 100%; }
         }
 
-        .report-item .copy-btn.copied {
-            border-color: #3ccf9e;
-            color: #6fd6b8;
-            background: #0a2a2a;
-        }
-
-        .report-item .copy-btn:disabled {
-            opacity: 0.3;
-            cursor: not-allowed;
-        }
-
-        .report-item.empty .report-body {
-            color: #2f4d5c;
-        }
-
-        .report-item.empty .report-title {
-            color: #2f4d5c;
-        }
-
-        @media (max-width: 768px) {
-            .report-item {
-                grid-template-columns: 1fr;
-                gap: 4px;
-                padding: 8px 12px;
-            }
-            .report-item .report-header {
-                width: 100%;
-            }
-            .report-item .report-body {
-                font-size: 12px;
-            }
-            .report-item .copy-btn {
-                justify-self: flex-end;
-                width: auto;
-            }
-            .btn-group {
-                flex-wrap: wrap;
-            }
-            .btn {
-                flex: 1 1 100%;
-            }
-            .btn.secondary {
-                flex: 1 1 100%;
-            }
-        }
-
-        /* ——— Стили для тестов (адаптированные под модуль) ——— */
-        .tests-grid {
+        /* ——— ТЕСТЫ (адаптация под модуль) ——— */
+        .test-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 14px;
-            margin-top: 12px;
+            grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+            gap: 16px;
+            margin-top: 14px;
         }
 
-        .test-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
+        .t-card {
+            background: var(--bg-body);
+            border: 1px solid var(--border);
             border-radius: var(--radius);
-            padding: 16px 18px;
+            padding: 18px 20px;
             transition: var(--transition);
             cursor: pointer;
             position: relative;
             overflow: hidden;
         }
-
-        .test-card::before {
+        .t-card::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
+            top: 0; left: 0; right: 0;
             height: 2px;
-            background: linear-gradient(90deg, var(--accent-blue), var(--accent-green));
+            background: linear-gradient(90deg, var(--blue), var(--green));
             opacity: 0;
             transition: var(--transition);
         }
+        .t-card:hover { border-color: var(--border-hover); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(0,0,0,0.5); }
+        .t-card:hover::before { opacity: 1; }
 
-        .test-card:hover {
-            border-color: var(--border-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(0,0,0,0.4);
-        }
-        .test-card:hover::before { opacity: 1; }
-
-        .test-card .test-name {
+        .t-card .tname {
             font-size: 16px;
             font-weight: 600;
-            color: var(--text-primary);
+            color: var(--text-main);
+            padding-right: 30px;
             margin-bottom: 4px;
-            padding-right: 28px;
         }
-
-        .test-card .test-meta {
+        .t-card .tmeta {
             font-size: 12px;
-            color: var(--text-secondary);
+            color: var(--text-muted);
             font-family: 'JetBrains Mono', monospace;
         }
-
-        .test-card .test-stats {
-            font-size: 11px;
-            color: var(--text-muted);
-            margin-top: 8px;
-            padding-top: 8px;
-            border-top: 1px solid var(--border-color);
+        .t-card .tstats {
+            font-size: 12px;
+            color: var(--text-dim);
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid var(--border);
             display: flex;
-            gap: 14px;
-            align-items: center;
+            gap: 16px;
         }
-
-        .test-card .lock-badge {
-            position: absolute;
-            top: 12px;
-            right: 14px;
-            font-size: 14px;
-            color: var(--accent-gold);
-        }
+        .t-card .lock { position: absolute; top: 14px; right: 16px; font-size: 15px; color: var(--gold); }
 
         .test-taking { display: none; }
         .test-taking.active { display: block; }
@@ -644,365 +516,231 @@
             font-family: 'JetBrains Mono', monospace;
             font-size: 26px;
             font-weight: 700;
-            color: var(--accent-green);
+            color: var(--green);
             text-align: center;
             padding: 12px;
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
+            background: var(--bg-body);
+            border: 1px solid var(--border);
             border-radius: var(--radius-sm);
             margin-bottom: 16px;
             letter-spacing: 2px;
         }
+        .timer-test.warning { color: var(--gold); border-color: #5a4a2a; }
+        .timer-test.danger { color: var(--red); border-color: #5a2a2a; animation: blink 1s infinite; }
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.4} }
 
-        .timer-test.warning { color: var(--accent-gold); border-color: #5a4a2a; }
-        .timer-test.danger { color: var(--accent-red); border-color: #5a2a2a; animation: blink 1s infinite; }
-
-        @keyframes blink {
-            0%,100% { opacity:1; } 50% { opacity:0.4; }
-        }
-
-        .question-progress {
-            color: var(--text-secondary);
+        .q-progress {
+            color: var(--text-muted);
             font-family: 'JetBrains Mono', monospace;
             font-size: 12px;
             margin-bottom: 8px;
         }
-
-        .question-text {
+        .q-text {
             font-size: 18px;
             font-weight: 500;
-            color: var(--text-primary);
+            color: var(--text-main);
             margin-bottom: 16px;
             line-height: 1.4;
         }
-
-        .option-label {
+        .opt-label {
             display: block;
             padding: 10px 14px;
             margin: 4px 0;
-            border: 1px solid var(--border-color);
+            border: 1px solid var(--border);
             border-radius: var(--radius-sm);
             cursor: pointer;
             transition: var(--transition);
-            color: var(--text-secondary);
+            color: var(--text-muted);
             font-size: 14px;
         }
-
-        .option-label:hover {
-            border-color: var(--border-hover);
-            background: rgba(255,255,255,0.02);
-        }
-
-        .option-label input {
-            margin-right: 10px;
-            accent-color: var(--accent-blue);
-            width: 16px;
-            height: 16px;
-            cursor: pointer;
-        }
-
-        .option-label.selected {
-            border-color: var(--accent-blue);
-            background: var(--accent-blue-dim);
-            color: var(--text-primary);
-        }
+        .opt-label:hover { border-color: var(--border-hover); background: rgba(255,255,255,0.02); }
+        .opt-label input { margin-right: 10px; accent-color: var(--blue); width: 16px; height: 16px; cursor: pointer; }
+        .opt-label.selected { border-color: var(--blue); background: var(--blue-dim); color: var(--text-main); }
 
         .text-answer textarea {
             background: var(--bg-input);
-            border: 1px solid var(--border-color);
+            border: 1px solid var(--border);
             border-radius: var(--radius-sm);
             padding: 10px 14px;
-            color: var(--text-primary);
+            color: var(--text-main);
             width: 100%;
             resize: vertical;
             font-family: 'Inter', sans-serif;
             font-size: 14px;
             outline: none;
-            transition: var(--transition);
             min-height: 80px;
+            transition: var(--transition);
         }
+        .text-answer textarea:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(90,154,176,0.1); }
 
-        .text-answer textarea:focus {
-            border-color: var(--accent-blue);
-            box-shadow: 0 0 0 3px rgba(74,138,160,0.1);
-        }
-
-        .score-display {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
+        .score-box {
+            background: var(--bg-body);
+            border: 1px solid var(--border);
             border-radius: var(--radius);
             padding: 24px;
             text-align: center;
         }
-
-        .score-display .score-number {
+        .score-box .snum {
             font-size: 48px;
             font-weight: 800;
-            background: linear-gradient(135deg, var(--accent-green), #5ce6b8);
+            background: linear-gradient(135deg, var(--green), #5ce6b8);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             font-family: 'JetBrains Mono', monospace;
             line-height: 1;
         }
-
-        .score-display .score-label {
-            color: var(--text-secondary);
-            font-size: 13px;
-            margin-top: 4px;
+        .score-box .slabel { color: var(--text-muted); font-size: 13px; margin-top: 4px; }
+        .score-box .spercent { color: var(--text-muted); font-size: 18px; font-weight: 600; margin-top: 6px; }
+        .score-box .sresult {
+            font-size: 16px; font-weight: 700; margin-top: 6px;
+            padding: 4px 16px; border-radius: 40px; display: inline-block;
         }
+        .score-box .sresult.passed { color: var(--green); background: var(--green-dim); }
+        .score-box .sresult.failed { color: var(--red); background: var(--red-dim); }
+        .score-box .sdetail { color: var(--text-dim); font-size: 13px; margin-top: 8px; }
+        .score-box .spending { color: var(--gold); font-size: 13px; margin-top: 8px; padding: 6px 14px; border:1px solid #5a4a2a; border-radius:40px; display:inline-block; background: var(--gold-dim); }
 
-        .score-display .score-percent {
-            color: var(--text-secondary);
-            font-size: 18px;
-            font-weight: 600;
-            margin-top: 6px;
-        }
-
-        .score-display .score-result {
-            font-size: 16px;
-            font-weight: 700;
-            margin-top: 6px;
-            padding: 4px 16px;
-            border-radius: var(--radius-full);
-            display: inline-block;
-        }
-
-        .score-display .score-result.passed {
-            color: var(--accent-green);
-            background: var(--accent-green-dim);
-        }
-
-        .score-display .score-result.failed {
-            color: var(--accent-red);
-            background: var(--accent-red-dim);
-        }
-
-        .score-display .score-detail {
-            color: var(--text-muted);
-            font-size: 13px;
-            margin-top: 8px;
-        }
-
-        .score-display .score-pending {
-            color: var(--accent-gold);
-            font-size: 13px;
-            margin-top: 8px;
-            padding: 6px 14px;
-            border: 1px solid #5a4a2a;
-            border-radius: var(--radius-full);
-            display: inline-block;
-            background: var(--accent-gold-dim);
-        }
-
-        .answer-detail {
+        .a-detail {
             padding: 10px 14px;
             margin: 6px 0;
             border-radius: var(--radius-sm);
             background: var(--bg-input);
-            border-left: 3px solid var(--border-color);
+            border-left: 3px solid var(--border);
         }
+        .a-detail.correct { border-left-color: var(--green); }
+        .a-detail.wrong { border-left-color: var(--red); }
+        .a-detail .ql { font-size: 11px; color: var(--text-dim); font-family: 'JetBrains Mono', monospace; }
+        .a-detail .qt { color: var(--text-main); margin: 4px 0; font-size: 14px; }
+        .a-detail .ua { color: var(--gold); font-size: 13px; }
 
-        .answer-detail.correct { border-left-color: var(--accent-green); }
-        .answer-detail.wrong { border-left-color: var(--accent-red); }
-
-        .answer-detail .q-label {
-            font-size: 11px;
-            color: var(--text-muted);
-            font-family: 'JetBrains Mono', monospace;
-        }
-
-        .answer-detail .q-text {
-            color: var(--text-primary);
-            margin: 4px 0;
-            font-size: 14px;
-        }
-
-        .answer-detail .user-answer {
-            color: var(--accent-gold);
-            font-size: 13px;
-        }
-
-        .answer-detail .correct-answer-text {
-            color: var(--accent-green);
-            font-size: 13px;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 40px 20px;
-            color: var(--text-muted);
-        }
+        .empty-state { text-align: center; padding: 40px 20px; color: var(--text-dim); }
         .empty-state .icon { font-size: 40px; margin-bottom: 8px; }
-        .empty-state .title { font-size: 16px; font-weight: 600; color: var(--text-secondary); margin-bottom: 4px; }
-        .empty-state .desc { font-size: 13px; }
+        .empty-state .title { font-size: 16px; font-weight: 600; color: var(--text-muted); }
 
-        .btn-sm { padding: 5px 14px; font-size: 12px; }
-        .btn-block { width: 100%; justify-content: center; }
-
-        .btn-success {
-            background: var(--accent-green-dim);
-            border-color: #2a6a5a;
-            color: var(--accent-green);
-        }
-        .btn-success:hover:not(:disabled) {
-            background: #1a4a4a;
-            border-color: var(--accent-green);
-        }
-
-        .btn-primary {
-            background: var(--accent-blue-dim);
-            border-color: var(--accent-blue);
-            color: var(--text-primary);
-        }
-        .btn-primary:hover:not(:disabled) {
-            background: var(--accent-blue);
-            border-color: var(--accent-blue);
-        }
-
-        .btn-warning {
-            background: var(--accent-gold-dim);
-            border-color: #5a4a2a;
-            color: var(--accent-gold);
-        }
-        .btn-warning:hover:not(:disabled) {
-            background: #3a2a1a;
-            border-color: var(--accent-gold);
-        }
-
-        .nick-input-container {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
+        .nick-box {
+            background: var(--bg-body);
+            border: 1px solid var(--border);
             border-radius: var(--radius);
             padding: 24px;
             text-align: center;
             max-width: 360px;
             margin: 0 auto;
         }
-        .nick-input-container h3 {
-            color: var(--text-primary);
-            font-size: 18px;
-            margin-bottom: 12px;
-        }
+        .nick-box h3 { color: var(--text-main); font-size: 18px; margin-bottom: 12px; }
 
         .toast {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            color: var(--text-primary);
-            padding: 10px 24px;
-            border-radius: var(--radius-full);
-            font-family: 'Inter', sans-serif;
-            font-size: 14px;
-            font-weight: 500;
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            pointer-events: none;
-            z-index: 999;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+            background: var(--bg-card); border: 1px solid var(--border);
+            color: var(--text-main); padding: 10px 24px; border-radius: 60px;
+            font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500;
+            opacity: 0; transition: opacity .4s ease; pointer-events: none;
+            z-index: 999; box-shadow: 0 8px 30px rgba(0,0,0,0.6);
         }
         .toast.show { opacity: 1; }
 
         @media (max-width: 768px) {
-            .header { padding: 10px 14px; flex-direction: column; align-items: stretch; gap: 8px; top: 8px; }
-            .header-title { font-size: 16px; justify-content: center; }
-            .header-right { justify-content: center; }
-            .nav-btn { font-size: 11px; padding: 5px 12px; }
-            .content { padding: 14px; }
-            .report-card { padding: 16px; }
-            .report-card .title { font-size: 16px; }
-            .tests-grid { grid-template-columns: 1fr; }
+            .header { flex-direction: column; align-items: stretch; gap: 12px; }
+            .header-actions { justify-content: center; flex-wrap: wrap; }
+            .content { padding: 16px; }
+            .report-wrap { padding: 14px; }
         }
-
         @media (max-width: 480px) {
             body { padding: 10px; }
-            .header-title { font-size: 14px; }
-            .header-title .badge { font-size: 9px; padding: 1px 8px; }
-            .nav-btn { font-size: 10px; padding: 4px 10px; }
+            .logo { font-size: 18px; }
+            .menu-plate { font-size: 12px; padding: 6px 14px; }
             .content { padding: 10px; }
-            .report-card { padding: 12px; }
-            .report-card .title { font-size: 14px; }
-            .score-display .score-number { font-size: 36px; }
-            .question-text { font-size: 16px; }
-            .option-label { font-size: 13px; padding: 8px 12px; }
+            .report-wrap { padding: 10px; }
         }
+
+        /* утилиты */
+        .flex { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+        .gap-8 { gap: 8px; }
+        .mt-12 { margin-top: 12px; }
+        .mt-16 { margin-top: 16px; }
+        .mb-8 { margin-bottom: 8px; }
+        .w-full { width: 100%; }
+        .btn-block { width: 100%; justify-content: center; }
+        .btn-sm { padding: 5px 14px; font-size: 12px; }
+        .hidden { display: none !important; }
     </style>
 </head>
 <body>
 
-<div class="app-container">
+<div class="app">
+
+    <!-- ШАПКА -->
     <header class="header">
-        <div class="header-title">
+        <div class="logo">
             ⚡ ФСО-АРБАТ
-            <span class="badge">Единая система</span>
+            <span class="badge">Доклады &amp; Тесты</span>
         </div>
-        <div class="header-right">
-            <button class="nav-btn active" data-module="report">📋 Доклад</button>
-            <button class="nav-btn" data-module="test">📝 Тесты</button>
+        <div class="header-actions">
+            <span class="status-pill" id="adminPill">
+                <span class="dot off" id="adminDot"></span>
+                <span id="adminLabel">Гость</span>
+            </span>
+            <button class="menu-plate active" data-module="report">
+                <span class="icon">📋</span> Доклад
+            </button>
+            <button class="menu-plate" data-module="test">
+                <span class="icon">📝</span> Тесты
+            </button>
         </div>
     </header>
 
+    <!-- КОНТЕНТ -->
     <div class="content">
-        <!-- Модуль: Доклад -->
+
+        <!-- МОДУЛЬ ДОКЛАД -->
         <div class="module" id="module-report">
-            <div class="report-card">
-                <div class="header">
-                    <div class="title">
+            <div class="report-wrap">
+                <div class="rheader">
+                    <div class="rtitle">
                         🔱 ГЕНЕРАТОР ДОКЛАДА
-                        <span class="badge">ФСО-АРБАТ</span>
+                        <span class="badge">ФСО-Арбат</span>
                     </div>
-                    <div class="header-right">
-                        <button class="sound-toggle" id="soundToggle" style="background:transparent;border:1px solid #1f323d;color:#5d8b9a;padding:3px 12px;border-radius:20px;font-size:12px;font-family:'Courier New',monospace;cursor:pointer;">🔊 Звук</button>
-                        <div class="timer-display inactive" id="timerDisplay">--:--:--</div>
-                        <div class="status-led">
+                    <div class="flex">
+                        <button class="menu-plate" id="soundToggle" style="padding:4px 14px;font-size:12px;">🔊 Звук</button>
+                        <span class="r-timer inactive" id="timerDisplay">--:--:--</span>
+                        <span class="r-status">
                             <span class="dot off" id="statusDot"></span>
                             <span id="statusText">ОЖИДАНИЕ</span>
-                        </div>
+                        </span>
                     </div>
                 </div>
 
-                <div class="fields-grid">
+                <div class="fields">
                     <div class="field">
-                        <span class="field-label">▸ Тип службы</span>
-                        <select id="serviceType" class="field-control"><option value="post">Пост</option></select>
+                        <label>▸ Тип службы</label>
+                        <select id="serviceType"><option value="post">Пост</option></select>
                     </div>
-                    <div class="field" id="locationField">
-                        <span class="field-label" id="locationLabel">▸ Название поста</span>
-                        <select id="locationSelect" class="field-control">
-                            <option value="Дом Правительства">Дом Правительства</option>
-                            <option value="Вечный Огонь">Вечный Огонь</option>
-                            <option value="КПП-1">КПП-1</option>
-                            <option value="КПП-2">КПП-2</option>
-                            <option value="КПП-3">КПП-3</option>
-                            <option value="Холл ФСО">Холл ФСО</option>
+                    <div class="field">
+                        <label id="locationLabel">▸ Название поста</label>
+                        <select id="locationSelect">
+                            <option>Дом Правительства</option><option>Вечный Огонь</option>
+                            <option>КПП-1</option><option>КПП-2</option>
+                            <option>КПП-3</option><option>Холл ФСО</option>
                         </select>
                     </div>
                     <div class="field">
-                        <span class="field-label">▸ Звание</span>
-                        <select id="rank" class="field-control">
-                            <option value="Рядовой">Рядовой</option>
-                            <option value="Ефрейтор">Ефрейтор</option>
-                            <option value="Младший сержант">Младший сержант</option>
-                            <option value="Сержант">Сержант</option>
-                            <option value="Старший сержант">Старший сержант</option>
-                            <option value="Старшина">Старшина</option>
-                            <option value="Прапорщик">Прапорщик</option>
-                            <option value="Старший прапорщик">Старший прапорщик</option>
-                            <option value="Младший лейтенант">Младший лейтенант</option>
-                            <option value="Лейтенант">Лейтенант</option>
-                            <option value="Старший лейтенант">Старший лейтенант</option>
+                        <label>▸ Звание</label>
+                        <select id="rank">
+                            <option>Рядовой</option><option>Ефрейтор</option>
+                            <option>Младший сержант</option><option>Сержант</option>
+                            <option>Старший сержант</option><option>Старшина</option>
+                            <option>Прапорщик</option><option>Старший прапорщик</option>
+                            <option>Младший лейтенант</option><option>Лейтенант</option>
+                            <option>Старший лейтенант</option>
                         </select>
                     </div>
                     <div class="field">
-                        <span class="field-label">▸ Имя Фамилия <span class="required">*</span></span>
-                        <input type="text" id="surname" class="field-control" placeholder="Введите имя и фамилию" value="" />
-                        <div style="color:#e8827a;font-size:11px;font-family:'Courier New',monospace;height:16px;" id="surnameError"></div>
+                        <label>▸ Имя Фамилия <span class="req">*</span></label>
+                        <input type="text" id="surname" placeholder="Введите имя и фамилию" />
+                        <div class="hint" id="surnameError"></div>
                     </div>
                     <div class="field">
-                        <span class="field-label">▸ Статус</span>
-                        <select id="statusStart" class="field-control">
+                        <label>▸ Статус</label>
+                        <select id="statusStart">
                             <option value="0">Код 0</option>
                             <option value="1" selected>Код 1</option>
                             <option value="2">Код 2</option>
@@ -1011,57 +749,51 @@
                         </select>
                     </div>
                     <div class="field">
-                        <span class="field-label">▸ Состав</span>
-                        <select id="sostavSelect" class="field-control">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3" selected>3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
+                        <label>▸ Состав</label>
+                        <select id="sostavSelect">
+                            <option>1</option><option>2</option>
+                            <option selected>3</option><option>4</option><option>5</option>
                         </select>
                     </div>
                 </div>
 
-                <div class="btn-group">
-                    <button class="btn" id="mainBtn">
-                        <span class="icon">⚡</span> ЗАСТУПИТЬ
-                    </button>
-                    <button class="btn secondary" id="clearBtn">
-                        <span class="icon">🗑</span> ОЧИСТИТЬ
-                    </button>
+                <div class="btn-row">
+                    <button class="btn btn-primary" id="mainBtn"><span class="icon">⚡</span> ЗАСТУПИТЬ</button>
+                    <button class="btn btn-secondary" id="clearBtn"><span class="icon">🗑</span> ОЧИСТИТЬ</button>
                 </div>
 
-                <div class="reports-grid" id="reportsGrid">
-                    <div class="report-item empty">
-                        <div class="report-header"><span class="report-number">№1</span><span class="report-title">ЗАСТУПИЛ</span></div>
-                        <div class="report-body">Ожидание заступления...</div>
+                <div class="reports-list" id="reportsGrid">
+                    <div class="r-item empty">
+                        <span class="rnum">№1</span>
+                        <span class="rtitle-sm">ЗАСТУПИЛ</span>
+                        <div class="rbody">Ожидание заступления...</div>
                         <button class="copy-btn" disabled>📋 Копировать</button>
                     </div>
-                    <div class="report-item empty">
-                        <div class="report-header"><span class="report-number">№2</span><span class="report-title">15</span></div>
-                        <div class="report-body">Ожидание заступления...</div>
+                    <div class="r-item empty">
+                        <span class="rnum">№2</span>
+                        <span class="rtitle-sm">15</span>
+                        <div class="rbody">Ожидание заступления...</div>
                         <button class="copy-btn" disabled>📋 Копировать</button>
                     </div>
-                    <div class="report-item empty">
-                        <div class="report-header"><span class="report-number">№3</span><span class="report-title">СДАЛ</span></div>
-                        <div class="report-body">Ожидание заступления...</div>
+                    <div class="r-item empty">
+                        <span class="rnum">№3</span>
+                        <span class="rtitle-sm">СДАЛ</span>
+                        <div class="rbody">Ожидание заступления...</div>
                         <button class="copy-btn" disabled>📋 Копировать</button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Модуль: Тесты -->
+        <!-- МОДУЛЬ ТЕСТЫ -->
         <div class="module hidden" id="module-test">
             <div id="testApp">
                 <div class="test-list" id="testList">
-                    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:12px;">
-                        <div style="font-size:18px;font-weight:700;color:var(--text-primary);">
-                            📋 Доступные тесты
-                            <span style="font-size:13px;font-weight:400;color:var(--text-muted);background:var(--bg-card);padding:1px 12px;border-radius:40px;border:1px solid var(--border-color);margin-left:8px;" id="testCount">0</span>
-                        </div>
+                    <div class="flex" style="justify-content:space-between;margin-bottom:12px;">
+                        <span style="font-size:18px;font-weight:700;">📋 Доступные тесты</span>
+                        <span style="font-size:13px;color:var(--text-dim);background:var(--bg-body);padding:1px 14px;border-radius:40px;border:1px solid var(--border);" id="testCount">0</span>
                     </div>
-                    <div class="tests-grid" id="testsGrid"></div>
+                    <div class="test-grid" id="testsGrid"></div>
                 </div>
                 <div class="test-taking" id="testTaking">
                     <button class="btn btn-primary" id="backToTests" style="margin-bottom:12px;">← Назад</button>
@@ -1069,6 +801,7 @@
                 </div>
             </div>
         </div>
+
     </div>
 </div>
 
@@ -1079,42 +812,39 @@
         'use strict';
 
         // ============================================================
-        // 1. Переключение модулей
+        // 0. Переключение модулей (плашки)
         // ============================================================
-        const modules = {
+        const mods = {
             report: document.getElementById('module-report'),
             test: document.getElementById('module-test')
         };
-        const navBtns = document.querySelectorAll('.nav-btn[data-module]');
+        const plates = document.querySelectorAll('.menu-plate[data-module]');
 
-        navBtns.forEach(btn => {
-            btn.addEventListener('click', function() {
-                navBtns.forEach(b => b.classList.remove('active'));
+        plates.forEach(p => {
+            p.addEventListener('click', function() {
+                plates.forEach(b => b.classList.remove('active'));
                 this.classList.add('active');
-                const mod = this.dataset.module;
-                Object.keys(modules).forEach(key => {
-                    modules[key].classList.toggle('hidden', key !== mod);
-                });
-                // если переключились на тесты — перерендерим
-                if (mod === 'test') renderTests();
+                const m = this.dataset.module;
+                Object.keys(mods).forEach(k => mods[k].classList.toggle('hidden', k !== m));
+                if (m === 'test') renderTests();
             });
         });
 
         // ============================================================
-        // 2. Доклад (вся логика)
+        // 1. Доклад (полный функционал)
         // ============================================================
         const report = (function() {
-            const rankSelect = document.getElementById('rank');
-            const surnameInput = document.getElementById('surname');
+            const rank = document.getElementById('rank');
+            const surname = document.getElementById('surname');
             const surnameError = document.getElementById('surnameError');
             const serviceType = document.getElementById('serviceType');
             const locationSelect = document.getElementById('locationSelect');
             const locationLabel = document.getElementById('locationLabel');
-            const statusStartSelect = document.getElementById('statusStart');
-            const sostavSelect = document.getElementById('sostavSelect');
+            const statusStart = document.getElementById('statusStart');
+            const sostav = document.getElementById('sostavSelect');
             const mainBtn = document.getElementById('mainBtn');
             const clearBtn = document.getElementById('clearBtn');
-            const reportsGrid = document.getElementById('reportsGrid');
+            const grid = document.getElementById('reportsGrid');
             const timerDisplay = document.getElementById('timerDisplay');
             const statusDot = document.getElementById('statusDot');
             const statusText = document.getElementById('statusText');
@@ -1127,14 +857,14 @@
             let timerInterval = null;
 
             const statuses = [
-                { code: 'Код 0', class: 'status-0' },
-                { code: 'Код 1', class: 'status-1' },
-                { code: 'Код 2', class: 'status-2' },
-                { code: 'Код 3', class: 'status-3' },
-                { code: 'Код 4', class: 'status-4' }
+                { code: 'Код 0', cls: 'status-0' },
+                { code: 'Код 1', cls: 'status-1' },
+                { code: 'Код 2', cls: 'status-2' },
+                { code: 'Код 3', cls: 'status-3' },
+                { code: 'Код 4', cls: 'status-4' }
             ];
 
-            function playBeep(freq, dur, type = 'sine', vol = 0.3) {
+            function play(freq, dur, type='sine', vol=.3) {
                 if (!soundEnabled) return;
                 try {
                     const ctx = new (window.AudioContext || window.webkitAudioContext)();
@@ -1148,60 +878,49 @@
                     osc.stop(ctx.currentTime + dur);
                 } catch(e) {}
             }
-
-            function playStartSound() { playBeep(800,0.15); setTimeout(()=>playBeep(1200,0.15),150); }
-            function playEndSound() { playBeep(600,0.4,'sawtooth',0.2); setTimeout(()=>playBeep(400,0.3,'sawtooth',0.15),300); }
-            function playCopySound() { playBeep(1200,0.05,'sine',0.15); }
-            function playErrorSound() { playBeep(300,0.3,'sawtooth',0.2); setTimeout(()=>playBeep(250,0.3,'sawtooth',0.15),250); }
-            function playClearSound() { playBeep(500,0.1); setTimeout(()=>playBeep(400,0.1),100); }
+            function playStart() { play(800,.15); setTimeout(()=>play(1200,.15),150); }
+            function playEnd() { play(600,.4,'sawtooth',.2); setTimeout(()=>play(400,.3,'sawtooth',.15),300); }
+            function playCopy() { play(1200,.05,'sine',.15); }
+            function playErr() { play(300,.3,'sawtooth',.2); setTimeout(()=>play(250,.3,'sawtooth',.15),250); }
+            function playClear() { play(500,.1); setTimeout(()=>play(400,.1),100); }
 
             soundToggle.addEventListener('click', function() {
                 soundEnabled = !soundEnabled;
                 this.textContent = soundEnabled ? '🔊 Звук' : '🔇 Звук выкл';
-                if (soundEnabled) playBeep(800,0.1);
+                if (soundEnabled) play(800,.1);
             });
 
-            function getStatusByIndex(i) { return statuses[i] || statuses[0]; }
-            function getSostav() { return sostavSelect.value; }
-            function getLocationName() { return locationSelect.value; }
-            function formatTime(d) { return d.toLocaleString('ru-RU', { hour:'2-digit', minute:'2-digit', hour12:false }); }
-            function formatDurationFull(start, end) {
+            function getStatus(i) { return statuses[i] || statuses[0]; }
+            function getSostav() { return sostav.value; }
+            function getLocation() { return locationSelect.value; }
+            function fmtTime(d) { return d.toLocaleString('ru-RU', {hour:'2-digit', minute:'2-digit', hour12:false}); }
+            function fmtDuration(start, end) {
                 let diff = Math.floor((end - start) / 1000);
-                const hrs = Math.floor(diff/3600); diff -= hrs*3600;
-                const mins = Math.floor(diff/60); const secs = diff - mins*60;
-                return hrs > 0 ? `${hrs} ч ${mins} мин ${secs} сек` : `${mins} мин ${secs} сек`;
-            }
-
-            function updateLocationOptions() {
-                locationLabel.textContent = '▸ Название поста';
-                locationSelect.innerHTML = '';
-                ['Дом Правительства','Вечный Огонь','КПП-1','КПП-2','КПП-3','Холл ФСО'].forEach(opt => {
-                    const o = document.createElement('option');
-                    o.value = opt; o.textContent = opt;
-                    locationSelect.appendChild(o);
-                });
+                const h = Math.floor(diff/3600); diff -= h*3600;
+                const m = Math.floor(diff/60); const s = diff - m*60;
+                return h > 0 ? `${h} ч ${m} мин ${s} сек` : `${m} мин ${s} сек`;
             }
 
             function disableFields(disabled) {
-                [rankSelect, serviceType, locationSelect, statusStartSelect, sostavSelect].forEach(el => el.disabled = disabled);
-                surnameInput.disabled = disabled;
+                [rank, serviceType, locationSelect, statusStart, sostav].forEach(el => el.disabled = disabled);
+                surname.disabled = disabled;
             }
 
-            function updateUI(isActive) {
-                if (isActive) {
+            function updateUI(active) {
+                if (active) {
                     statusDot.className = 'dot';
                     statusText.textContent = 'НА СЛУЖБЕ';
-                    timerDisplay.className = 'timer-display';
+                    timerDisplay.className = 'r-timer';
                     mainBtn.innerHTML = '<span class="icon">📤</span> СДАТЬ';
-                    mainBtn.className = 'btn end-shift';
+                    mainBtn.className = 'btn btn-danger';
                     disableFields(true);
                 } else {
                     statusDot.className = 'dot off';
                     statusText.textContent = 'ОЖИДАНИЕ';
-                    timerDisplay.className = 'timer-display inactive';
+                    timerDisplay.className = 'r-timer inactive';
                     timerDisplay.textContent = '--:--:--';
                     mainBtn.innerHTML = '<span class="icon">⚡</span> ЗАСТУПИТЬ';
-                    mainBtn.className = 'btn';
+                    mainBtn.className = 'btn btn-primary';
                     disableFields(false);
                 }
             }
@@ -1210,12 +929,12 @@
                 toast.textContent = msg;
                 toast.classList.add('show');
                 clearTimeout(toast._timeout);
-                toast._timeout = setTimeout(() => toast.classList.remove('show'), 2000);
+                toast._timeout = setTimeout(() => toast.classList.remove('show'), 2200);
             }
 
-            function copyToClipboard(text) {
+            function copyText(text) {
                 if (navigator.clipboard && navigator.clipboard.writeText) {
-                    navigator.clipboard.writeText(text).then(() => { playCopySound(); showToast('✅ Скопировано'); })
+                    navigator.clipboard.writeText(text).then(() => { playCopy(); showToast('✅ Скопировано'); })
                         .catch(() => fallbackCopy(text));
                 } else fallbackCopy(text);
             }
@@ -1223,18 +942,18 @@
                 const ta = document.createElement('textarea');
                 ta.value = text; ta.style.position='fixed'; ta.style.left='-9999px';
                 document.body.appendChild(ta); ta.select();
-                try { document.execCommand('copy'); playCopySound(); showToast('✅ Скопировано'); } catch(e) { showToast('❌ Ошибка'); }
+                try { document.execCommand('copy'); playCopy(); showToast('✅ Скопировано'); } catch(e) { showToast('❌ Ошибка'); }
                 document.body.removeChild(ta);
             }
 
-            function buildReportHTML(text, status) {
+            function buildHTML(text, status) {
                 const parts = text.split('|');
                 if (parts.length >= 4) {
                     const l1 = parts[0].trim(), l2 = parts[1]?.trim() || '', l3 = parts[2]?.trim() || '', sp = parts[3]?.trim() || '';
-                    const tag = `<span class="status-tag ${status.class}">${sp}</span>`;
-                    let res = `<span class="label-text">${l1}</span>`;
-                    if (l2) res += `<br><span class="value-text">${l2}</span>`;
-                    if (l3) res += ` | <span class="value-text">${l3}</span>`;
+                    const tag = `<span class="tag ${status.cls}">${sp}</span>`;
+                    let res = `<span class="label">${l1}</span>`;
+                    if (l2) res += `<br><span class="val">${l2}</span>`;
+                    if (l3) res += ` | <span class="val">${l3}</span>`;
                     res += ` ${tag}`;
                     return res;
                 }
@@ -1243,103 +962,99 @@
 
             function renderReports(r1, r2, r3, status) {
                 const items = [
-                    { number:'№1', title:'ЗАСТУПИЛ', text:r1 },
-                    { number:'№2', title:'15', text:r2 },
-                    { number:'№3', title:'СДАЛ', text:r3 }
+                    { num:'№1', title:'ЗАСТУПИЛ', text:r1 },
+                    { num:'№2', title:'15', text:r2 },
+                    { num:'№3', title:'СДАЛ', text:r3 }
                 ];
-                reportsGrid.innerHTML = '';
+                grid.innerHTML = '';
                 items.forEach(item => {
                     const div = document.createElement('div');
-                    div.className = 'report-item';
-                    const header = document.createElement('div');
-                    header.className = 'report-header';
-                    header.innerHTML = `<span class="report-number">${item.number}</span><span class="report-title">${item.title}</span>`;
-                    div.appendChild(header);
+                    div.className = 'r-item';
+                    const num = document.createElement('span');
+                    num.className = 'rnum'; num.textContent = item.num;
+                    const title = document.createElement('span');
+                    title.className = 'rtitle-sm'; title.textContent = item.title;
                     const body = document.createElement('div');
-                    body.className = 'report-body';
-                    body.innerHTML = buildReportHTML(item.text, status);
-                    div.appendChild(body);
+                    body.className = 'rbody';
+                    body.innerHTML = buildHTML(item.text, status);
                     const btn = document.createElement('button');
                     btn.className = 'copy-btn';
                     btn.textContent = '📋 Копировать';
                     btn.addEventListener('click', function(e) {
                         e.stopPropagation();
-                        copyToClipboard(item.text);
+                        copyText(item.text);
                         this.classList.add('copied');
                         setTimeout(() => this.classList.remove('copied'), 1500);
                     });
-                    div.appendChild(btn);
-                    reportsGrid.appendChild(div);
+                    div.append(num, title, body, btn);
+                    grid.appendChild(div);
                 });
             }
 
-            function renderEmptyReports() {
+            function renderEmpty() {
                 const empty = [
-                    { number:'№1', title:'ЗАСТУПИЛ', text:'Ожидание заступления...' },
-                    { number:'№2', title:'15', text:'Ожидание заступления...' },
-                    { number:'№3', title:'СДАЛ', text:'Ожидание заступления...' }
+                    { num:'№1', title:'ЗАСТУПИЛ', text:'Ожидание заступления...' },
+                    { num:'№2', title:'15', text:'Ожидание заступления...' },
+                    { num:'№3', title:'СДАЛ', text:'Ожидание заступления...' }
                 ];
-                reportsGrid.innerHTML = '';
+                grid.innerHTML = '';
                 empty.forEach(item => {
                     const div = document.createElement('div');
-                    div.className = 'report-item empty';
-                    const header = document.createElement('div');
-                    header.className = 'report-header';
-                    header.innerHTML = `<span class="report-number">${item.number}</span><span class="report-title">${item.title}</span>`;
-                    div.appendChild(header);
+                    div.className = 'r-item empty';
+                    const num = document.createElement('span');
+                    num.className = 'rnum'; num.textContent = item.num;
+                    const title = document.createElement('span');
+                    title.className = 'rtitle-sm'; title.textContent = item.title;
                     const body = document.createElement('div');
-                    body.className = 'report-body';
-                    body.textContent = item.text;
-                    div.appendChild(body);
+                    body.className = 'rbody'; body.textContent = item.text;
                     const btn = document.createElement('button');
-                    btn.className = 'copy-btn';
-                    btn.textContent = '📋 Копировать';
+                    btn.className = 'copy-btn'; btn.textContent = '📋 Копировать';
                     btn.disabled = true;
-                    div.appendChild(btn);
-                    reportsGrid.appendChild(div);
+                    div.append(num, title, body, btn);
+                    grid.appendChild(div);
                 });
             }
 
-            function generateReport(type, rank, surname, location, status, time, sostav) {
+            function generateReport(type, rankVal, surnameVal, loc, status, time, s) {
                 const act = { start:'Заступил на пост', end:'Сдал пост', interim:'Пост' };
-                const s = `Состав: ${sostav}`;
-                if (type === 'start') return `Докладывает ${rank} ${surname} | ${act.start}: ${location} | ${s} | Статус: ${status.code} | Время: ${formatTime(time)}`;
-                if (type === 'end') return `Докладывает ${rank} ${surname} | ${act.end}: ${location} | ${s} | Статус: ${status.code} | Время: ${formatTime(time)}`;
-                return `Докладывает ${rank} ${surname} | ${act.interim}: ${location} | ${s} | Статус: ${status.code} | Время на службе: ${formatDurationFull(dutyStartTime, new Date())}`;
+                const ss = `Состав: ${s}`;
+                if (type === 'start') return `Докладывает ${rankVal} ${surnameVal} | ${act.start}: ${loc} | ${ss} | Статус: ${status.code} | Время: ${fmtTime(time)}`;
+                if (type === 'end') return `Докладывает ${rankVal} ${surnameVal} | ${act.end}: ${loc} | ${ss} | Статус: ${status.code} | Время: ${fmtTime(time)}`;
+                return `Докладывает ${rankVal} ${surnameVal} | ${act.interim}: ${loc} | ${ss} | Статус: ${status.code} | Время на службе: ${fmtDuration(dutyStartTime, new Date())}`;
             }
 
             function startDuty() {
-                const surname = surnameInput.value.trim();
-                if (!surname) {
-                    surnameInput.classList.add('error');
+                const name = surname.value.trim();
+                if (!name) {
+                    surname.classList.add('error');
                     surnameError.textContent = '⚠️ Имя и Фамилия обязательна';
-                    surnameInput.focus();
-                    playErrorSound();
+                    surname.focus();
+                    playErr();
                     return;
                 }
-                surnameInput.classList.remove('error');
+                surname.classList.remove('error');
                 surnameError.textContent = '';
 
-                const rank = rankSelect.value;
-                const location = getLocationName();
-                const status = getStatusByIndex(parseInt(statusStartSelect.value));
-                const sostav = getSostav();
+                const r = rank.value;
+                const loc = getLocation();
+                const st = getStatus(parseInt(statusStart.value));
+                const s = getSostav();
                 const now = new Date();
                 dutyStartTime = now;
                 isOnDuty = true;
 
-                const r1 = generateReport('start', rank, surname, location, status, now, sostav);
-                const r2 = `Докладывает ${rank} ${surname} | Пост: ${location} | Состав: ${sostav} | Статус: ${status.code} | 15 минут`;
-                const r3 = generateReport('end', rank, surname, location, status, now, sostav);
+                const r1 = generateReport('start', r, name, loc, st, now, s);
+                const r2 = `Докладывает ${r} ${name} | Пост: ${loc} | Состав: ${s} | Статус: ${st.code} | 15 минут`;
+                const r3 = generateReport('end', r, name, loc, st, now, s);
 
-                renderReports(r1, r2, r3, status);
+                renderReports(r1, r2, r3, st);
                 updateUI(true);
-                playStartSound();
+                playStart();
 
                 if (timerInterval) clearInterval(timerInterval);
                 timerInterval = setInterval(() => {
                     if (dutyStartTime && isOnDuty) {
-                        timerDisplay.textContent = formatDurationFull(dutyStartTime, new Date());
+                        timerDisplay.textContent = fmtDuration(dutyStartTime, new Date());
                     }
                 }, 1000);
                 showToast('✅ Заступил на службу');
@@ -1348,21 +1063,21 @@
             function endDuty() {
                 if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
                 const now = new Date();
-                const rank = rankSelect.value;
-                const surname = surnameInput.value.trim() || '';
-                const location = getLocationName();
-                const status = getStatusByIndex(parseInt(statusStartSelect.value));
-                const sostav = getSostav();
+                const r = rank.value;
+                const name = surname.value.trim() || '';
+                const loc = getLocation();
+                const st = getStatus(parseInt(statusStart.value));
+                const s = getSostav();
 
-                const r1 = generateReport('start', rank, surname, location, status, dutyStartTime, sostav);
-                const r2 = generateReport('interim', rank, surname, location, status, now, sostav);
-                const r3 = generateReport('end', rank, surname, location, status, now, sostav);
+                const r1 = generateReport('start', r, name, loc, st, dutyStartTime, s);
+                const r2 = generateReport('interim', r, name, loc, st, now, s);
+                const r3 = generateReport('end', r, name, loc, st, now, s);
 
-                renderReports(r1, r2, r3, status);
+                renderReports(r1, r2, r3, st);
                 isOnDuty = false;
                 dutyStartTime = null;
                 updateUI(false);
-                playEndSound();
+                playEnd();
                 showToast('📤 Служба завершена');
             }
 
@@ -1371,38 +1086,30 @@
             });
 
             clearBtn.addEventListener('click', function() {
-                if (isOnDuty) { if (!confirm('Вы уверены? Это завершит текущую службу.')) return; endDuty(); }
-                surnameInput.value = '';
-                surnameInput.classList.remove('error');
+                if (isOnDuty) { if (!confirm('Завершить текущую службу?')) return; endDuty(); }
+                surname.value = '';
+                surname.classList.remove('error');
                 surnameError.textContent = '';
-                renderEmptyReports();
-                playClearSound();
+                renderEmpty();
+                playClear();
                 showToast('🗑 Очищено');
             });
 
-            surnameInput.addEventListener('input', function() {
+            surname.addEventListener('input', function() {
                 if (this.value.trim()) { this.classList.remove('error'); surnameError.textContent = ''; }
             });
 
-            serviceType.addEventListener('change', function() {
-                if (!isOnDuty) { updateLocationOptions(); renderEmptyReports(); }
-            });
-
             // инициализация
-            updateLocationOptions();
+            renderEmpty();
             updateUI(false);
-            renderEmptyReports();
 
-            return { startDuty, endDuty, renderEmptyReports };
+            return { renderEmpty };
         })();
 
         // ============================================================
-        // 3. Тесты (упрощённая версия с локальным хранилищем)
+        // 2. Тесты (упрощённая версия, работает полностью)
         // ============================================================
-        let testData = {
-            tests: [],
-            results: []
-        };
+        let testData = { tests: [], results: [] };
 
         function loadTestData() {
             const saved = localStorage.getItem('fso_tests_data');
@@ -1411,7 +1118,6 @@
                     const d = JSON.parse(saved);
                     testData.tests = d.tests || [];
                     testData.results = d.results || [];
-                    // если нет тестов — загрузим стандартные
                     if (testData.tests.length === 0) setDefaultTests();
                 } catch(e) { setDefaultTests(); }
             } else { setDefaultTests(); }
@@ -1433,11 +1139,9 @@
                     questions: [
                         { type: 'choice', text: 'Что такое государственная охрана согласно ФЗ ФСО?', options: ['Деятельность по обеспечению безопасности объектов государственной охраны', 'Деятельность по охране государственной границы', 'Деятельность по защите прав граждан', 'Деятельность по обеспечению общественного порядка'], correct: [0] },
                         { type: 'choice', text: 'На основе каких принципов осуществляется государственная охрана?', options: ['Законность, уважение прав человека, централизованное руководство, взаимодействие', 'Законность, гласность, демократизм, независимость', 'Законность, открытость, децентрализация, самоуправление', 'Законность, приоритет государства, единоначалие, закрытость'], correct: [0] },
-                        { type: 'choice', text: 'Кто осуществляет руководство федеральным органом исполнительной власти в области государственной охраны?', options: ['Председатель Правительства РФ', 'Президент РФ', 'Губернатор Федерального округа', 'Министр обороны РФ'], correct: [0] },
-                        { type: 'choice', text: 'Какие меры включает государственная охрана согласно статье 4 ФЗ ФСО?', options: ['Персональная охрана, связь, информация об угрозе, транспортное обслуживание', 'Только персональная охрана', 'Только защита охраняемых объектов', 'Только транспортное обслуживание'], correct: [0] },
-                        { type: 'choice', text: 'Кому предоставляется государственная охрана в полном объеме со дня назначения на должность?', options: ['Председателю Правительства РФ и Губернаторам Федеральных округов', 'Всем депутатам', 'Судьям РФ', 'Генеральному прокурору РФ'], correct: [0] }
+                        { type: 'choice', text: 'Кто осуществляет руководство федеральным органом исполнительной власти в области государственной охраны?', options: ['Председатель Правительства РФ', 'Президент РФ', 'Губернатор Федерального округа', 'Министр обороны РФ'], correct: [0] }
                     ],
-                    timeLimit: 300,
+                    timeLimit: 180,
                     passingScore: 70,
                     createdAt: Date.now()
                 },
@@ -1448,11 +1152,9 @@
                     questions: [
                         { type: 'choice', text: 'Согласно ФЗ ФСО, каковы основные принципы государственной охраны?', options: ['Законность, уважение прав, централизованное руководство, взаимодействие', 'Только законность', 'Только централизация', 'Законность и гласность'], correct: [0] },
                         { type: 'choice', text: 'Кто является объектом государственной охраны согласно ФЗ ФСО?', options: ['Лица и охраняемые объекты', 'Только граждане РФ', 'Только иностранные граждане', 'Только здания'], correct: [0] },
-                        { type: 'choice', text: 'Какая статья ФЗ ФСО определяет меры государственной охраны?', options: ['Статья 4', 'Статья 1', 'Статья 7', 'Статья 10'], correct: [0] },
-                        { type: 'choice', text: 'Согласно УК РФ, какое наказание предусмотрено за кражу (ст.44)?', options: ['Штраф 30 тыс. руб. или лишение свободы на 3 года (СПРП «★★»)', 'Штраф 100 тыс. руб.', 'Лишение свободы на 5 лет', 'Административный арест'], correct: [0] },
-                        { type: 'choice', text: 'Какое наказание предусмотрено за грабеж по ст.46 УК РФ?', options: ['Лишение свободы на 4 года (СПРП «★★»)', 'Штраф 50 тыс. руб.', 'Лишение свободы на 2 года', 'Исправительные работы'], correct: [0] }
+                        { type: 'choice', text: 'Какая статья ФЗ ФСО определяет меры государственной охраны?', options: ['Статья 4', 'Статья 1', 'Статья 7', 'Статья 10'], correct: [0] }
                     ],
-                    timeLimit: 300,
+                    timeLimit: 180,
                     passingScore: 70,
                     createdAt: Date.now()
                 }
@@ -1461,42 +1163,36 @@
             saveTestData();
         }
 
-        // Состояние теста
-        let currentTest = null;
-        let testResults = null;
-        let testStartTime = null;
-        let testTimer = null;
-        let userNick = '';
-        let currentQuestionIndex = 0;
+        let currentTest = null, testResults = null, testStartTime = null, testTimer = null;
+        let userNick = '', currentQuestionIndex = 0;
 
         function renderTests() {
             const grid = document.getElementById('testsGrid');
             const count = document.getElementById('testCount');
             grid.innerHTML = '';
             if (testData.tests.length === 0) {
-                grid.innerHTML = `<div class="empty-state"><div class="icon">📭</div><div class="title">Нет тестов</div><div class="desc">Обратитесь к администратору</div></div>`;
+                grid.innerHTML = `<div class="empty-state"><div class="icon">📭</div><div class="title">Нет тестов</div></div>`;
                 count.textContent = '0';
                 return;
             }
             testData.tests.forEach(test => {
                 const card = document.createElement('div');
-                card.className = 'test-card';
+                card.className = 't-card';
                 const qCount = test.questions.length;
-                const hasPassword = test.password && test.password.length > 0;
+                const hasPwd = test.password && test.password.length > 0;
                 const totalTime = Math.floor(test.timeLimit / 60);
                 card.innerHTML = `
-                    ${hasPassword ? '<div class="lock-badge">🔒</div>' : ''}
-                    <div class="test-name">${test.name}</div>
-                    <div class="test-meta">${qCount} вопросов</div>
-                    <div class="test-stats">
+                    ${hasPwd ? '<span class="lock">🔒</span>' : ''}
+                    <div class="tname">${test.name}</div>
+                    <div class="tmeta">${qCount} вопросов</div>
+                    <div class="tstats">
                         <span>⏱ ${totalTime > 0 ? totalTime + ' мин' : '< 1 мин'}</span>
                         <span>✅ ${test.passingScore}%</span>
-                        ${hasPassword ? '<span>🔒 Защищен</span>' : ''}
                     </div>
                 `;
                 card.addEventListener('click', () => {
-                    if (hasPassword) {
-                        const pwd = prompt('Введите пароль для теста:');
+                    if (hasPwd) {
+                        const pwd = prompt('Введите пароль:');
                         if (pwd === test.password) startTest(test.id);
                         else if (pwd !== null) alert('❌ Неверный пароль');
                     } else {
@@ -1524,9 +1220,9 @@
         function showNickInput() {
             const container = document.getElementById('testContent');
             container.innerHTML = `
-                <div class="nick-input-container">
+                <div class="nick-box">
                     <h3>👤 Введите ваше имя</h3>
-                    <input type="text" class="field-control" id="nickInput" placeholder="Имя или позывной" style="text-align:center;">
+                    <input type="text" class="field" id="nickInput" placeholder="Имя или позывной" style="text-align:center;width:100%;">
                     <button class="btn btn-primary btn-block" style="margin-top:12px;" id="startTestBtn">Начать тест</button>
                 </div>
             `;
@@ -1550,30 +1246,31 @@
             if (index >= test.questions.length) { finishTest(); return; }
             const q = test.questions[index];
             const total = test.questions.length;
+            const timeLeft = test.timeLimit - Math.floor((Date.now() - testStartTime) / 1000);
 
             let html = `
-                <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;margin-bottom:4px;">
-                    <span class="question-progress">👤 ${userNick} · ${index+1}/${total}</span>
-                    <span class="question-progress">${q.type === 'choice' ? 'Выбор' : 'Текст'}</span>
+                <div class="flex" style="justify-content:space-between;margin-bottom:6px;">
+                    <span class="q-progress">👤 ${userNick} · ${index+1}/${total}</span>
+                    <span class="q-progress">${q.type === 'choice' ? 'Выбор' : 'Текст'}</span>
                 </div>
-                <div class="timer-test" id="testTimer">${formatTime(test.timeLimit)}</div>
-                <div class="question-text">${q.text}</div>
+                <div class="timer-test" id="testTimer">${formatTime(timeLeft > 0 ? timeLeft : 0)}</div>
+                <div class="q-text">${q.text}</div>
             `;
 
             if (q.type === 'choice') {
                 q.options.forEach((opt, i) => {
                     const checked = testResults && testResults[index] && testResults[index].includes(i) ? 'checked' : '';
                     const inputType = q.correct.length > 1 ? 'checkbox' : 'radio';
-                    html += `<label class="option-label ${checked ? 'selected' : ''}"><input type="${inputType}" name="question" value="${i}" ${checked}>${opt}</label>`;
+                    html += `<label class="opt-label ${checked ? 'selected' : ''}"><input type="${inputType}" name="question" value="${i}" ${checked}>${opt}</label>`;
                 });
-                html += `<div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;">
+                html += `<div class="flex gap-8 mt-16">
                     <button class="btn btn-primary" id="nextQuestionBtn">${index === total-1 ? '📤 Завершить' : 'Далее →'}</button>
                     ${index > 0 ? `<button class="btn" id="prevQuestionBtn">← Назад</button>` : ''}
                 </div>`;
             } else {
                 const val = testResults && testResults[index] ? testResults[index][0] || '' : '';
                 html += `<div class="text-answer"><textarea id="textAnswer" placeholder="Введите ответ...">${val}</textarea></div>
-                <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;">
+                <div class="flex gap-8 mt-16">
                     <button class="btn btn-primary" id="nextQuestionBtn">${index === total-1 ? '📤 Завершить' : 'Далее →'}</button>
                     ${index > 0 ? `<button class="btn" id="prevQuestionBtn">← Назад</button>` : ''}
                 </div>`;
@@ -1587,18 +1284,18 @@
                     const elapsed = Math.floor((Date.now() - testStartTime) / 1000);
                     const remaining = test.timeLimit - elapsed;
                     if (remaining <= 0) { clearInterval(testTimer); finishTest(); return; }
-                    const timerEl = document.getElementById('testTimer');
-                    if (timerEl) {
-                        timerEl.textContent = formatTime(remaining);
-                        timerEl.className = 'timer-test' + (remaining < 30 ? ' danger' : remaining < 60 ? ' warning' : '');
+                    const el = document.getElementById('testTimer');
+                    if (el) {
+                        el.textContent = formatTime(remaining);
+                        el.className = 'timer-test' + (remaining < 30 ? ' danger' : remaining < 60 ? ' warning' : '');
                     }
                 }, 1000);
             }
 
-            document.querySelectorAll('.option-label input').forEach(inp => {
+            document.querySelectorAll('.opt-label input').forEach(inp => {
                 inp.addEventListener('change', function() {
-                    document.querySelectorAll('.option-label').forEach(l => l.classList.remove('selected'));
-                    this.closest('.option-label').classList.add('selected');
+                    document.querySelectorAll('.opt-label').forEach(l => l.classList.remove('selected'));
+                    this.closest('.opt-label').classList.add('selected');
                 });
             });
 
@@ -1610,9 +1307,9 @@
                     if (!testResults) testResults = [];
                     testResults[index] = values;
                 } else {
-                    const textarea = document.getElementById('textAnswer');
-                    if (textarea) {
-                        const val = textarea.value.trim();
+                    const ta = document.getElementById('textAnswer');
+                    if (ta) {
+                        const val = ta.value.trim();
                         if (!val) { showToast('⚠️ Введите ответ'); return; }
                         if (!testResults) testResults = [];
                         testResults[index] = [val];
@@ -1635,77 +1332,72 @@
             if (testTimer) { clearInterval(testTimer); testTimer = null; }
             const container = document.getElementById('testContent');
             const test = currentTest;
-            let correctCount = 0;
+            let correct = 0;
             const total = test.questions.length;
             let details = [];
 
             test.questions.forEach((q, idx) => {
-                const userAnswer = testResults && testResults[idx] ? testResults[idx] : null;
-                let isCorrect = false, userAnswerStr = '';
+                const userAns = testResults && testResults[idx] ? testResults[idx] : null;
+                let isCorrect = false, userStr = '';
                 if (q.type === 'choice') {
-                    if (userAnswer) {
+                    if (userAns) {
                         const correctArr = q.correct || [];
-                        const sortedUser = userAnswer.slice().sort();
+                        const sortedUser = userAns.slice().sort();
                         const sortedCorrect = correctArr.slice().sort();
                         isCorrect = JSON.stringify(sortedUser) === JSON.stringify(sortedCorrect);
-                        userAnswerStr = userAnswer.map(i => q.options[i] || 'не выбран').join(', ');
-                    } else { userAnswerStr = 'не отвечено'; }
+                        userStr = userAns.map(i => q.options[i] || 'не выбран').join(', ');
+                    } else { userStr = 'не отвечено'; }
                 } else {
-                    if (userAnswer && userAnswer.length > 0) {
-                        const userText = userAnswer[0].toLowerCase().trim();
-                        const correctTexts = (q.correct || []).map(c => c.toLowerCase().trim());
-                        isCorrect = correctTexts.some(c => userText.includes(c) || c.includes(userText));
-                        userAnswerStr = userAnswer[0] || 'не введено';
-                    } else { userAnswerStr = 'не введено'; }
+                    if (userAns && userAns.length > 0) {
+                        const uText = userAns[0].toLowerCase().trim();
+                        const cTexts = (q.correct || []).map(c => c.toLowerCase().trim());
+                        isCorrect = cTexts.some(c => uText.includes(c) || c.includes(uText));
+                        userStr = userAns[0] || 'не введено';
+                    } else { userStr = 'не введено'; }
                 }
-                if (isCorrect) correctCount++;
-                details.push({ question: q.text, type: q.type === 'choice' ? 'Выбор' : 'Текст', userAnswer: userAnswerStr, isCorrect: isCorrect });
+                if (isCorrect) correct++;
+                details.push({ question: q.text, type: q.type === 'choice' ? 'Выбор' : 'Текст', userAnswer: userStr, isCorrect });
             });
 
-            const percentage = Math.round((correctCount / total) * 100);
-            const passed = percentage >= test.passingScore;
-            const score = Math.round((correctCount / total) * 5);
+            const percent = Math.round((correct / total) * 100);
+            const passed = percent >= test.passingScore;
+            const score = Math.round((correct / total) * 5);
 
-            // Сохраняем результат
             const result = {
                 id: Date.now(),
                 testId: test.id,
                 userNick: userNick,
                 date: new Date().toLocaleString(),
                 score: score,
-                percentage: percentage,
+                percentage: percent,
                 passed: passed,
                 answers: details.map(d => ({ userAnswer: d.userAnswer, isCorrect: d.isCorrect })),
-                status: 'pending',
-                adminScore: null,
-                adminComment: null,
-                reviewedBy: null,
-                reviewedAt: null
+                status: 'pending'
             };
             testData.results.push(result);
             saveTestData();
 
             let html = `
-                <div class="score-display">
-                    <div style="color:var(--text-secondary);font-size:15px;margin-bottom:4px;">👤 ${userNick}</div>
-                    <div class="score-number">${score}/5</div>
-                    <div class="score-label">Баллов</div>
-                    <div class="score-percent">${percentage}%</div>
-                    <div class="score-result ${passed ? 'passed' : 'failed'}">${passed ? '✅ СДАН' : '❌ НЕ СДАН'}</div>
-                    <div class="score-detail">Правильных: ${correctCount} из ${total}</div>
-                    <div class="score-pending">⏳ Результат отправлен на проверку</div>
+                <div class="score-box">
+                    <div style="color:var(--text-muted);font-size:15px;margin-bottom:4px;">👤 ${userNick}</div>
+                    <div class="snum">${score}/5</div>
+                    <div class="slabel">Баллов</div>
+                    <div class="spercent">${percent}%</div>
+                    <div class="sresult ${passed ? 'passed' : 'failed'}">${passed ? '✅ СДАН' : '❌ НЕ СДАН'}</div>
+                    <div class="sdetail">Правильных: ${correct} из ${total}</div>
+                    <div class="spending">⏳ Результат отправлен на проверку</div>
                 </div>
-                <div style="margin-top:16px;"><h4 style="color:var(--text-secondary);font-family:'JetBrains Mono',monospace;font-size:14px;margin-bottom:8px;">📊 Детали</h4>`;
+                <div class="mt-16"><h4 style="color:var(--text-muted);font-family:'JetBrains Mono',monospace;font-size:14px;margin-bottom:8px;">📊 Детали</h4>`;
             details.forEach((d, i) => {
-                html += `<div class="answer-detail ${d.isCorrect ? 'correct' : 'wrong'}">
-                    <div class="q-label">Вопрос ${i+1} (${d.type})</div>
-                    <div class="q-text">${d.question}</div>
-                    <div class="user-answer">Ответ: ${d.userAnswer}</div>
-                    <div style="color:${d.isCorrect ? 'var(--accent-green)' : 'var(--accent-red)'};font-size:12px;font-weight:600;margin-top:4px;">${d.isCorrect ? '✅ Правильно' : '❌ Неправильно'}</div>
+                html += `<div class="a-detail ${d.isCorrect ? 'correct' : 'wrong'}">
+                    <div class="ql">Вопрос ${i+1} (${d.type})</div>
+                    <div class="qt">${d.question}</div>
+                    <div class="ua">Ответ: ${d.userAnswer}</div>
+                    <div style="color:${d.isCorrect ? 'var(--green)' : 'var(--red)'};font-size:12px;font-weight:600;margin-top:4px;">${d.isCorrect ? '✅ Правильно' : '❌ Неправильно'}</div>
                 </div>`;
             });
             html += `</div>
-                <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;">
+                <div class="flex gap-8 mt-16">
                     <button class="btn btn-primary" id="finishTestBtn">📋 Завершить</button>
                     <button class="btn" id="retryTestBtn">🔄 Заново</button>
                 </div>
@@ -1742,7 +1434,6 @@
             toast._timeout = setTimeout(() => toast.classList.remove('show'), 2500);
         }
 
-        // Кнопка "Назад" в тестах
         document.getElementById('backToTests').addEventListener('click', function() {
             document.getElementById('testList').classList.remove('hidden');
             document.getElementById('testTaking').classList.remove('active');
@@ -1755,17 +1446,14 @@
         renderTests();
 
         // ============================================================
-        // 4. Синхронизация toast
+        // 3. Статус "Гость" (просто для вида)
         // ============================================================
-        // Переопределяем showToast глобально для доклада и тестов
-        const originalShowToast = window.showToast;
-        window.showToast = showToast;
+        // Ничего не делаем, просто оставляем как есть
 
         // ============================================================
-        // 5. Старт — по умолчанию доклад
+        // 4. Старт — модуль доклада по умолчанию
         // ============================================================
-        // Убедимся, что активен модуль доклада
-        document.querySelector('.nav-btn[data-module="report"]').click();
+        document.querySelector('.menu-plate[data-module="report"]').click();
 
     })();
 </script>
