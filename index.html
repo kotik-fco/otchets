@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>ФСО Тестирование с проверкой</title>
+    <title>ФСО Тестирование</title>
     <style>
         * {
             margin: 0;
@@ -194,6 +194,24 @@
             border-color: #8a3a3a;
         }
 
+        .btn-danger-small {
+            background: #2a1a1a;
+            border: 1px solid #6a2a2a;
+            color: #f0b0b0;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+
+        .btn-danger-small:hover {
+            background: #3a2222;
+            border-color: #8a3a3a;
+        }
+
         .btn-success {
             background: #1a2a2a;
             border: 1px solid #2a5a5a;
@@ -230,30 +248,12 @@
             border-color: #3a7a7a;
         }
 
-        .btn-danger-small {
-            background: #2a1a1a;
-            border: 1px solid #6a2a2a;
-            color: #f0b0b0;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-family: 'Courier New', monospace;
-            font-size: 11px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.25s;
-        }
-
-        .btn-danger-small:hover {
-            background: #3a2222;
-            border-color: #8a3a3a;
-        }
-
         .btn-warning {
             background: #2a2a1a;
             border: 1px solid #6a6a2a;
             color: #f5c27a;
-            padding: 6px 14px;
-            border-radius: 40px;
+            padding: 4px 10px;
+            border-radius: 20px;
             font-family: 'Courier New', monospace;
             font-size: 11px;
             font-weight: 700;
@@ -367,10 +367,9 @@
             color: #e8827a;
         }
 
-        /* Стили для тестов */
         .tests-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
             gap: 20px;
         }
 
@@ -544,10 +543,9 @@
             margin: 0 auto;
         }
 
-        /* Результаты */
         .results-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
             gap: 15px;
         }
 
@@ -624,11 +622,28 @@
         .result-actions {
             margin-top: 10px;
             display: flex;
-            gap: 8px;
+            gap: 6px;
             flex-wrap: wrap;
         }
 
-        /* Админские таблицы */
+        .btn-delete-result {
+            background: #2a1a1a;
+            border: 1px solid #6a2a2a;
+            color: #f0b0b0;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+
+        .btn-delete-result:hover {
+            background: #3a2222;
+            border-color: #8a3a3a;
+        }
+
         .admin-table {
             width: 100%;
             border-collapse: collapse;
@@ -705,11 +720,6 @@
             margin-bottom: 8px;
         }
 
-        .question-item .q-text {
-            color: #dcecf5;
-            font-size: 15px;
-        }
-
         .option-row {
             display: flex;
             gap: 8px;
@@ -726,10 +736,6 @@
             height: 18px;
             accent-color: #4a8aa0;
             cursor: pointer;
-            flex-shrink: 0;
-        }
-
-        .option-row .btn-danger-small {
             flex-shrink: 0;
         }
 
@@ -842,7 +848,6 @@
     </div>
 
     <div class="content" id="mainContent">
-        <!-- Список тестов -->
         <div class="test-list" id="testList">
             <div class="flex-between mb-20">
                 <h2 style="color:#9fc8d9;font-family:'Courier New',monospace;font-size:20px;">Доступные тесты</h2>
@@ -851,13 +856,11 @@
             <div class="tests-grid" id="testsGrid"></div>
         </div>
 
-        <!-- Прохождение теста -->
         <div class="test-taking" id="testTaking">
             <button class="btn-primary mb-20" id="backToTests">← Назад к тестам</button>
             <div id="testContent"></div>
         </div>
 
-        <!-- Результаты -->
         <div class="test-list hidden" id="resultsList">
             <div class="flex-between mb-20">
                 <h2 style="color:#9fc8d9;font-family:'Courier New',monospace;font-size:20px;">Результаты тестов</h2>
@@ -868,7 +871,6 @@
     </div>
 </div>
 
-<!-- Модалка авторизации -->
 <div class="modal-overlay" id="editModal">
     <div class="modal">
         <button class="modal-close" id="closeEditModal">✕</button>
@@ -894,6 +896,7 @@
             <div class="flex-row mb-20">
                 <button class="btn-success" id="newTestBtn">+ Новый тест</button>
                 <button class="btn-success" id="continueDraftBtn">📂 Продолжить черновик</button>
+                <button class="btn-warning" id="resetTestsBtn">🔄 Сбросить тесты</button>
             </div>
 
             <div id="testsAdminList"></div>
@@ -920,7 +923,6 @@
     </div>
 </div>
 
-<!-- Модалка редактора тестов -->
 <div class="modal-overlay" id="testEditorModal">
     <div class="modal">
         <button class="modal-close" id="closeTestEditor">✕</button>
@@ -929,7 +931,6 @@
     </div>
 </div>
 
-<!-- Модалка пароля для теста -->
 <div class="modal-overlay" id="testPasswordModal">
     <div class="modal">
         <button class="modal-close" id="closeTestPasswordModal">✕</button>
@@ -945,7 +946,6 @@
     </div>
 </div>
 
-<!-- Модалка проверки результата -->
 <div class="modal-overlay" id="reviewModal">
     <div class="modal">
         <button class="modal-close" id="closeReviewModal">✕</button>
@@ -1066,76 +1066,199 @@
         setDefaultData() {
             this.admins = [{ login: 'admin', password: '123mastyrbist', protected: true }];
             this.results = [];
-            this.tests = [
-                {
-                    id: 1,
-                    name: 'Основы безопасности ФСО',
-                    password: '',
-                    questions: [
-                        { 
-                            type: 'choice',
-                            text: 'Что означает аббревиатура ФСО?', 
-                            options: ['Федеральная служба охраны', 'Федеральная служба обороны', 'Федеральная служба опеки', 'Федеральная служба образования'], 
-                            correct: [0] 
-                        },
-                        { 
-                            type: 'choice',
-                            text: 'Кто является главой ФСО?', 
-                            options: ['Президент РФ', 'Директор ФСО', 'Министр обороны', 'Председатель Правительства'], 
-                            correct: [1] 
-                        },
-                        { 
-                            type: 'choice',
-                            text: 'Основная задача ФСО - это...', 
-                            options: ['Охрана государственных объектов', 'Охрана Президента', 'Охрана общественного порядка', 'Охрана государственных границ'], 
-                            correct: [0] 
-                        },
-                        {
-                            type: 'text',
-                            text: 'Напишите полное название ФСО',
-                            correct: ['Федеральная служба охраны']
-                        }
-                    ],
-                    timeLimit: 300,
-                    passingScore: 70,
-                    createdAt: Date.now()
-                },
-                {
-                    id: 2,
-                    name: 'Устав ФСО 2024',
-                    password: '12345',
-                    questions: [
-                        { 
-                            type: 'choice',
-                            text: 'Сколько часов составляет суточный наряд?', 
-                            options: ['12 часов', '24 часа', '8 часов', '6 часов'], 
-                            correct: [1] 
-                        },
-                        { 
-                            type: 'choice',
-                            text: 'Что запрещается делать на посту?', 
-                            options: ['Спать', 'Курить', 'Разговаривать по телефону', 'Все вышеперечисленное'], 
-                            correct: [3] 
-                        },
-                        { 
-                            type: 'choice',
-                            text: 'Какой сигнал означает "Тревога"?', 
-                            options: ['Один короткий', 'Два длинных', 'Три коротких', 'Непрерывный'], 
-                            correct: [2] 
-                        },
-                        {
-                            type: 'text',
-                            text: 'Опишите действия дежурного при возникновении пожара',
-                            correct: ['вызвать пожарную охрану', 'сообщить начальнику']
-                        }
-                    ],
-                    timeLimit: 240,
-                    passingScore: 60,
-                    createdAt: Date.now()
-                }
-            ];
+            this.tests = [{
+                id: 1,
+                name: 'ФЗ ФСО - Основы государственной охраны',
+                password: '',
+                questions: [
+                    {
+                        type: 'choice',
+                        text: 'Что такое государственная охрана согласно ФЗ ФСО?',
+                        options: [
+                            'Деятельность по обеспечению безопасности объектов государственной охраны',
+                            'Деятельность по охране государственной границы',
+                            'Деятельность по защите прав граждан',
+                            'Деятельность по обеспечению общественного порядка'
+                        ],
+                        correct: [0]
+                    },
+                    {
+                        type: 'choice',
+                        text: 'На основе каких принципов осуществляется государственная охрана?',
+                        options: [
+                            'Законность, уважение прав человека, централизованное руководство, взаимодействие',
+                            'Законность, гласность, демократизм, независимость',
+                            'Законность, открытость, децентрализация, самоуправление',
+                            'Законность, приоритет интересов государства, единоначалие, закрытость'
+                        ],
+                        correct: [0]
+                    },
+                    {
+                        type: 'choice',
+                        text: 'Кто осуществляет руководство федеральным органом исполнительной власти в области государственной охраны?',
+                        options: [
+                            'Председатель Правительства Российской Федерации',
+                            'Президент Российской Федерации',
+                            'Губернатор Федерального округа',
+                            'Министр обороны Российской Федерации'
+                        ],
+                        correct: [0]
+                    },
+                    {
+                        type: 'choice',
+                        text: 'Какие меры включает государственная охрана согласно статье 4?',
+                        options: [
+                            'Персональная охрана, связь, информация об угрозе, транспортное обслуживание',
+                            'Только персональная охрана',
+                            'Только защита охраняемых объектов',
+                            'Только транспортное обслуживание'
+                        ],
+                        correct: [0]
+                    },
+                    {
+                        type: 'choice',
+                        text: 'Кому предоставляется государственная охрана в полном объеме со дня назначения на должность?',
+                        options: [
+                            'Председателю Правительства РФ и Губернаторам Федеральных округов',
+                            'Всем депутатам Законодательных Собраний',
+                            'Судьям Российской Федерации',
+                            'Генеральному прокурору РФ'
+                        ],
+                        correct: [0]
+                    },
+                    {
+                        type: 'choice',
+                        text: 'Какие основные задачи органов государственной охраны?',
+                        options: [
+                            'Обеспечение безопасности объектов охраны, защита охраняемых объектов, пресечение правонарушений',
+                            'Только обеспечение безопасности объектов охраны',
+                            'Только защита охраняемых объектов',
+                            'Только пресечение преступлений'
+                        ],
+                        correct: [0]
+                    },
+                    {
+                        type: 'choice',
+                        text: 'Могут ли сотрудники ФСО при исполнении обязанностей не предъявлять удостоверение?',
+                        options: [
+                            'Да, при сопровождении объектов государственной охраны',
+                            'Нет, никогда',
+                            'Да, всегда',
+                            'Только по требованию прокурора'
+                        ],
+                        correct: [0]
+                    },
+                    {
+                        type: 'choice',
+                        text: 'Имеют ли право сотрудники ФСО на хранение и ношение любого оружия?',
+                        options: [
+                            'Да, разрешено хранение и ношение любого оружия для исполнения служебных обязанностей',
+                            'Нет, только служебное оружие',
+                            'Да, но только с разрешения прокурора',
+                            'Нет, запрещено хранение оружия'
+                        ],
+                        correct: [0]
+                    },
+                    {
+                        type: 'choice',
+                        text: 'Могут ли сотрудники ФСО задерживать граждан, представляющих угрозу охраняемым лицам?',
+                        options: [
+                            'Да, до выяснения обстоятельств или для передачи правоохранителям',
+                            'Нет, не имеют права задерживать',
+                            'Да, но только по решению суда',
+                            'Только если есть письменное разрешение'
+                        ],
+                        correct: [0]
+                    },
+                    {
+                        type: 'choice',
+                        text: 'Какие документы подлежат хранению в архивах Правительства РФ?',
+                        options: [
+                            'Документы о кадровом составе ФСО и методах деятельности',
+                            'Только документы о кадровом составе',
+                            'Только документы о тактике',
+                            'Только документы о методах'
+                        ],
+                        correct: [0]
+                    },
+                    {
+                        type: 'choice',
+                        text: 'Вправе ли сотрудник ФСО запретить нахождение на охраняемых объектах в масках и бронежилетах?',
+                        options: [
+                            'Да, за исключением государственных служащих',
+                            'Нет, не имеет права',
+                            'Да, но только по решению суда',
+                            'Только в отношении иностранных граждан'
+                        ],
+                        correct: [0]
+                    },
+                    {
+                        type: 'choice',
+                        text: 'Какой надзор осуществляется за деятельностью ФСО?',
+                        options: [
+                            'Судебный и прокурорский надзор',
+                            'Только судебный',
+                            'Только прокурорский',
+                            'Только административный'
+                        ],
+                        correct: [0]
+                    },
+                    {
+                        type: 'choice',
+                        text: 'Сотрудник ФСО при обращении к гражданину обязан...',
+                        options: [
+                            'Предоставить удостоверение или жетон с номером',
+                            'Назвать свое имя',
+                            'Предоставить только жетон',
+                            'Не обязан ничего предъявлять'
+                        ],
+                        correct: [0]
+                    },
+                    {
+                        type: 'choice',
+                        text: 'Сотрудник ФСО является...',
+                        options: [
+                            'Представителем власти и военнослужащим',
+                            'Только военнослужащим',
+                            'Только представителем власти',
+                            'Гражданским служащим'
+                        ],
+                        correct: [0]
+                    },
+                    {
+                        type: 'choice',
+                        text: 'Может ли сотрудник ФСО отказать гражданину в доступе на охраняемый объект?',
+                        options: [
+                            'Да, при наличии запрещенных предметов или нарушений',
+                            'Нет, не может',
+                            'Да, но только по решению суда',
+                            'Только в отношении иностранных граждан'
+                        ],
+                        correct: [0]
+                    }
+                ],
+                timeLimit: 600,
+                passingScore: 70,
+                createdAt: Date.now()
+            }];
             this.saveData();
             this.saveResults();
+        },
+
+        resetToDefault() {
+            if (confirm('Вы уверены? Все текущие тесты и результаты будут удалены.')) {
+                localStorage.removeItem('fso_tests_data');
+                localStorage.removeItem('fso_results');
+                localStorage.removeItem('fso_draft');
+                this.tests = [];
+                this.results = [];
+                this.draftData = null;
+                this.setDefaultData();
+                this.renderTests();
+                this.renderResults();
+                this.updateTestCount();
+                this.showToast('🔄 Тесты сброшены к стандартным');
+            }
         },
 
         saveData() {
@@ -1247,6 +1370,7 @@
                     <div class="result-actions">
                         <button class="btn-success-small" data-id="${result.id}">📋 Подробнее</button>
                         ${this.isLoggedIn ? `<button class="btn-warning" data-id="${result.id}">✏️ Проверить</button>` : ''}
+                        ${this.isLoggedIn ? `<button class="btn-delete-result" data-id="${result.id}">🗑 Удалить</button>` : ''}
                     </div>
                 `;
                 
@@ -1255,7 +1379,6 @@
             
             document.getElementById('resultsCount').textContent = `${this.results.length} результатов`;
             
-            // Подробнее
             grid.querySelectorAll('.btn-success-small').forEach(btn => {
                 btn.addEventListener('click', () => {
                     const id = parseInt(btn.dataset.id);
@@ -1263,13 +1386,32 @@
                 });
             });
             
-            // Проверить
             grid.querySelectorAll('.btn-warning').forEach(btn => {
                 btn.addEventListener('click', () => {
                     const id = parseInt(btn.dataset.id);
                     this.openReview(id);
                 });
             });
+            
+            grid.querySelectorAll('.btn-delete-result').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const id = parseInt(btn.dataset.id);
+                    if (confirm('Вы уверены, что хотите удалить этот результат?')) {
+                        this.deleteResult(id);
+                    }
+                });
+            });
+        },
+
+        deleteResult(id) {
+            const idx = this.results.findIndex(r => r.id === id);
+            if (idx !== -1) {
+                this.results.splice(idx, 1);
+                this.saveData();
+                this.saveResults();
+                this.renderResults();
+                this.showToast('🗑 Результат удален');
+            }
         },
 
         showResultDetail(id) {
@@ -1326,6 +1468,7 @@
                     </div>
                 </div>
                 ${result.adminComment ? `<div style="color:#f5c27a;font-size:14px;margin-bottom:15px;">💬 Комментарий: ${result.adminComment}</div>` : ''}
+                ${result.reviewedBy ? `<div style="color:#5d8b9a;font-size:12px;margin-bottom:15px;">Проверил: ${result.reviewedBy} | ${result.reviewedAt || ''}</div>` : ''}
                 <div style="margin-top:20px;">
                     <h4 style="color:#9fc8d9;font-family:'Courier New',monospace;margin-bottom:10px;">📊 Детали ответов</h4>
                     ${detailsHtml}
@@ -1333,6 +1476,7 @@
                 <div class="flex-row mt-20">
                     <button class="btn-primary" id="closeReviewDetail">Закрыть</button>
                     ${this.isLoggedIn ? `<button class="btn-warning" id="reviewFromDetail">✏️ Проверить</button>` : ''}
+                    ${this.isLoggedIn ? `<button class="btn-delete-result" id="deleteFromDetail">🗑 Удалить</button>` : ''}
                 </div>
             `;
             
@@ -1345,6 +1489,16 @@
                 reviewBtn.addEventListener('click', () => {
                     document.getElementById('reviewModal').classList.remove('show');
                     this.openReview(id);
+                });
+            }
+            
+            const deleteBtn = document.getElementById('deleteFromDetail');
+            if (deleteBtn) {
+                deleteBtn.addEventListener('click', () => {
+                    if (confirm('Вы уверены, что хотите удалить этот результат?')) {
+                        document.getElementById('reviewModal').classList.remove('show');
+                        this.deleteResult(id);
+                    }
                 });
             }
             
@@ -1424,6 +1578,7 @@
                 
                 <div class="flex-row mt-20">
                     <button class="btn-success" id="saveReviewBtn">💾 Сохранить проверку</button>
+                    <button class="btn-delete-result" id="deleteFromReview">🗑 Удалить</button>
                     <button class="btn-danger" id="closeReviewBtn">Отмена</button>
                 </div>
             `;
@@ -1431,6 +1586,13 @@
             document.getElementById('closeReviewBtn').addEventListener('click', () => {
                 document.getElementById('reviewModal').classList.remove('show');
                 this.renderResults();
+            });
+            
+            document.getElementById('deleteFromReview').addEventListener('click', () => {
+                if (confirm('Вы уверены, что хотите удалить этот результат?')) {
+                    document.getElementById('reviewModal').classList.remove('show');
+                    this.deleteResult(id);
+                }
             });
             
             document.getElementById('saveReviewBtn').addEventListener('click', () => {
@@ -1686,7 +1848,6 @@
             const passed = percentage >= test.passingScore;
             const score = Math.round((correctCount / totalQuestions) * 5);
 
-            // Сохраняем результат
             const result = {
                 id: Date.now(),
                 testId: test.id,
@@ -1891,6 +2052,10 @@
                 } else {
                     this.showToast('⚠️ Нет сохраненных черновиков');
                 }
+            });
+
+            document.getElementById('resetTestsBtn').addEventListener('click', () => {
+                this.resetToDefault();
             });
 
             document.getElementById('addAdminBtn').addEventListener('click', () => {
