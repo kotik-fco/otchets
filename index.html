@@ -2,8 +2,8 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ФСО-Арбат | Единое меню</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>ФСО Тестирование - ЦСН и ОБО</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap');
 
@@ -55,7 +55,7 @@
         .header {
             background: var(--bg-secondary);
             border-radius: var(--radius);
-            padding: 12px 20px;
+            padding: 16px 28px;
             border: 1px solid var(--border-color);
             box-shadow: var(--shadow), inset 0 1px 0 rgba(255,255,255,0.03);
             display: flex;
@@ -63,18 +63,18 @@
             align-items: center;
             margin-bottom: 20px;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 12px;
             backdrop-filter: blur(12px);
             position: sticky;
-            top: 16px;
+            top: 20px;
             z-index: 100;
         }
 
         .header-title {
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 20px;
+            gap: 12px;
+            font-size: 22px;
             font-weight: 800;
             letter-spacing: 1px;
             background: linear-gradient(135deg, #9fc8d9, #6fd6b8);
@@ -84,9 +84,9 @@
 
         .header-title .badge {
             background: var(--bg-card);
-            padding: 2px 12px;
+            padding: 2px 14px;
             border-radius: var(--radius-full);
-            font-size: 10px;
+            font-size: 11px;
             font-weight: 600;
             color: var(--text-secondary);
             border: 1px solid var(--border-color);
@@ -97,15 +97,49 @@
         .header-right {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 12px;
             flex-wrap: wrap;
+        }
+
+        .admin-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--accent-green-dim);
+            border: 1px solid #2a6a5a;
+            border-radius: var(--radius-full);
+            padding: 6px 16px 6px 12px;
+            color: var(--accent-green);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .admin-status .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent-green);
+            box-shadow: 0 0 12px rgba(60,207,158,0.4);
+            animation: pulse-dot 1.8s ease-in-out infinite;
+        }
+
+        .admin-status .dot.off {
+            background: #4a5a5a;
+            box-shadow: none;
+            animation: none;
+        }
+
+        @keyframes pulse-dot {
+            0%,100% { opacity:1; transform:scale(1); }
+            50% { opacity:0.3; transform:scale(0.8); }
         }
 
         .nav-btn {
             background: transparent;
             border: 1px solid var(--border-color);
             color: var(--text-secondary);
-            padding: 8px 18px;
+            padding: 8px 20px;
             border-radius: var(--radius-full);
             font-family: 'Inter', sans-serif;
             font-size: 13px;
@@ -126,457 +160,58 @@
             background: var(--accent-blue-dim);
             border-color: var(--accent-blue);
             color: var(--text-primary);
-            box-shadow: 0 0 30px rgba(74, 138, 160, 0.08);
+            box-shadow: 0 0 30px rgba(74,138,160,0.08);
         }
 
         .content {
             background: var(--bg-secondary);
             border-radius: var(--radius);
-            padding: 20px 24px;
+            padding: 28px;
             border: 1px solid var(--border-color);
             box-shadow: var(--shadow), inset 0 1px 0 rgba(255,255,255,0.02);
             min-height: 500px;
         }
 
-        .module {
-            display: block;
-            animation: fadeIn 0.3s ease;
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
 
-        .module.hidden {
-            display: none;
+        .section-title .count {
+            font-size: 13px;
+            font-weight: 400;
+            color: var(--text-muted);
+            background: var(--bg-card);
+            padding: 2px 14px;
+            border-radius: var(--radius-full);
+            border: 1px solid var(--border-color);
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* ——— Стили для доклада (встроенные) ——— */
-        .report-card {
-            background: #111820;
-            border-radius: 24px;
-            padding: 24px 24px;
-            border: 1px solid #26333d;
-            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.8), 0 0 0 1px #1f2f3a inset, 0 0 50px rgba(0, 180, 255, 0.03);
-        }
-
-        .report-card .header {
+        .flex-between {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid #1f313b;
-            padding-bottom: 14px;
-            margin-bottom: 18px;
             flex-wrap: wrap;
             gap: 10px;
-            background: transparent;
-            box-shadow: none;
-            position: static;
         }
 
-        .report-card .title {
-            color: #9fc8d9;
-            font-family: 'Courier New', monospace;
-            font-size: 18px;
-            font-weight: 700;
-            letter-spacing: 2px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .report-card .title .badge {
-            background: #1a2f3a;
-            padding: 2px 12px;
-            border-radius: 40px;
-            font-size: 12px;
-            color: #6fa3b5;
-            border: 1px solid #2a4857;
-        }
-
-        .report-card .header-right {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .report-card .status-led {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: #5d8b9a;
-            font-family: 'Courier New', monospace;
-            font-size: 12px;
-            background: #14242e;
-            padding: 4px 14px;
-            border-radius: 40px;
-            border: 1px solid #1e3845;
-        }
-
-        .report-card .status-led .dot {
-            display: inline-block;
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: #3ccf9e;
-            box-shadow: 0 0 12px rgba(60, 207, 158, 0.3);
-            animation: pulse 1.8s infinite;
-        }
-
-        .report-card .status-led .dot.off {
-            background: #5a5a5a;
-            box-shadow: none;
-            animation: none;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.4; transform: scale(0.85); }
-        }
-
-        .report-card .timer-display {
-            font-family: 'Courier New', monospace;
-            font-size: 16px;
-            color: #6fd6b8;
-            background: #0a1818;
-            padding: 4px 14px;
-            border-radius: 40px;
-            border: 1px solid #1a4a4a;
-            min-width: 80px;
-            text-align: center;
-        }
-
-        .report-card .timer-display.inactive {
-            color: #3a5a5a;
-            border-color: #1a2a2a;
-        }
-
-        .fields-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 12px 16px;
-        }
-
-        @media (max-width: 768px) {
-            .fields-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-
-        @media (max-width: 500px) {
-            .fields-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .field {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-
-        .field-label {
-            color: #7a9aa8;
-            font-size: 11px;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-            font-family: 'Courier New', monospace;
-        }
-
-        .field-label .required {
-            color: #e8827a;
-            margin-left: 4px;
-        }
-
-        .field-control {
-            background: #0e161e;
-            border: 1px solid #21343f;
-            border-radius: 10px;
-            padding: 8px 12px;
-            color: #dcecf5;
-            font-size: 14px;
-            font-family: 'Segoe UI', sans-serif;
-            outline: none;
-            transition: border-color 0.25s, box-shadow 0.25s;
-            width: 100%;
-            appearance: none;
-            -webkit-appearance: none;
-        }
-
-        .field-control:focus {
-            border-color: #4a8aa0;
-            box-shadow: 0 0 0 3px rgba(74, 138, 160, 0.15);
-        }
-
-        .field-control.error {
-            border-color: #8a3a3a;
-            box-shadow: 0 0 0 3px rgba(138, 58, 58, 0.2);
-        }
-
-        select.field-control {
-            cursor: pointer;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236a9aaa' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 14px center;
-            padding-right: 36px;
-        }
-
-        select.field-control option {
-            background: #111820;
-            color: #dcecf5;
-        }
-
-        .field-control:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        .field-control::placeholder {
-            color: #3d5a68;
-        }
-
-        .btn-group {
-            display: flex;
-            gap: 12px;
-            margin-top: 16px;
-        }
-
-        .btn {
-            background: #1a3340;
-            border: 1px solid #2f5465;
-            color: #c4e4f0;
-            padding: 11px 24px;
-            border-radius: 40px;
-            font-family: 'Courier New', monospace;
-            font-size: 15px;
-            font-weight: 700;
-            letter-spacing: 1px;
-            cursor: pointer;
-            transition: all 0.25s;
-            flex: 1;
-            text-transform: uppercase;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .btn:hover:not(:disabled) {
-            background: #234a5a;
-            border-color: #4a8aa0;
-            box-shadow: 0 0 30px rgba(74, 138, 160, 0.15);
-            transform: translateY(-1px);
-        }
-
-        .btn:active:not(:disabled) {
-            transform: scale(0.98);
-        }
-
-        .btn:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-        }
-
-        .btn .icon {
-            font-size: 18px;
-        }
-
-        .btn.end-shift {
-            background: #2a1a1a;
-            border-color: #6a2a2a;
-            color: #f0b0b0;
-        }
-
-        .btn.end-shift:hover:not(:disabled) {
-            background: #3a2222;
-            border-color: #8a3a3a;
-        }
-
-        .btn.secondary {
-            background: #1a1a2a;
-            border-color: #2a2a5a;
-            color: #9090d0;
-            flex: 0.5;
-        }
-
-        .btn.secondary:hover:not(:disabled) {
-            background: #2a2a3a;
-            border-color: #4a4a7a;
-        }
-
-        .reports-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            margin-top: 10px;
-        }
-
-        .report-item {
-            background: #0e161f;
-            border: 1px solid #1f323d;
-            border-radius: 14px;
-            padding: 8px 16px;
-            transition: border-color 0.25s, box-shadow 0.25s;
-            display: grid;
-            grid-template-columns: auto 1fr auto;
-            align-items: center;
-            gap: 10px;
-            min-height: 46px;
-            width: 100%;
-        }
-
-        .report-item:hover {
-            border-color: #3a6072;
-            box-shadow: 0 0 20px rgba(0, 180, 255, 0.04);
-        }
-
-        .report-item .report-header {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            flex-shrink: 0;
-            white-space: nowrap;
-        }
-
-        .report-item .report-number {
-            color: #3d5a68;
-            font-family: 'Courier New', monospace;
-            font-size: 12px;
-            font-weight: 700;
-            background: #14242e;
-            padding: 1px 8px;
-            border-radius: 20px;
-            border: 1px solid #1f323d;
-        }
-
-        .report-item .report-title {
-            color: #6f98a8;
-            font-family: 'Courier New', monospace;
-            font-size: 11px;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-        }
-
-        .report-item .report-body {
-            color: #cce2ec;
-            font-size: 13px;
-            line-height: 1.5;
-            font-family: 'Segoe UI', sans-serif;
-            min-width: 0;
-            word-break: break-word;
-            white-space: pre-wrap;
-            padding-right: 4px;
-        }
-
-        .report-item .report-body .status-tag {
-            display: inline-block;
-            padding: 1px 10px;
-            border-radius: 40px;
-            font-family: 'Courier New', monospace;
-            font-size: 11px;
-            font-weight: 600;
-            vertical-align: middle;
-            flex-shrink: 0;
-            margin-left: 4px;
-        }
-
-        .report-item .report-body .label-text {
-            color: #7a9aa8;
-        }
-
-        .report-item .report-body .value-text {
-            color: #dcecf5;
-        }
-
-        .status-0 { color: #6fd6b8; border: 1px solid #2b6a5c; background: #0f2e2a; }
-        .status-1 { color: #f5c27a; border: 1px solid #7a6a3a; background: #2e2818; }
-        .status-2 { color: #e8827a; border: 1px solid #7a3a3a; background: #2e1818; }
-        .status-3 { color: #8ab8d4; border: 1px solid #2a4a6a; background: #18222e; }
-        .status-4 { color: #c4a0d4; border: 1px solid #5a3a7a; background: #22182e; }
-
-        .report-item .copy-btn {
-            background: transparent;
-            border: 1px solid #1f323d;
-            color: #5d8b9a;
-            padding: 3px 12px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-family: 'Courier New', monospace;
-            cursor: pointer;
-            transition: all 0.2s;
-            flex-shrink: 0;
-            white-space: nowrap;
-        }
-
-        .report-item .copy-btn:hover:not(:disabled) {
-            border-color: #4a8aa0;
-            color: #9fc8d9;
-            background: #1a2f3a;
-        }
-
-        .report-item .copy-btn.copied {
-            border-color: #3ccf9e;
-            color: #6fd6b8;
-            background: #0a2a2a;
-        }
-
-        .report-item .copy-btn:disabled {
-            opacity: 0.3;
-            cursor: not-allowed;
-        }
-
-        .report-item.empty .report-body {
-            color: #2f4d5c;
-        }
-
-        .report-item.empty .report-title {
-            color: #2f4d5c;
-        }
-
-        @media (max-width: 768px) {
-            .report-item {
-                grid-template-columns: 1fr;
-                gap: 4px;
-                padding: 8px 12px;
-            }
-            .report-item .report-header {
-                width: 100%;
-            }
-            .report-item .report-body {
-                font-size: 12px;
-            }
-            .report-item .copy-btn {
-                justify-self: flex-end;
-                width: auto;
-            }
-            .btn-group {
-                flex-wrap: wrap;
-            }
-            .btn {
-                flex: 1 1 100%;
-            }
-            .btn.secondary {
-                flex: 1 1 100%;
-            }
-        }
-
-        /* ——— Стили для тестов (адаптированные под модуль) ——— */
         .tests-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 14px;
-            margin-top: 12px;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 16px;
+            margin-top: 16px;
         }
 
         .test-card {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: var(--radius);
-            padding: 16px 18px;
+            padding: 20px 22px;
             transition: var(--transition);
             cursor: pointer;
             position: relative;
@@ -597,41 +232,48 @@
 
         .test-card:hover {
             border-color: var(--border-hover);
-            transform: translateY(-2px);
+            transform: translateY(-3px);
             box-shadow: 0 8px 30px rgba(0,0,0,0.4);
         }
+
         .test-card:hover::before { opacity: 1; }
 
         .test-card .test-name {
-            font-size: 16px;
+            font-size: 17px;
             font-weight: 600;
             color: var(--text-primary);
-            margin-bottom: 4px;
-            padding-right: 28px;
+            margin-bottom: 6px;
+            padding-right: 30px;
         }
 
         .test-card .test-meta {
-            font-size: 12px;
+            font-size: 13px;
             color: var(--text-secondary);
             font-family: 'JetBrains Mono', monospace;
         }
 
         .test-card .test-stats {
-            font-size: 11px;
+            font-size: 12px;
             color: var(--text-muted);
-            margin-top: 8px;
-            padding-top: 8px;
+            margin-top: 10px;
+            padding-top: 10px;
             border-top: 1px solid var(--border-color);
             display: flex;
-            gap: 14px;
+            gap: 16px;
             align-items: center;
+        }
+
+        .test-card .test-stats span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
         }
 
         .test-card .lock-badge {
             position: absolute;
-            top: 12px;
-            right: 14px;
-            font-size: 14px;
+            top: 16px;
+            right: 18px;
+            font-size: 16px;
             color: var(--accent-gold);
         }
 
@@ -642,15 +284,15 @@
 
         .timer-test {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 26px;
+            font-size: 28px;
             font-weight: 700;
             color: var(--accent-green);
             text-align: center;
-            padding: 12px;
+            padding: 16px;
             background: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: var(--radius-sm);
-            margin-bottom: 16px;
+            margin-bottom: 20px;
             letter-spacing: 2px;
         }
 
@@ -658,34 +300,35 @@
         .timer-test.danger { color: var(--accent-red); border-color: #5a2a2a; animation: blink 1s infinite; }
 
         @keyframes blink {
-            0%,100% { opacity:1; } 50% { opacity:0.4; }
+            0%,100% { opacity:1; }
+            50% { opacity:0.4; }
         }
 
         .question-progress {
             color: var(--text-secondary);
             font-family: 'JetBrains Mono', monospace;
-            font-size: 12px;
-            margin-bottom: 8px;
+            font-size: 13px;
+            margin-bottom: 12px;
         }
 
         .question-text {
-            font-size: 18px;
+            font-size: 19px;
             font-weight: 500;
             color: var(--text-primary);
-            margin-bottom: 16px;
-            line-height: 1.4;
+            margin-bottom: 18px;
+            line-height: 1.5;
         }
 
         .option-label {
             display: block;
-            padding: 10px 14px;
-            margin: 4px 0;
+            padding: 12px 16px;
+            margin: 6px 0;
             border: 1px solid var(--border-color);
             border-radius: var(--radius-sm);
             cursor: pointer;
             transition: var(--transition);
             color: var(--text-secondary);
-            font-size: 14px;
+            font-size: 15px;
         }
 
         .option-label:hover {
@@ -694,7 +337,7 @@
         }
 
         .option-label input {
-            margin-right: 10px;
+            margin-right: 12px;
             accent-color: var(--accent-blue);
             width: 16px;
             height: 16px;
@@ -711,15 +354,15 @@
             background: var(--bg-input);
             border: 1px solid var(--border-color);
             border-radius: var(--radius-sm);
-            padding: 10px 14px;
+            padding: 12px 16px;
             color: var(--text-primary);
             width: 100%;
             resize: vertical;
             font-family: 'Inter', sans-serif;
-            font-size: 14px;
+            font-size: 15px;
             outline: none;
             transition: var(--transition);
-            min-height: 80px;
+            min-height: 100px;
         }
 
         .text-answer textarea:focus {
@@ -731,12 +374,12 @@
             background: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: var(--radius);
-            padding: 24px;
+            padding: 30px;
             text-align: center;
         }
 
         .score-display .score-number {
-            font-size: 48px;
+            font-size: 56px;
             font-weight: 800;
             background: linear-gradient(135deg, var(--accent-green), #5ce6b8);
             -webkit-background-clip: text;
@@ -747,22 +390,22 @@
 
         .score-display .score-label {
             color: var(--text-secondary);
-            font-size: 13px;
+            font-size: 14px;
             margin-top: 4px;
         }
 
         .score-display .score-percent {
             color: var(--text-secondary);
-            font-size: 18px;
+            font-size: 20px;
             font-weight: 600;
-            margin-top: 6px;
+            margin-top: 8px;
         }
 
         .score-display .score-result {
-            font-size: 16px;
+            font-size: 18px;
             font-weight: 700;
-            margin-top: 6px;
-            padding: 4px 16px;
+            margin-top: 8px;
+            padding: 6px 20px;
             border-radius: var(--radius-full);
             display: inline-block;
         }
@@ -780,23 +423,285 @@
         .score-display .score-detail {
             color: var(--text-muted);
             font-size: 13px;
-            margin-top: 8px;
+            margin-top: 10px;
         }
 
         .score-display .score-pending {
             color: var(--accent-gold);
-            font-size: 13px;
-            margin-top: 8px;
-            padding: 6px 14px;
+            font-size: 14px;
+            margin-top: 12px;
+            padding: 8px 16px;
             border: 1px solid #5a4a2a;
             border-radius: var(--radius-full);
             display: inline-block;
             background: var(--accent-gold-dim);
         }
 
-        .answer-detail {
+        .btn {
+            padding: 10px 24px;
+            border-radius: var(--radius-full);
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 1px solid var(--border-color);
+            background: var(--bg-card);
+            color: var(--text-secondary);
+            text-transform: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn:hover:not(:disabled) {
+            border-color: var(--border-hover);
+            color: var(--text-primary);
+            background: rgba(255,255,255,0.03);
+        }
+
+        .btn:disabled { opacity:0.4; cursor:not-allowed; }
+
+        .btn-primary {
+            background: var(--accent-blue-dim);
+            border-color: var(--accent-blue);
+            color: var(--text-primary);
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background: var(--accent-blue);
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 30px rgba(74,138,160,0.2);
+        }
+
+        .btn-success {
+            background: var(--accent-green-dim);
+            border-color: #2a6a5a;
+            color: var(--accent-green);
+        }
+
+        .btn-success:hover:not(:disabled) {
+            background: #1a4a4a;
+            border-color: var(--accent-green);
+        }
+
+        .btn-danger {
+            background: var(--accent-red-dim);
+            border-color: #5a2a2a;
+            color: var(--accent-red);
+        }
+
+        .btn-danger:hover:not(:disabled) {
+            background: #3a1a1a;
+            border-color: var(--accent-red);
+        }
+
+        .btn-warning {
+            background: var(--accent-gold-dim);
+            border-color: #5a4a2a;
+            color: var(--accent-gold);
+        }
+
+        .btn-warning:hover:not(:disabled) {
+            background: #3a2a1a;
+            border-color: var(--accent-gold);
+        }
+
+        .btn-sm { padding: 5px 14px; font-size: 12px; }
+        .btn-block { width: 100%; justify-content: center; }
+        .btn-group { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
+        .btn-group .btn { flex: 1; justify-content: center; }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(12px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.show { display: flex; }
+
+        .modal {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 28px 32px;
+            max-width: 720px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.8);
+            animation: modalIn 0.3s ease;
+        }
+
+        @keyframes modalIn {
+            from { opacity:0; transform:scale(0.95) translateY(10px); }
+            to { opacity:1; transform:scale(1) translateY(0); }
+        }
+
+        .modal-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 28px;
+            cursor: pointer;
+            transition: var(--transition);
+            padding: 0 4px;
+            line-height: 1;
+        }
+
+        .modal-close:hover {
+            color: var(--accent-red);
+            transform: rotate(90deg);
+        }
+
+        .form-group { margin-bottom: 16px; }
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .form-control {
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
             padding: 10px 14px;
-            margin: 6px 0;
+            color: var(--text-primary);
+            width: 100%;
+            font-size: 14px;
+            outline: none;
+            transition: var(--transition);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .form-control:focus {
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 3px rgba(74,138,160,0.1);
+        }
+
+        .form-control.error {
+            border-color: var(--accent-red);
+            box-shadow: 0 0 0 3px rgba(232,130,122,0.15);
+        }
+
+        .form-error {
+            color: var(--accent-red);
+            font-size: 13px;
+            margin-top: 6px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .nick-input-container {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 30px;
+            text-align: center;
+            max-width: 420px;
+            margin: 0 auto;
+        }
+
+        .nick-input-container h3 {
+            color: var(--text-primary);
+            font-size: 20px;
+            margin-bottom: 16px;
+        }
+
+        .nick-input-container input { max-width: 300px; margin: 0 auto; }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .result-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 18px 20px;
+            transition: var(--transition);
+        }
+
+        .result-card:hover { border-color: var(--border-hover); }
+
+        .result-card .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+
+        .result-card .result-user {
+            font-weight: 600;
+            font-size: 16px;
+            color: var(--text-primary);
+        }
+
+        .result-card .result-date {
+            font-size: 12px;
+            color: var(--text-muted);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .result-card .result-test {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .result-card .result-score {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--accent-green);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .result-card .status-badge {
+            display: inline-block;
+            padding: 2px 14px;
+            border-radius: var(--radius-full);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .status-pending { color: var(--accent-gold); border:1px solid #5a4a2a; background:var(--accent-gold-dim); }
+        .status-checked { color: var(--accent-green); border:1px solid #2a5a4a; background:var(--accent-green-dim); }
+        .status-revision { color: var(--accent-red); border:1px solid #5a2a2a; background:var(--accent-red-dim); }
+
+        .result-actions { margin-top: 12px; display: flex; gap: 6px; flex-wrap: wrap; }
+
+        .answer-detail {
+            padding: 12px 16px;
+            margin: 8px 0;
             border-radius: var(--radius-sm);
             background: var(--bg-input);
             border-left: 3px solid var(--border-color);
@@ -806,7 +711,7 @@
         .answer-detail.wrong { border-left-color: var(--accent-red); }
 
         .answer-detail .q-label {
-            font-size: 11px;
+            font-size: 12px;
             color: var(--text-muted);
             font-family: 'JetBrains Mono', monospace;
         }
@@ -814,75 +719,170 @@
         .answer-detail .q-text {
             color: var(--text-primary);
             margin: 4px 0;
-            font-size: 14px;
+            font-size: 15px;
         }
 
         .answer-detail .user-answer {
             color: var(--accent-gold);
-            font-size: 13px;
+            font-size: 14px;
         }
 
         .answer-detail .correct-answer-text {
             color: var(--accent-green);
-            font-size: 13px;
+            font-size: 14px;
         }
 
         .empty-state {
             text-align: center;
-            padding: 40px 20px;
+            padding: 50px 20px;
             color: var(--text-muted);
         }
-        .empty-state .icon { font-size: 40px; margin-bottom: 8px; }
-        .empty-state .title { font-size: 16px; font-weight: 600; color: var(--text-secondary); margin-bottom: 4px; }
-        .empty-state .desc { font-size: 13px; }
 
-        .btn-sm { padding: 5px 14px; font-size: 12px; }
-        .btn-block { width: 100%; justify-content: center; }
+        .empty-state .icon { font-size: 48px; margin-bottom: 12px; }
+        .empty-state .title { font-size: 18px; font-weight: 600; color: var(--text-secondary); margin-bottom: 4px; }
+        .empty-state .desc { font-size: 14px; }
 
-        .btn-success {
-            background: var(--accent-green-dim);
-            border-color: #2a6a5a;
-            color: var(--accent-green);
-        }
-        .btn-success:hover:not(:disabled) {
-            background: #1a4a4a;
-            border-color: var(--accent-green);
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
         }
 
-        .btn-primary {
-            background: var(--accent-blue-dim);
-            border-color: var(--accent-blue);
+        .admin-table th {
+            color: var(--text-secondary);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            text-transform: uppercase;
+            text-align: left;
+            padding: 8px 12px;
+            border-bottom: 1px solid var(--border-color);
+            letter-spacing: 0.5px;
+        }
+
+        .admin-table td {
             color: var(--text-primary);
-        }
-        .btn-primary:hover:not(:disabled) {
-            background: var(--accent-blue);
-            border-color: var(--accent-blue);
+            padding: 8px 12px;
+            border-bottom: 1px solid var(--border-color);
         }
 
-        .btn-warning {
-            background: var(--accent-gold-dim);
-            border-color: #5a4a2a;
-            color: var(--accent-gold);
-        }
-        .btn-warning:hover:not(:disabled) {
-            background: #3a2a1a;
-            border-color: var(--accent-gold);
+        .admin-table tr:hover td { background: rgba(255,255,255,0.02); }
+
+        .status-badge {
+            display: inline-block;
+            padding: 2px 12px;
+            border-radius: var(--radius-full);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            font-weight: 600;
         }
 
-        .nick-input-container {
+        .status-badge.protected {
+            color: var(--accent-green);
+            border: 1px solid #2a5a4a;
+            background: var(--accent-green-dim);
+        }
+
+        .status-badge.normal {
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
+            background: var(--bg-input);
+        }
+
+        .question-item {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
-            border-radius: var(--radius);
-            padding: 24px;
-            text-align: center;
-            max-width: 360px;
-            margin: 0 auto;
-        }
-        .nick-input-container h3 {
-            color: var(--text-primary);
-            font-size: 18px;
+            border-radius: var(--radius-sm);
+            padding: 16px;
             margin-bottom: 12px;
         }
+
+        .question-item .q-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .question-item .q-header .q-number {
+            font-weight: 600;
+            color: var(--text-secondary);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+        }
+
+        .option-row {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            margin-top: 4px;
+        }
+
+        .option-row input[type="text"] {
+            flex: 1;
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            padding: 8px 12px;
+            color: var(--text-primary);
+            font-size: 14px;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .option-row input[type="text"]:focus { border-color: var(--accent-blue); }
+
+        .option-row input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--accent-green);
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .option-row .correct-label {
+            color: var(--accent-green);
+            font-size: 12px;
+            font-family: 'JetBrains Mono', monospace;
+            flex-shrink: 0;
+        }
+
+        .checkbox-group {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .checkbox-group label {
+            color: var(--text-secondary);
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .checkbox-group input[type="radio"] {
+            accent-color: var(--accent-blue);
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+
+        .comment-box {
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            padding: 10px 14px;
+            color: var(--text-primary);
+            width: 100%;
+            min-height: 80px;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            outline: none;
+            resize: vertical;
+            transition: var(--transition);
+        }
+
+        .comment-box:focus { border-color: var(--accent-blue); }
 
         .toast {
             position: fixed;
@@ -892,7 +892,7 @@
             background: var(--bg-card);
             border: 1px solid var(--border-color);
             color: var(--text-primary);
-            padding: 10px 24px;
+            padding: 12px 28px;
             border-radius: var(--radius-full);
             font-family: 'Inter', sans-serif;
             font-size: 14px;
@@ -903,30 +903,33 @@
             z-index: 999;
             box-shadow: 0 8px 30px rgba(0,0,0,0.5);
         }
+
         .toast.show { opacity: 1; }
 
         @media (max-width: 768px) {
-            .header { padding: 10px 14px; flex-direction: column; align-items: stretch; gap: 8px; top: 8px; }
-            .header-title { font-size: 16px; justify-content: center; }
+            .header { padding: 14px 18px; flex-direction: column; align-items: stretch; gap: 10px; top: 10px; }
+            .header-title { font-size: 18px; justify-content: center; }
             .header-right { justify-content: center; }
-            .nav-btn { font-size: 11px; padding: 5px 12px; }
-            .content { padding: 14px; }
-            .report-card { padding: 16px; }
-            .report-card .title { font-size: 16px; }
+            .nav-btn { font-size: 12px; padding: 6px 14px; }
+            .content { padding: 16px; }
             .tests-grid { grid-template-columns: 1fr; }
+            .results-grid { grid-template-columns: 1fr; }
+            .modal { padding: 20px; }
+            .score-display .score-number { font-size: 40px; }
+            .btn-group .btn { flex: 1 1 100%; }
         }
 
         @media (max-width: 480px) {
             body { padding: 10px; }
-            .header-title { font-size: 14px; }
-            .header-title .badge { font-size: 9px; padding: 1px 8px; }
-            .nav-btn { font-size: 10px; padding: 4px 10px; }
-            .content { padding: 10px; }
-            .report-card { padding: 12px; }
-            .report-card .title { font-size: 14px; }
-            .score-display .score-number { font-size: 36px; }
+            .header-title { font-size: 16px; }
+            .header-title .badge { font-size: 10px; padding: 1px 10px; }
+            .nav-btn { font-size: 11px; padding: 5px 12px; }
+            .content { padding: 12px; }
+            .test-card { padding: 14px 16px; }
+            .test-card .test-name { font-size: 15px; }
             .question-text { font-size: 16px; }
-            .option-label { font-size: 13px; padding: 8px 12px; }
+            .option-label { font-size: 14px; padding: 10px 14px; }
+            .modal { padding: 16px; }
         }
     </style>
 </head>
@@ -935,140 +938,104 @@
 <div class="app-container">
     <header class="header">
         <div class="header-title">
-            ⚡ ФСО-АРБАТ
-            <span class="badge">Единая система</span>
+            ⚡ ФСО ТЕСТИРОВАНИЕ
+            <span class="badge">ЦСН / ОБО</span>
         </div>
         <div class="header-right">
-            <button class="nav-btn active" data-module="report">📋 Доклад</button>
-            <button class="nav-btn" data-module="test">📝 Тесты</button>
+            <div id="adminStatusContainer"></div>
+            <button class="nav-btn active" id="testsTab">📝 Тесты</button>
+            <button class="nav-btn" id="resultsTab">📊 Результаты</button>
+            <button class="nav-btn" id="editTab">⚙️ Админ</button>
         </div>
     </header>
 
-    <div class="content">
-        <!-- Модуль: Доклад -->
-        <div class="module" id="module-report">
-            <div class="report-card">
-                <div class="header">
-                    <div class="title">
-                        🔱 ГЕНЕРАТОР ДОКЛАДА
-                        <span class="badge">ФСО-АРБАТ</span>
-                    </div>
-                    <div class="header-right">
-                        <button class="sound-toggle" id="soundToggle" style="background:transparent;border:1px solid #1f323d;color:#5d8b9a;padding:3px 12px;border-radius:20px;font-size:12px;font-family:'Courier New',monospace;cursor:pointer;">🔊 Звук</button>
-                        <div class="timer-display inactive" id="timerDisplay">--:--:--</div>
-                        <div class="status-led">
-                            <span class="dot off" id="statusDot"></span>
-                            <span id="statusText">ОЖИДАНИЕ</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="fields-grid">
-                    <div class="field">
-                        <span class="field-label">▸ Тип службы</span>
-                        <select id="serviceType" class="field-control"><option value="post">Пост</option></select>
-                    </div>
-                    <div class="field" id="locationField">
-                        <span class="field-label" id="locationLabel">▸ Название поста</span>
-                        <select id="locationSelect" class="field-control">
-                            <option value="Дом Правительства">Дом Правительства</option>
-                            <option value="Вечный Огонь">Вечный Огонь</option>
-                            <option value="КПП-1">КПП-1</option>
-                            <option value="КПП-2">КПП-2</option>
-                            <option value="КПП-3">КПП-3</option>
-                            <option value="Холл ФСО">Холл ФСО</option>
-                        </select>
-                    </div>
-                    <div class="field">
-                        <span class="field-label">▸ Звание</span>
-                        <select id="rank" class="field-control">
-                            <option value="Рядовой">Рядовой</option>
-                            <option value="Ефрейтор">Ефрейтор</option>
-                            <option value="Младший сержант">Младший сержант</option>
-                            <option value="Сержант">Сержант</option>
-                            <option value="Старший сержант">Старший сержант</option>
-                            <option value="Старшина">Старшина</option>
-                            <option value="Прапорщик">Прапорщик</option>
-                            <option value="Старший прапорщик">Старший прапорщик</option>
-                            <option value="Младший лейтенант">Младший лейтенант</option>
-                            <option value="Лейтенант">Лейтенант</option>
-                            <option value="Старший лейтенант">Старший лейтенант</option>
-                        </select>
-                    </div>
-                    <div class="field">
-                        <span class="field-label">▸ Имя Фамилия <span class="required">*</span></span>
-                        <input type="text" id="surname" class="field-control" placeholder="Введите имя и фамилию" value="" />
-                        <div style="color:#e8827a;font-size:11px;font-family:'Courier New',monospace;height:16px;" id="surnameError"></div>
-                    </div>
-                    <div class="field">
-                        <span class="field-label">▸ Статус</span>
-                        <select id="statusStart" class="field-control">
-                            <option value="0">Код 0</option>
-                            <option value="1" selected>Код 1</option>
-                            <option value="2">Код 2</option>
-                            <option value="3">Код 3</option>
-                            <option value="4">Код 4</option>
-                        </select>
-                    </div>
-                    <div class="field">
-                        <span class="field-label">▸ Состав</span>
-                        <select id="sostavSelect" class="field-control">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3" selected>3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="btn-group">
-                    <button class="btn" id="mainBtn">
-                        <span class="icon">⚡</span> ЗАСТУПИТЬ
-                    </button>
-                    <button class="btn secondary" id="clearBtn">
-                        <span class="icon">🗑</span> ОЧИСТИТЬ
-                    </button>
-                </div>
-
-                <div class="reports-grid" id="reportsGrid">
-                    <div class="report-item empty">
-                        <div class="report-header"><span class="report-number">№1</span><span class="report-title">ЗАСТУПИЛ</span></div>
-                        <div class="report-body">Ожидание заступления...</div>
-                        <button class="copy-btn" disabled>📋 Копировать</button>
-                    </div>
-                    <div class="report-item empty">
-                        <div class="report-header"><span class="report-number">№2</span><span class="report-title">15</span></div>
-                        <div class="report-body">Ожидание заступления...</div>
-                        <button class="copy-btn" disabled>📋 Копировать</button>
-                    </div>
-                    <div class="report-item empty">
-                        <div class="report-header"><span class="report-number">№3</span><span class="report-title">СДАЛ</span></div>
-                        <div class="report-body">Ожидание заступления...</div>
-                        <button class="copy-btn" disabled>📋 Копировать</button>
-                    </div>
+    <div class="content" id="mainContent">
+        <div class="test-list" id="testList">
+            <div class="flex-between" style="margin-bottom:16px;">
+                <div class="section-title">
+                    📋 Доступные тесты
+                    <span class="count" id="testCount">0</span>
                 </div>
             </div>
+            <div class="tests-grid" id="testsGrid"></div>
         </div>
 
-        <!-- Модуль: Тесты -->
-        <div class="module hidden" id="module-test">
-            <div id="testApp">
-                <div class="test-list" id="testList">
-                    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:12px;">
-                        <div style="font-size:18px;font-weight:700;color:var(--text-primary);">
-                            📋 Доступные тесты
-                            <span style="font-size:13px;font-weight:400;color:var(--text-muted);background:var(--bg-card);padding:1px 12px;border-radius:40px;border:1px solid var(--border-color);margin-left:8px;" id="testCount">0</span>
-                        </div>
-                    </div>
-                    <div class="tests-grid" id="testsGrid"></div>
-                </div>
-                <div class="test-taking" id="testTaking">
-                    <button class="btn btn-primary" id="backToTests" style="margin-bottom:12px;">← Назад</button>
-                    <div id="testContent"></div>
+        <div class="test-taking" id="testTaking">
+            <button class="btn btn-primary" id="backToTests">← Назад</button>
+            <div id="testContent" style="margin-top:16px;"></div>
+        </div>
+
+        <div class="test-list hidden" id="resultsList">
+            <div class="flex-between" style="margin-bottom:16px;">
+                <div class="section-title">
+                    📊 Результаты
+                    <span class="count" id="resultsCount">0</span>
                 </div>
             </div>
+            <div id="resultsGrid" class="results-grid"></div>
         </div>
+    </div>
+</div>
+
+<!-- Модалки -->
+<div class="modal-overlay" id="editModal">
+    <div class="modal">
+        <div class="modal-title">
+            ⚙️ Админ-панель
+            <button class="modal-close" id="closeEditModal">✕</button>
+        </div>
+        <div id="loginForm">
+            <div class="form-group"><label>Логин</label><input type="text" class="form-control" id="loginInput" placeholder="Логин"></div>
+            <div class="form-group"><label>Пароль</label><input type="password" class="form-control" id="passwordInput" placeholder="Пароль"></div>
+            <button class="btn btn-primary btn-block" id="loginBtn">Войти</button>
+            <div class="form-error" id="loginError"></div>
+        </div>
+        <div id="adminPanel" style="display:none;">
+            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:16px;">
+                <span style="color:var(--text-secondary);font-family:'JetBrains Mono',monospace;font-size:14px;">👤 <span style="color:var(--text-primary);" id="adminNameDisplay">admin</span></span>
+                <button class="btn btn-danger btn-sm" id="logoutBtn">Выйти</button>
+            </div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;">
+                <button class="btn btn-success" id="newTestBtn">+ Новый тест</button>
+                <button class="btn btn-warning" id="continueDraftBtn">📂 Черновик</button>
+                <button class="btn btn-danger" id="resetTestsBtn">🔄 Сбросить</button>
+            </div>
+            <div id="testsAdminList"></div>
+            <div style="margin-top:20px;">
+                <h3 style="color:var(--text-secondary);font-size:14px;font-family:'JetBrains Mono',monospace;margin-bottom:10px;">👥 Администраторы</h3>
+                <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px;">
+                    <input type="text" class="form-control" style="flex:1;min-width:140px;" id="newAdminLogin" placeholder="Логин">
+                    <input type="text" class="form-control" style="flex:1;min-width:140px;" id="newAdminPass" placeholder="Пароль">
+                    <button class="btn btn-success btn-sm" id="addAdminBtn">Добавить</button>
+                </div>
+                <table class="admin-table"><thead><tr><th>Логин</th><th>Статус</th><th>Действия</th></tr></thead><tbody id="adminListBody"></tbody></table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="testEditorModal">
+    <div class="modal">
+        <div class="modal-title"><span id="editorTitle">Редактирование</span><button class="modal-close" id="closeTestEditor">✕</button></div>
+        <div id="editorContent"></div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="testPasswordModal">
+    <div class="modal" style="max-width:420px;">
+        <div class="modal-title">🔒 Доступ<button class="modal-close" id="closeTestPasswordModal">✕</button></div>
+        <div id="testPasswordContent">
+            <div class="form-group"><label>Пароль</label><input type="password" class="form-control" id="testPasswordInput" placeholder="Пароль"></div>
+            <button class="btn btn-primary btn-block" id="testPasswordSubmit">Подтвердить</button>
+            <div class="form-error" id="testPasswordError"></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="reviewModal">
+    <div class="modal">
+        <div class="modal-title">📝 Проверка<button class="modal-close" id="closeReviewModal">✕</button></div>
+        <div id="reviewContent"></div>
     </div>
 </div>
 
@@ -1078,695 +1045,1081 @@
     (function() {
         'use strict';
 
-        // ============================================================
-        // 1. Переключение модулей
-        // ============================================================
-        const modules = {
-            report: document.getElementById('module-report'),
-            test: document.getElementById('module-test')
-        };
-        const navBtns = document.querySelectorAll('.nav-btn[data-module]');
+        const App = {
+            tests: [],
+            admins: [],
+            results: [],
+            currentUser: null,
+            isLoggedIn: false,
+            currentTest: null,
+            testResults: null,
+            testStartTime: null,
+            testTimer: null,
+            userNick: '',
+            pendingTestId: null,
+            draftData: null,
+            currentQuestionIndex: 0,
 
-        navBtns.forEach(btn => {
-            btn.addEventListener('click', function() {
-                navBtns.forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-                const mod = this.dataset.module;
-                Object.keys(modules).forEach(key => {
-                    modules[key].classList.toggle('hidden', key !== mod);
-                });
-                // если переключились на тесты — перерендерим
-                if (mod === 'test') renderTests();
-            });
-        });
+            init() {
+                this.loadData();
+                this.loadSession();
+                this.loadDraft();
+                this.renderTests();
+                this.renderResults();
+                this.setupEventListeners();
+                this.updateTestCount();
+                this.updateAdminStatus();
+                if (this.isLoggedIn) document.getElementById('editTab').click();
+            },
 
-        // ============================================================
-        // 2. Доклад (вся логика)
-        // ============================================================
-        const report = (function() {
-            const rankSelect = document.getElementById('rank');
-            const surnameInput = document.getElementById('surname');
-            const surnameError = document.getElementById('surnameError');
-            const serviceType = document.getElementById('serviceType');
-            const locationSelect = document.getElementById('locationSelect');
-            const locationLabel = document.getElementById('locationLabel');
-            const statusStartSelect = document.getElementById('statusStart');
-            const sostavSelect = document.getElementById('sostavSelect');
-            const mainBtn = document.getElementById('mainBtn');
-            const clearBtn = document.getElementById('clearBtn');
-            const reportsGrid = document.getElementById('reportsGrid');
-            const timerDisplay = document.getElementById('timerDisplay');
-            const statusDot = document.getElementById('statusDot');
-            const statusText = document.getElementById('statusText');
-            const toast = document.getElementById('toast');
-            const soundToggle = document.getElementById('soundToggle');
+            loadData() {
+                const saved = localStorage.getItem('fso_tests_data');
+                if (saved) {
+                    try {
+                        const data = JSON.parse(saved);
+                        this.tests = data.tests || [];
+                        this.admins = data.admins || [];
+                        this.results = data.results || [];
+                        const adminExists = this.admins.some(a => a.login === 'admin');
+                        if (!adminExists) this.admins.unshift({ login: 'admin', password: '123mastyrbist', protected: true });
+                        else {
+                            const adminIdx = this.admins.findIndex(a => a.login === 'admin');
+                            if (this.admins[adminIdx]) { this.admins[adminIdx].password = '123mastyrbist'; this.admins[adminIdx].protected = true; }
+                        }
+                    } catch(e) { this.setDefaultData(); }
+                } else { this.setDefaultData(); }
+            },
 
-            let soundEnabled = true;
-            let isOnDuty = false;
-            let dutyStartTime = null;
-            let timerInterval = null;
-
-            const statuses = [
-                { code: 'Код 0', class: 'status-0' },
-                { code: 'Код 1', class: 'status-1' },
-                { code: 'Код 2', class: 'status-2' },
-                { code: 'Код 3', class: 'status-3' },
-                { code: 'Код 4', class: 'status-4' }
-            ];
-
-            function playBeep(freq, dur, type = 'sine', vol = 0.3) {
-                if (!soundEnabled) return;
-                try {
-                    const ctx = new (window.AudioContext || window.webkitAudioContext)();
-                    const osc = ctx.createOscillator();
-                    const gain = ctx.createGain();
-                    osc.connect(gain); gain.connect(ctx.destination);
-                    osc.type = type; osc.frequency.value = freq;
-                    gain.gain.value = vol;
-                    osc.start();
-                    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + dur);
-                    osc.stop(ctx.currentTime + dur);
-                } catch(e) {}
-            }
-
-            function playStartSound() { playBeep(800,0.15); setTimeout(()=>playBeep(1200,0.15),150); }
-            function playEndSound() { playBeep(600,0.4,'sawtooth',0.2); setTimeout(()=>playBeep(400,0.3,'sawtooth',0.15),300); }
-            function playCopySound() { playBeep(1200,0.05,'sine',0.15); }
-            function playErrorSound() { playBeep(300,0.3,'sawtooth',0.2); setTimeout(()=>playBeep(250,0.3,'sawtooth',0.15),250); }
-            function playClearSound() { playBeep(500,0.1); setTimeout(()=>playBeep(400,0.1),100); }
-
-            soundToggle.addEventListener('click', function() {
-                soundEnabled = !soundEnabled;
-                this.textContent = soundEnabled ? '🔊 Звук' : '🔇 Звук выкл';
-                if (soundEnabled) playBeep(800,0.1);
-            });
-
-            function getStatusByIndex(i) { return statuses[i] || statuses[0]; }
-            function getSostav() { return sostavSelect.value; }
-            function getLocationName() { return locationSelect.value; }
-            function formatTime(d) { return d.toLocaleString('ru-RU', { hour:'2-digit', minute:'2-digit', hour12:false }); }
-            function formatDurationFull(start, end) {
-                let diff = Math.floor((end - start) / 1000);
-                const hrs = Math.floor(diff/3600); diff -= hrs*3600;
-                const mins = Math.floor(diff/60); const secs = diff - mins*60;
-                return hrs > 0 ? `${hrs} ч ${mins} мин ${secs} сек` : `${mins} мин ${secs} сек`;
-            }
-
-            function updateLocationOptions() {
-                locationLabel.textContent = '▸ Название поста';
-                locationSelect.innerHTML = '';
-                ['Дом Правительства','Вечный Огонь','КПП-1','КПП-2','КПП-3','Холл ФСО'].forEach(opt => {
-                    const o = document.createElement('option');
-                    o.value = opt; o.textContent = opt;
-                    locationSelect.appendChild(o);
-                });
-            }
-
-            function disableFields(disabled) {
-                [rankSelect, serviceType, locationSelect, statusStartSelect, sostavSelect].forEach(el => el.disabled = disabled);
-                surnameInput.disabled = disabled;
-            }
-
-            function updateUI(isActive) {
-                if (isActive) {
-                    statusDot.className = 'dot';
-                    statusText.textContent = 'НА СЛУЖБЕ';
-                    timerDisplay.className = 'timer-display';
-                    mainBtn.innerHTML = '<span class="icon">📤</span> СДАТЬ';
-                    mainBtn.className = 'btn end-shift';
-                    disableFields(true);
-                } else {
-                    statusDot.className = 'dot off';
-                    statusText.textContent = 'ОЖИДАНИЕ';
-                    timerDisplay.className = 'timer-display inactive';
-                    timerDisplay.textContent = '--:--:--';
-                    mainBtn.innerHTML = '<span class="icon">⚡</span> ЗАСТУПИТЬ';
-                    mainBtn.className = 'btn';
-                    disableFields(false);
+            loadSession() {
+                const session = localStorage.getItem('fso_session');
+                if (session) {
+                    try {
+                        const data = JSON.parse(session);
+                        if (data.login && data.loggedIn) {
+                            const admin = this.admins.find(a => a.login === data.login);
+                            if (admin) { this.currentUser = admin; this.isLoggedIn = true; }
+                        }
+                    } catch(e) {}
                 }
-            }
+            },
 
-            function showToast(msg) {
-                toast.textContent = msg;
-                toast.classList.add('show');
-                clearTimeout(toast._timeout);
-                toast._timeout = setTimeout(() => toast.classList.remove('show'), 2000);
-            }
+            saveSession() {
+                if (this.isLoggedIn && this.currentUser) localStorage.setItem('fso_session', JSON.stringify({ login: this.currentUser.login, loggedIn: true }));
+                else localStorage.removeItem('fso_session');
+            },
 
-            function copyToClipboard(text) {
-                if (navigator.clipboard && navigator.clipboard.writeText) {
-                    navigator.clipboard.writeText(text).then(() => { playCopySound(); showToast('✅ Скопировано'); })
-                        .catch(() => fallbackCopy(text));
-                } else fallbackCopy(text);
-            }
-            function fallbackCopy(text) {
-                const ta = document.createElement('textarea');
-                ta.value = text; ta.style.position='fixed'; ta.style.left='-9999px';
-                document.body.appendChild(ta); ta.select();
-                try { document.execCommand('copy'); playCopySound(); showToast('✅ Скопировано'); } catch(e) { showToast('❌ Ошибка'); }
-                document.body.removeChild(ta);
-            }
+            loadDraft() {
+                const draft = localStorage.getItem('fso_draft');
+                if (draft) { try { this.draftData = JSON.parse(draft); } catch(e) { this.draftData = null; } }
+            },
 
-            function buildReportHTML(text, status) {
-                const parts = text.split('|');
-                if (parts.length >= 4) {
-                    const l1 = parts[0].trim(), l2 = parts[1]?.trim() || '', l3 = parts[2]?.trim() || '', sp = parts[3]?.trim() || '';
-                    const tag = `<span class="status-tag ${status.class}">${sp}</span>`;
-                    let res = `<span class="label-text">${l1}</span>`;
-                    if (l2) res += `<br><span class="value-text">${l2}</span>`;
-                    if (l3) res += ` | <span class="value-text">${l3}</span>`;
-                    res += ` ${tag}`;
-                    return res;
+            saveDraft() {
+                if (this.draftData) localStorage.setItem('fso_draft', JSON.stringify(this.draftData));
+                else localStorage.removeItem('fso_draft');
+            },
+
+            setDefaultData() {
+                this.admins = [{ login: 'admin', password: '123mastyrbist', protected: true }];
+                this.results = [];
+                this.tests = [
+                    {
+                        id: 1,
+                        name: 'ЦСН СПБ - ФЗ ФСО и УК РФ',
+                        password: '',
+                        questions: [
+                            { type: 'choice', text: 'Что такое государственная охрана согласно ФЗ ФСО?', options: ['Деятельность по обеспечению безопасности объектов государственной охраны', 'Деятельность по охране государственной границы', 'Деятельность по защите прав граждан', 'Деятельность по обеспечению общественного порядка'], correct: [0] },
+                            { type: 'choice', text: 'На основе каких принципов осуществляется государственная охрана?', options: ['Законность, уважение прав человека, централизованное руководство, взаимодействие', 'Законность, гласность, демократизм, независимость', 'Законность, открытость, децентрализация, самоуправление', 'Законность, приоритет государства, единоначалие, закрытость'], correct: [0] },
+                            { type: 'choice', text: 'Кто осуществляет руководство федеральным органом исполнительной власти в области государственной охраны?', options: ['Председатель Правительства РФ', 'Президент РФ', 'Губернатор Федерального округа', 'Министр обороны РФ'], correct: [0] },
+                            { type: 'choice', text: 'Какие меры включает государственная охрана согласно статье 4 ФЗ ФСО?', options: ['Персональная охрана, связь, информация об угрозе, транспортное обслуживание', 'Только персональная охрана', 'Только защита охраняемых объектов', 'Только транспортное обслуживание'], correct: [0] },
+                            { type: 'choice', text: 'Кому предоставляется государственная охрана в полном объеме со дня назначения на должность?', options: ['Председателю Правительства РФ и Губернаторам Федеральных округов', 'Всем депутатам', 'Судьям РФ', 'Генеральному прокурору РФ'], correct: [0] },
+                            { type: 'choice', text: 'Какие основные задачи органов государственной охраны согласно ФЗ ФСО?', options: ['Обеспечение безопасности объектов охраны, защита охраняемых объектов, пресечение правонарушений', 'Только обеспечение безопасности', 'Только защита объектов', 'Только пресечение преступлений'], correct: [0] },
+                            { type: 'choice', text: 'Могут ли сотрудники ФСО при исполнении обязанностей не предъявлять удостоверение?', options: ['Да, при сопровождении объектов государственной охраны', 'Нет, никогда', 'Да, всегда', 'Только по требованию прокурора'], correct: [0] },
+                            { type: 'choice', text: 'Согласно УК РФ, что является преступлением?', options: ['Виновно совершенное общественно опасное деяние, запрещенное УК РФ под угрозой наказания', 'Любое нарушение закона', 'Действие, причинившее вред', 'Административное правонарушение'], correct: [0] },
+                            { type: 'choice', text: 'Какая форма вины предусмотрена УК РФ?', options: ['Умысел и неосторожность', 'Только умысел', 'Только неосторожность', 'Небрежность'], correct: [0] },
+                            { type: 'choice', text: 'Что такое необходимая оборона согласно УК РФ?', options: ['Защита личности и прав обороняющегося от общественно опасного посягательства', 'Причинение вреда без причины', 'Умышленное причинение вреда', 'Самооборона с оружием'], correct: [0] },
+                            { type: 'choice', text: 'Какие виды наказаний предусмотрены УК РФ?', options: ['Штраф, лишение свободы, лишение права занимать должности', 'Только лишение свободы', 'Только штраф', 'Административный арест'], correct: [0] },
+                            { type: 'choice', text: 'Что такое рецидив преступлений по УК РФ?', options: ['Совершение умышленного преступления при наличии судимости', 'Повторное нарушение ПДД', 'Рецидив заболеваний', 'Повторное административное правонарушение'], correct: [0] },
+                            { type: 'choice', text: 'Какое наказание предусмотрено за убийство по ст.37 УК РФ?', options: ['Лишение свободы на срок 7 лет (СПРП «★★★★»)', 'Штраф 100 тыс. руб.', 'Лишение свободы на 5 лет', 'Исправительные работы'], correct: [0] },
+                            { type: 'choice', text: 'Что такое соучастие в преступлении по УК РФ?', options: ['Умышленное совместное участие двух или более лиц в совершении умышленного преступления', 'Случайное присутствие', 'Соучастие в гражданском деле', 'Коллективное решение'], correct: [0] },
+                            { type: 'choice', text: 'Имеют ли право сотрудники ФСО на хранение и ношение любого оружия для исполнения служебных обязанностей?', options: ['Да, разрешено', 'Нет, только служебное оружие', 'Да, но с разрешения прокурора', 'Нет, запрещено'], correct: [0] }
+                        ],
+                        timeLimit: 600,
+                        passingScore: 70,
+                        createdAt: Date.now()
+                    },
+                    {
+                        id: 2,
+                        name: 'ОБО СПБ - ФЗ ФСО и УК РФ',
+                        password: '',
+                        questions: [
+                            { type: 'choice', text: 'Согласно ФЗ ФСО, каковы основные принципы государственной охраны?', options: ['Законность, уважение прав, централизованное руководство, взаимодействие', 'Только законность', 'Только централизация', 'Законность и гласность'], correct: [0] },
+                            { type: 'choice', text: 'Кто является объектом государственной охраны согласно ФЗ ФСО?', options: ['Лица и охраняемые объекты', 'Только граждане РФ', 'Только иностранные граждане', 'Только здания'], correct: [0] },
+                            { type: 'choice', text: 'Какая статья ФЗ ФСО определяет меры государственной охраны?', options: ['Статья 4', 'Статья 1', 'Статья 7', 'Статья 10'], correct: [0] },
+                            { type: 'choice', text: 'Согласно УК РФ, какое наказание предусмотрено за кражу (ст.44)?', options: ['Штраф 30 тыс. руб. или лишение свободы на 3 года (СПРП «★★»)', 'Штраф 100 тыс. руб.', 'Лишение свободы на 5 лет', 'Административный арест'], correct: [0] },
+                            { type: 'choice', text: 'Какое наказание предусмотрено за грабеж по ст.46 УК РФ?', options: ['Лишение свободы на 4 года (СПРП «★★»)', 'Штраф 50 тыс. руб.', 'Лишение свободы на 2 года', 'Исправительные работы'], correct: [0] },
+                            { type: 'choice', text: 'Что такое покушение на преступление по УК РФ?', options: ['Умышленные действия, непосредственно направленные на совершение преступления, но не доведенные до конца по независящим причинам', 'Готовность совершить преступление', 'Мысли о преступлении', 'Обсуждение плана'], correct: [0] },
+                            { type: 'choice', text: 'Какие сроки давности установлены УК РФ?', options: ['6 дней для небольшой тяжести, 12 для средней, 18 для тяжкого, 24 для особо тяжкого', '1 год для всех', '30 дней для всех', '3 месяца для всех'], correct: [0] },
+                            { type: 'choice', text: 'Согласно УК РФ, что является особо тяжким преступлением?', options: ['Деяние, за которое максимальное наказание от 11 и более лет лишения свободы', 'Убийство', 'Кража', 'Нарушение ПДД'], correct: [0] },
+                            { type: 'choice', text: 'Что такое халатность по ст.80 УК РФ?', options: ['Ненадлежащее исполнение должностным лицом своих обязанностей', 'Умышленное преступление', 'Грабеж', 'Кража'], correct: [0] },
+                            { type: 'choice', text: 'Какое наказание предусмотрено за злоупотребление должностными полномочиями по ст.76 УК РФ?', options: ['Штраф 500 тыс. руб. или лишение свободы на 3 года (СПРП «★★»)', 'Только штраф', 'Только лишение свободы на 5 лет', 'Административный штраф'], correct: [0] },
+                            { type: 'choice', text: 'Что такое превышение должностных полномочий по ст.77 УК РФ?', options: ['Совершение должностным лицом действий, явно выходящих за пределы его полномочий', 'Исполнение своих обязанностей', 'Отказ от должности', 'Работа сверхурочно'], correct: [0] },
+                            { type: 'choice', text: 'Какое наказание предусмотрено за террористический акт по ст.53 УК РФ?', options: ['Лишение свободы на 8 лет (СПРП «★★★★★★»)', 'Штраф 500 тыс. руб.', 'Лишение свободы на 5 лет', 'Пожизненное заключение'], correct: [0] },
+                            { type: 'choice', text: 'Что такое бандитизм по ст.58 УК РФ?', options: ['Создание устойчивой вооруженной группы (банды) для нападения', 'Групповое хулиганство', 'Разбой', 'Организация митинга'], correct: [0] },
+                            { type: 'choice', text: 'Согласно ФЗ ФСО, кто является сотрудником органов государственной охраны?', options: ['Представитель власти и военнослужащий', 'Только военнослужащий', 'Только представитель власти', 'Гражданский служащий'], correct: [0] },
+                            { type: 'choice', text: 'Какое наказание предусмотрено за государственную измену по ст.69 УК РФ?', options: ['Лишение свободы на 15 лет (СПРП «★★★★★★»)', 'Штраф 1 млн руб.', 'Лишение свободы на 10 лет', 'Пожизненное заключение'], correct: [0] }
+                        ],
+                        timeLimit: 600,
+                        passingScore: 70,
+                        createdAt: Date.now()
+                    }
+                ];
+                this.saveData();
+            },
+
+            saveData() {
+                localStorage.setItem('fso_tests_data', JSON.stringify({
+                    tests: this.tests,
+                    admins: this.admins,
+                    results: this.results
+                }));
+            },
+
+            resetToDefault() {
+                if (confirm('Сбросить все тесты к стандартным?')) {
+                    localStorage.removeItem('fso_tests_data');
+                    localStorage.removeItem('fso_results');
+                    localStorage.removeItem('fso_draft');
+                    this.tests = [];
+                    this.results = [];
+                    this.draftData = null;
+                    this.setDefaultData();
+                    this.renderTests();
+                    this.renderResults();
+                    this.updateTestCount();
+                    this.showToast('🔄 Тесты сброшены');
                 }
-                return text;
-            }
+            },
 
-            function renderReports(r1, r2, r3, status) {
-                const items = [
-                    { number:'№1', title:'ЗАСТУПИЛ', text:r1 },
-                    { number:'№2', title:'15', text:r2 },
-                    { number:'№3', title:'СДАЛ', text:r3 }
-                ];
-                reportsGrid.innerHTML = '';
-                items.forEach(item => {
-                    const div = document.createElement('div');
-                    div.className = 'report-item';
-                    const header = document.createElement('div');
-                    header.className = 'report-header';
-                    header.innerHTML = `<span class="report-number">${item.number}</span><span class="report-title">${item.title}</span>`;
-                    div.appendChild(header);
-                    const body = document.createElement('div');
-                    body.className = 'report-body';
-                    body.innerHTML = buildReportHTML(item.text, status);
-                    div.appendChild(body);
-                    const btn = document.createElement('button');
-                    btn.className = 'copy-btn';
-                    btn.textContent = '📋 Копировать';
-                    btn.addEventListener('click', function(e) {
-                        e.stopPropagation();
-                        copyToClipboard(item.text);
-                        this.classList.add('copied');
-                        setTimeout(() => this.classList.remove('copied'), 1500);
-                    });
-                    div.appendChild(btn);
-                    reportsGrid.appendChild(div);
-                });
-            }
-
-            function renderEmptyReports() {
-                const empty = [
-                    { number:'№1', title:'ЗАСТУПИЛ', text:'Ожидание заступления...' },
-                    { number:'№2', title:'15', text:'Ожидание заступления...' },
-                    { number:'№3', title:'СДАЛ', text:'Ожидание заступления...' }
-                ];
-                reportsGrid.innerHTML = '';
-                empty.forEach(item => {
-                    const div = document.createElement('div');
-                    div.className = 'report-item empty';
-                    const header = document.createElement('div');
-                    header.className = 'report-header';
-                    header.innerHTML = `<span class="report-number">${item.number}</span><span class="report-title">${item.title}</span>`;
-                    div.appendChild(header);
-                    const body = document.createElement('div');
-                    body.className = 'report-body';
-                    body.textContent = item.text;
-                    div.appendChild(body);
-                    const btn = document.createElement('button');
-                    btn.className = 'copy-btn';
-                    btn.textContent = '📋 Копировать';
-                    btn.disabled = true;
-                    div.appendChild(btn);
-                    reportsGrid.appendChild(div);
-                });
-            }
-
-            function generateReport(type, rank, surname, location, status, time, sostav) {
-                const act = { start:'Заступил на пост', end:'Сдал пост', interim:'Пост' };
-                const s = `Состав: ${sostav}`;
-                if (type === 'start') return `Докладывает ${rank} ${surname} | ${act.start}: ${location} | ${s} | Статус: ${status.code} | Время: ${formatTime(time)}`;
-                if (type === 'end') return `Докладывает ${rank} ${surname} | ${act.end}: ${location} | ${s} | Статус: ${status.code} | Время: ${formatTime(time)}`;
-                return `Докладывает ${rank} ${surname} | ${act.interim}: ${location} | ${s} | Статус: ${status.code} | Время на службе: ${formatDurationFull(dutyStartTime, new Date())}`;
-            }
-
-            function startDuty() {
-                const surname = surnameInput.value.trim();
-                if (!surname) {
-                    surnameInput.classList.add('error');
-                    surnameError.textContent = '⚠️ Имя и Фамилия обязательна';
-                    surnameInput.focus();
-                    playErrorSound();
+            renderTests() {
+                const grid = document.getElementById('testsGrid');
+                grid.innerHTML = '';
+                if (this.tests.length === 0) {
+                    grid.innerHTML = `<div class="empty-state"><div class="icon">📭</div><div class="title">Нет тестов</div><div class="desc">Обратитесь к администратору</div></div>`;
+                    this.updateTestCount();
                     return;
                 }
-                surnameInput.classList.remove('error');
-                surnameError.textContent = '';
+                this.tests.forEach(test => {
+                    const card = document.createElement('div');
+                    card.className = 'test-card';
+                    const qCount = test.questions.length;
+                    const hasPassword = test.password && test.password.length > 0;
+                    const totalTime = Math.floor(test.timeLimit / 60);
+                    card.innerHTML = `
+                        ${hasPassword ? '<div class="lock-badge">🔒</div>' : ''}
+                        <div class="test-name">${test.name}</div>
+                        <div class="test-meta">${qCount} вопросов</div>
+                        <div class="test-stats">
+                            <span>⏱ ${totalTime > 0 ? totalTime + ' мин' : '< 1 мин'}</span>
+                            <span>✅ ${test.passingScore}%</span>
+                            ${hasPassword ? '<span>🔒 Защищен</span>' : ''}
+                        </div>
+                    `;
+                    card.addEventListener('click', () => {
+                        if (hasPassword) {
+                            this.pendingTestId = test.id;
+                            document.getElementById('testPasswordModal').classList.add('show');
+                            document.getElementById('testPasswordInput').value = '';
+                            document.getElementById('testPasswordError').textContent = '';
+                            document.getElementById('testPasswordInput').focus();
+                        } else {
+                            this.startTest(test.id);
+                        }
+                    });
+                    grid.appendChild(card);
+                });
+                this.updateTestCount();
+            },
 
-                const rank = rankSelect.value;
-                const location = getLocationName();
-                const status = getStatusByIndex(parseInt(statusStartSelect.value));
-                const sostav = getSostav();
-                const now = new Date();
-                dutyStartTime = now;
-                isOnDuty = true;
+            updateTestCount() {
+                document.getElementById('testCount').textContent = this.tests.length;
+            },
 
-                const r1 = generateReport('start', rank, surname, location, status, now, sostav);
-                const r2 = `Докладывает ${rank} ${surname} | Пост: ${location} | Состав: ${sostav} | Статус: ${status.code} | 15 минут`;
-                const r3 = generateReport('end', rank, surname, location, status, now, sostav);
-
-                renderReports(r1, r2, r3, status);
-                updateUI(true);
-                playStartSound();
-
-                if (timerInterval) clearInterval(timerInterval);
-                timerInterval = setInterval(() => {
-                    if (dutyStartTime && isOnDuty) {
-                        timerDisplay.textContent = formatDurationFull(dutyStartTime, new Date());
-                    }
-                }, 1000);
-                showToast('✅ Заступил на службу');
-            }
-
-            function endDuty() {
-                if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
-                const now = new Date();
-                const rank = rankSelect.value;
-                const surname = surnameInput.value.trim() || '';
-                const location = getLocationName();
-                const status = getStatusByIndex(parseInt(statusStartSelect.value));
-                const sostav = getSostav();
-
-                const r1 = generateReport('start', rank, surname, location, status, dutyStartTime, sostav);
-                const r2 = generateReport('interim', rank, surname, location, status, now, sostav);
-                const r3 = generateReport('end', rank, surname, location, status, now, sostav);
-
-                renderReports(r1, r2, r3, status);
-                isOnDuty = false;
-                dutyStartTime = null;
-                updateUI(false);
-                playEndSound();
-                showToast('📤 Служба завершена');
-            }
-
-            mainBtn.addEventListener('click', function() {
-                if (isOnDuty) endDuty(); else startDuty();
-            });
-
-            clearBtn.addEventListener('click', function() {
-                if (isOnDuty) { if (!confirm('Вы уверены? Это завершит текущую службу.')) return; endDuty(); }
-                surnameInput.value = '';
-                surnameInput.classList.remove('error');
-                surnameError.textContent = '';
-                renderEmptyReports();
-                playClearSound();
-                showToast('🗑 Очищено');
-            });
-
-            surnameInput.addEventListener('input', function() {
-                if (this.value.trim()) { this.classList.remove('error'); surnameError.textContent = ''; }
-            });
-
-            serviceType.addEventListener('change', function() {
-                if (!isOnDuty) { updateLocationOptions(); renderEmptyReports(); }
-            });
-
-            // инициализация
-            updateLocationOptions();
-            updateUI(false);
-            renderEmptyReports();
-
-            return { startDuty, endDuty, renderEmptyReports };
-        })();
-
-        // ============================================================
-        // 3. Тесты (упрощённая версия с локальным хранилищем)
-        // ============================================================
-        let testData = {
-            tests: [],
-            results: []
-        };
-
-        function loadTestData() {
-            const saved = localStorage.getItem('fso_tests_data');
-            if (saved) {
-                try {
-                    const d = JSON.parse(saved);
-                    testData.tests = d.tests || [];
-                    testData.results = d.results || [];
-                    // если нет тестов — загрузим стандартные
-                    if (testData.tests.length === 0) setDefaultTests();
-                } catch(e) { setDefaultTests(); }
-            } else { setDefaultTests(); }
-        }
-
-        function saveTestData() {
-            localStorage.setItem('fso_tests_data', JSON.stringify({
-                tests: testData.tests,
-                results: testData.results
-            }));
-        }
-
-        function setDefaultTests() {
-            testData.tests = [
-                {
-                    id: 1,
-                    name: 'ЦСН СПБ - ФЗ ФСО и УК РФ',
-                    password: '',
-                    questions: [
-                        { type: 'choice', text: 'Что такое государственная охрана согласно ФЗ ФСО?', options: ['Деятельность по обеспечению безопасности объектов государственной охраны', 'Деятельность по охране государственной границы', 'Деятельность по защите прав граждан', 'Деятельность по обеспечению общественного порядка'], correct: [0] },
-                        { type: 'choice', text: 'На основе каких принципов осуществляется государственная охрана?', options: ['Законность, уважение прав человека, централизованное руководство, взаимодействие', 'Законность, гласность, демократизм, независимость', 'Законность, открытость, децентрализация, самоуправление', 'Законность, приоритет государства, единоначалие, закрытость'], correct: [0] },
-                        { type: 'choice', text: 'Кто осуществляет руководство федеральным органом исполнительной власти в области государственной охраны?', options: ['Председатель Правительства РФ', 'Президент РФ', 'Губернатор Федерального округа', 'Министр обороны РФ'], correct: [0] },
-                        { type: 'choice', text: 'Какие меры включает государственная охрана согласно статье 4 ФЗ ФСО?', options: ['Персональная охрана, связь, информация об угрозе, транспортное обслуживание', 'Только персональная охрана', 'Только защита охраняемых объектов', 'Только транспортное обслуживание'], correct: [0] },
-                        { type: 'choice', text: 'Кому предоставляется государственная охрана в полном объеме со дня назначения на должность?', options: ['Председателю Правительства РФ и Губернаторам Федеральных округов', 'Всем депутатам', 'Судьям РФ', 'Генеральному прокурору РФ'], correct: [0] }
-                    ],
-                    timeLimit: 300,
-                    passingScore: 70,
-                    createdAt: Date.now()
-                },
-                {
-                    id: 2,
-                    name: 'ОБО СПБ - ФЗ ФСО и УК РФ',
-                    password: '',
-                    questions: [
-                        { type: 'choice', text: 'Согласно ФЗ ФСО, каковы основные принципы государственной охраны?', options: ['Законность, уважение прав, централизованное руководство, взаимодействие', 'Только законность', 'Только централизация', 'Законность и гласность'], correct: [0] },
-                        { type: 'choice', text: 'Кто является объектом государственной охраны согласно ФЗ ФСО?', options: ['Лица и охраняемые объекты', 'Только граждане РФ', 'Только иностранные граждане', 'Только здания'], correct: [0] },
-                        { type: 'choice', text: 'Какая статья ФЗ ФСО определяет меры государственной охраны?', options: ['Статья 4', 'Статья 1', 'Статья 7', 'Статья 10'], correct: [0] },
-                        { type: 'choice', text: 'Согласно УК РФ, какое наказание предусмотрено за кражу (ст.44)?', options: ['Штраф 30 тыс. руб. или лишение свободы на 3 года (СПРП «★★»)', 'Штраф 100 тыс. руб.', 'Лишение свободы на 5 лет', 'Административный арест'], correct: [0] },
-                        { type: 'choice', text: 'Какое наказание предусмотрено за грабеж по ст.46 УК РФ?', options: ['Лишение свободы на 4 года (СПРП «★★»)', 'Штраф 50 тыс. руб.', 'Лишение свободы на 2 года', 'Исправительные работы'], correct: [0] }
-                    ],
-                    timeLimit: 300,
-                    passingScore: 70,
-                    createdAt: Date.now()
+            updateAdminStatus() {
+                const container = document.getElementById('adminStatusContainer');
+                if (this.isLoggedIn && this.currentUser) {
+                    container.innerHTML = `<div class="admin-status"><span class="dot"></span><span>${this.currentUser.login}</span></div>`;
+                } else {
+                    container.innerHTML = `<div class="admin-status"><span class="dot off"></span><span style="color:var(--text-muted);">Гость</span></div>`;
                 }
-            ];
-            testData.results = [];
-            saveTestData();
-        }
+            },
 
-        // Состояние теста
-        let currentTest = null;
-        let testResults = null;
-        let testStartTime = null;
-        let testTimer = null;
-        let userNick = '';
-        let currentQuestionIndex = 0;
+            renderResults() {
+                const grid = document.getElementById('resultsGrid');
+                grid.innerHTML = '';
+                if (this.results.length === 0) {
+                    grid.innerHTML = `<div class="empty-state"><div class="icon">📭</div><div class="title">Нет результатов</div><div class="desc">Пройдите тест</div></div>`;
+                    document.getElementById('resultsCount').textContent = '0';
+                    return;
+                }
+                const sorted = [...this.results].reverse();
+                sorted.forEach(result => {
+                    const card = document.createElement('div');
+                    card.className = 'result-card';
+                    const statusMap = { pending: '⏳ Ожидает', checked: '✅ Проверено', revision: '🔄 Пересмотр' };
+                    const statusClassMap = { pending: 'status-pending', checked: 'status-checked', revision: 'status-revision' };
+                    const test = this.tests.find(t => t.id === result.testId);
+                    const testName = test ? test.name : 'Тест удален';
+                    const score = result.adminScore !== undefined ? result.adminScore : result.score;
+                    card.innerHTML = `
+                        <div class="result-header"><span class="result-user">👤 ${result.userNick}</span><span class="result-date">${result.date}</span></div>
+                        <div class="result-test">📝 ${testName}</div>
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px;">
+                            <span class="result-score">${score}/5</span>
+                            <span class="status-badge ${statusClassMap[result.status] || 'status-pending'}">${statusMap[result.status] || '⏳ Ожидает'}</span>
+                        </div>
+                        ${result.adminComment ? `<div style="color:var(--text-secondary);font-size:13px;margin-top:4px;">💬 ${result.adminComment}</div>` : ''}
+                        <div class="result-actions">
+                            <button class="btn btn-sm btn-primary" data-id="${result.id}">📋 Детали</button>
+                            ${this.isLoggedIn ? `<button class="btn btn-sm btn-warning" data-id="${result.id}">✏️ Проверить</button>` : ''}
+                            ${this.isLoggedIn ? `<button class="btn btn-sm btn-danger" data-id="${result.id}">🗑 Удалить</button>` : ''}
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+                document.getElementById('resultsCount').textContent = this.results.length;
 
-        function renderTests() {
-            const grid = document.getElementById('testsGrid');
-            const count = document.getElementById('testCount');
-            grid.innerHTML = '';
-            if (testData.tests.length === 0) {
-                grid.innerHTML = `<div class="empty-state"><div class="icon">📭</div><div class="title">Нет тестов</div><div class="desc">Обратитесь к администратору</div></div>`;
-                count.textContent = '0';
-                return;
-            }
-            testData.tests.forEach(test => {
-                const card = document.createElement('div');
-                card.className = 'test-card';
-                const qCount = test.questions.length;
-                const hasPassword = test.password && test.password.length > 0;
-                const totalTime = Math.floor(test.timeLimit / 60);
-                card.innerHTML = `
-                    ${hasPassword ? '<div class="lock-badge">🔒</div>' : ''}
-                    <div class="test-name">${test.name}</div>
-                    <div class="test-meta">${qCount} вопросов</div>
-                    <div class="test-stats">
-                        <span>⏱ ${totalTime > 0 ? totalTime + ' мин' : '< 1 мин'}</span>
-                        <span>✅ ${test.passingScore}%</span>
-                        ${hasPassword ? '<span>🔒 Защищен</span>' : ''}
+                grid.querySelectorAll('[data-id]').forEach(btn => {
+                    const id = parseInt(btn.dataset.id);
+                    if (btn.textContent.includes('Детали')) btn.addEventListener('click', () => this.showResultDetail(id));
+                    else if (btn.textContent.includes('Проверить')) btn.addEventListener('click', () => this.openReview(id));
+                    else if (btn.textContent.includes('Удалить')) btn.addEventListener('click', () => {
+                        if (confirm('Удалить результат?')) this.deleteResult(id);
+                    });
+                });
+            },
+
+            deleteResult(id) {
+                const idx = this.results.findIndex(r => r.id === id);
+                if (idx !== -1) { this.results.splice(idx, 1); this.saveData(); this.renderResults(); this.showToast('🗑 Удален'); }
+            },
+
+            showResultDetail(id) {
+                const result = this.results.find(r => r.id === id);
+                if (!result) { this.showToast('❌ Не найден'); return; }
+                const test = this.tests.find(t => t.id === result.testId);
+                if (!test) { this.showToast('❌ Тест не найден'); return; }
+
+                const statusMap = { pending: '⏳ Ожидает', checked: '✅ Проверено', revision: '🔄 Пересмотр' };
+                let detailsHtml = '';
+                result.answers.forEach((answer, idx) => {
+                    const q = test.questions[idx];
+                    if (!q) return;
+                    const isCorrect = answer.isCorrect;
+                    detailsHtml += `
+                        <div class="answer-detail ${isCorrect ? 'correct' : 'wrong'}">
+                            <div class="q-label">Вопрос ${idx+1} (${q.type === 'choice' ? 'Выбор' : 'Текст'})</div>
+                            <div class="q-text">${q.text}</div>
+                            <div class="user-answer">Ответ: ${answer.userAnswer}</div>
+                            ${!isCorrect && q.type === 'choice' ? `<div class="correct-answer-text">Правильно: ${q.correct.map(i => q.options[i]).join(', ')}</div>` : ''}
+                            ${!isCorrect && q.type === 'text' ? `<div class="correct-answer-text">Правильно: ${q.correct.join(', ')}</div>` : ''}
+                            <div style="color:${isCorrect ? 'var(--accent-green)' : 'var(--accent-red)'};font-size:12px;margin-top:4px;font-weight:600;">${isCorrect ? '✅ Правильно' : '❌ Неправильно'}</div>
+                        </div>
+                    `;
+                });
+
+                const modal = document.getElementById('reviewModal');
+                document.getElementById('reviewContent').innerHTML = `
+                    <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:16px;">
+                        <div><div style="font-size:18px;font-weight:600;">👤 ${result.userNick}</div><div style="color:var(--text-secondary);">📝 ${test.name}</div><div style="color:var(--text-muted);font-size:13px;">📅 ${result.date}</div></div>
+                        <div style="text-align:right;"><div style="font-size:28px;font-weight:700;color:var(--accent-green);font-family:'JetBrains Mono',monospace;">${result.adminScore !== undefined ? result.adminScore : result.score}/5</div>
+                        <div style="color:var(--text-muted);font-size:12px;">${result.adminScore !== undefined ? 'Ручная' : 'Авто'}</div>
+                        <div style="color:var(--text-secondary);font-size:12px;">${statusMap[result.status] || '⏳ Ожидает'}</div></div>
+                    </div>
+                    ${result.adminComment ? `<div style="color:var(--accent-gold);font-size:14px;margin-bottom:12px;">💬 ${result.adminComment}</div>` : ''}
+                    ${result.reviewedBy ? `<div style="color:var(--text-muted);font-size:12px;margin-bottom:12px;">Проверил: ${result.reviewedBy} | ${result.reviewedAt || ''}</div>` : ''}
+                    <div style="margin-top:12px;"><h4 style="color:var(--text-secondary);font-family:'JetBrains Mono',monospace;font-size:14px;margin-bottom:8px;">📊 Детали</h4>${detailsHtml}</div>
+                    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:16px;">
+                        <button class="btn btn-primary" id="closeReviewDetail">Закрыть</button>
+                        ${this.isLoggedIn ? `<button class="btn btn-warning" id="reviewFromDetail">✏️ Проверить</button>` : ''}
+                        ${this.isLoggedIn ? `<button class="btn btn-danger" id="deleteFromDetail">🗑 Удалить</button>` : ''}
                     </div>
                 `;
-                card.addEventListener('click', () => {
-                    if (hasPassword) {
-                        const pwd = prompt('Введите пароль для теста:');
-                        if (pwd === test.password) startTest(test.id);
-                        else if (pwd !== null) alert('❌ Неверный пароль');
+                document.getElementById('closeReviewDetail').addEventListener('click', () => document.getElementById('reviewModal').classList.remove('show'));
+                const reviewBtn = document.getElementById('reviewFromDetail');
+                if (reviewBtn) { reviewBtn.addEventListener('click', () => { document.getElementById('reviewModal').classList.remove('show'); this.openReview(id); }); }
+                const deleteBtn = document.getElementById('deleteFromDetail');
+                if (deleteBtn) { deleteBtn.addEventListener('click', () => { if (confirm('Удалить?')) { document.getElementById('reviewModal').classList.remove('show'); this.deleteResult(id); } }); }
+                modal.classList.add('show');
+            },
+
+            openReview(id) {
+                const result = this.results.find(r => r.id === id);
+                if (!result) { this.showToast('❌ Не найден'); return; }
+                const test = this.tests.find(t => t.id === result.testId);
+                if (!test) { this.showToast('❌ Тест не найден'); return; }
+
+                let detailsHtml = '';
+                result.answers.forEach((answer, idx) => {
+                    const q = test.questions[idx];
+                    if (!q) return;
+                    detailsHtml += `
+                        <div class="answer-detail">
+                            <div class="q-label">Вопрос ${idx+1} (${q.type === 'choice' ? 'Выбор' : 'Текст'})</div>
+                            <div class="q-text">${q.text}</div>
+                            <div class="user-answer">Ответ: ${answer.userAnswer}</div>
+                            ${q.type === 'choice' ? `<div class="correct-answer-text">Правильно: ${q.correct.map(i => q.options[i]).join(', ')}</div>` : ''}
+                            ${q.type === 'text' ? `<div class="correct-answer-text">Ожидаемый ответ: ${q.correct.join(', ')}</div>` : ''}
+                            <div style="color:var(--text-muted);font-size:12px;margin-top:4px;">${answer.isCorrect ? '✅ Был засчитан' : '❌ Не засчитан'}</div>
+                        </div>
+                    `;
+                });
+
+                const modal = document.getElementById('reviewModal');
+                document.getElementById('reviewContent').innerHTML = `
+                    <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:16px;">
+                        <div><div style="font-size:18px;font-weight:600;">👤 ${result.userNick}</div><div style="color:var(--text-secondary);">📝 ${test.name}</div><div style="color:var(--text-muted);font-size:13px;">📅 ${result.date}</div></div>
+                        <div style="text-align:right;"><div style="font-size:20px;font-weight:600;color:var(--accent-green);font-family:'JetBrains Mono',monospace;">${result.adminScore !== undefined ? result.adminScore : result.score}/5</div></div>
+                    </div>
+                    <div class="form-group"><label>Оценка (0-5)</label><input type="number" class="form-control" id="reviewScore" min="0" max="5" value="${result.adminScore !== undefined ? result.adminScore : result.score}" step="0.5"></div>
+                    <div class="form-group"><label>Статус</label><div class="checkbox-group">
+                        <label><input type="radio" name="reviewStatus" value="pending" ${result.status === 'pending' ? 'checked' : ''}> ⏳ Ожидает</label>
+                        <label><input type="radio" name="reviewStatus" value="checked" ${result.status === 'checked' ? 'checked' : ''}> ✅ Проверено</label>
+                        <label><input type="radio" name="reviewStatus" value="revision" ${result.status === 'revision' ? 'checked' : ''}> 🔄 Пересмотр</label>
+                    </div></div>
+                    <div class="form-group"><label>Комментарий</label><textarea class="comment-box" id="reviewComment" placeholder="Комментарий...">${result.adminComment || ''}</textarea></div>
+                    <div style="margin-top:12px;"><h4 style="color:var(--text-secondary);font-family:'JetBrains Mono',monospace;font-size:14px;margin-bottom:8px;">📊 Детали</h4>${detailsHtml}</div>
+                    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:16px;">
+                        <button class="btn btn-success" id="saveReviewBtn">💾 Сохранить</button>
+                        <button class="btn btn-danger" id="deleteFromReview">🗑 Удалить</button>
+                        <button class="btn" id="closeReviewBtn">Отмена</button>
+                    </div>
+                `;
+                document.getElementById('closeReviewBtn').addEventListener('click', () => { document.getElementById('reviewModal').classList.remove('show'); this.renderResults(); });
+                document.getElementById('deleteFromReview').addEventListener('click', () => { if (confirm('Удалить результат?')) { document.getElementById('reviewModal').classList.remove('show'); this.deleteResult(id); } });
+                document.getElementById('saveReviewBtn').addEventListener('click', () => {
+                    const score = parseFloat(document.getElementById('reviewScore').value);
+                    const status = document.querySelector('input[name="reviewStatus"]:checked').value;
+                    const comment = document.getElementById('reviewComment').value.trim();
+                    if (isNaN(score) || score < 0 || score > 5) { this.showToast('⚠️ Оценка 0-5'); return; }
+                    const idx = this.results.indexOf(result);
+                    if (idx !== -1) {
+                        this.results[idx].adminScore = score;
+                        this.results[idx].status = status;
+                        this.results[idx].adminComment = comment;
+                        this.results[idx].reviewedBy = this.currentUser ? this.currentUser.login : 'admin';
+                        this.results[idx].reviewedAt = new Date().toLocaleString();
+                        this.saveData();
+                        document.getElementById('reviewModal').classList.remove('show');
+                        this.renderResults();
+                        this.showToast('✅ Проверка сохранена');
+                    }
+                });
+                modal.classList.add('show');
+            },
+
+            startTest(testId) {
+                const test = this.tests.find(t => t.id === testId);
+                if (!test) return;
+                this.currentTest = test;
+                this.testResults = null;
+                this.testStartTime = null;
+                this.userNick = '';
+                this.currentQuestionIndex = 0;
+                document.getElementById('testList').classList.add('hidden');
+                document.getElementById('resultsList').classList.add('hidden');
+                document.getElementById('testTaking').classList.add('active');
+                this.showNickInput();
+            },
+
+            showNickInput() {
+                const container = document.getElementById('testContent');
+                container.innerHTML = `
+                    <div class="nick-input-container">
+                        <h3>👤 Введите ваше имя</h3>
+                        <input type="text" class="form-control" id="nickInput" placeholder="Имя или позывной" style="text-align:center;">
+                        <button class="btn btn-primary btn-block" style="margin-top:12px;" id="startTestBtn">Начать тест</button>
+                    </div>
+                `;
+                document.getElementById('startTestBtn').addEventListener('click', () => {
+                    const nick = document.getElementById('nickInput').value.trim();
+                    if (!nick) { this.showToast('⚠️ Введите имя'); document.getElementById('nickInput').classList.add('error'); return; }
+                    this.userNick = nick;
+                    document.getElementById('nickInput').classList.remove('error');
+                    this.currentQuestionIndex = 0;
+                    this.renderTestQuestion();
+                });
+                document.getElementById('nickInput').addEventListener('keydown', (e) => { if (e.key === 'Enter') document.getElementById('startTestBtn').click(); });
+                document.getElementById('nickInput').focus();
+            },
+
+            renderTestQuestion() {
+                const container = document.getElementById('testContent');
+                const test = this.currentTest;
+                if (!test) return;
+                const index = this.currentQuestionIndex;
+                if (index >= test.questions.length) { this.showResults(); return; }
+                const q = test.questions[index];
+                const total = test.questions.length;
+                const timeLeft = test.timeLimit - Math.floor((Date.now() - this.testStartTime) / 1000);
+
+                let html = `
+                    <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:6px;">
+                        <span class="question-progress">👤 ${this.userNick} · ${index+1}/${total}</span>
+                        <span class="question-progress">${q.type === 'choice' ? 'Выбор' : 'Текст'}</span>
+                    </div>
+                    <div class="timer-test" id="testTimer">${this.formatTime(timeLeft > 0 ? timeLeft : 0)}</div>
+                    <div class="question-text">${q.text}</div>
+                `;
+
+                if (q.type === 'choice') {
+                    q.options.forEach((opt, i) => {
+                        const checked = this.testResults && this.testResults[index] && this.testResults[index].includes(i) ? 'checked' : '';
+                        const inputType = q.correct.length > 1 ? 'checkbox' : 'radio';
+                        html += `<label class="option-label ${checked ? 'selected' : ''}"><input type="${inputType}" name="question" value="${i}" ${checked}>${opt}</label>`;
+                    });
+                    html += `<div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;">
+                        <button class="btn btn-primary" id="nextQuestionBtn">${index === total-1 ? '📤 Завершить' : 'Далее →'}</button>
+                        ${index > 0 ? `<button class="btn" id="prevQuestionBtn">← Назад</button>` : ''}
+                    </div>`;
+                } else {
+                    const val = this.testResults && this.testResults[index] ? this.testResults[index][0] || '' : '';
+                    html += `<div class="text-answer"><textarea id="textAnswer" placeholder="Введите ответ...">${val}</textarea></div>
+                    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;">
+                        <button class="btn btn-primary" id="nextQuestionBtn">${index === total-1 ? '📤 Завершить' : 'Далее →'}</button>
+                        ${index > 0 ? `<button class="btn" id="prevQuestionBtn">← Назад</button>` : ''}
+                    </div>`;
+                }
+                container.innerHTML = html;
+
+                if (!this.testStartTime) {
+                    this.testStartTime = Date.now();
+                    if (this.testTimer) clearInterval(this.testTimer);
+                    this.testTimer = setInterval(() => {
+                        const elapsed = Math.floor((Date.now() - this.testStartTime) / 1000);
+                        const remaining = test.timeLimit - elapsed;
+                        if (remaining <= 0) { clearInterval(this.testTimer); this.finishTest(); return; }
+                        const timerEl = document.getElementById('testTimer');
+                        if (timerEl) {
+                            timerEl.textContent = this.formatTime(remaining);
+                            timerEl.className = 'timer-test' + (remaining < 30 ? ' danger' : remaining < 60 ? ' warning' : '');
+                        }
+                    }, 1000);
+                }
+
+                document.querySelectorAll('.option-label input').forEach(inp => {
+                    inp.addEventListener('change', function() {
+                        document.querySelectorAll('.option-label').forEach(l => l.classList.remove('selected'));
+                        this.closest('.option-label').classList.add('selected');
+                    });
+                });
+
+                document.getElementById('nextQuestionBtn').addEventListener('click', () => {
+                    if (q.type === 'choice') {
+                        const selected = document.querySelectorAll('input[name="question"]:checked');
+                        if (selected.length === 0) { this.showToast('⚠️ Выберите ответ'); return; }
+                        const values = Array.from(selected).map(el => parseInt(el.value));
+                        if (!this.testResults) this.testResults = [];
+                        this.testResults[index] = values;
                     } else {
-                        startTest(test.id);
+                        const textarea = document.getElementById('textAnswer');
+                        if (textarea) {
+                            const val = textarea.value.trim();
+                            if (!val) { this.showToast('⚠️ Введите ответ'); return; }
+                            if (!this.testResults) this.testResults = [];
+                            this.testResults[index] = [val];
+                        }
+                    }
+                    this.currentQuestionIndex++;
+                    this.renderTestQuestion();
+                });
+
+                const prevBtn = document.getElementById('prevQuestionBtn');
+                if (prevBtn) { prevBtn.addEventListener('click', () => { this.currentQuestionIndex--; this.renderTestQuestion(); }); }
+            },
+
+            finishTest() {
+                if (this.testTimer) { clearInterval(this.testTimer); this.testTimer = null; }
+                this.showResults();
+            },
+
+            showResults() {
+                if (this.testTimer) { clearInterval(this.testTimer); this.testTimer = null; }
+                const container = document.getElementById('testContent');
+                const test = this.currentTest;
+                let correctCount = 0;
+                const total = test.questions.length;
+                let details = [], answerDetails = [];
+
+                test.questions.forEach((q, idx) => {
+                    const userAnswer = this.testResults && this.testResults[idx] ? this.testResults[idx] : null;
+                    let isCorrect = false, userAnswerStr = '';
+                    if (q.type === 'choice') {
+                        if (userAnswer) {
+                            const correctArr = q.correct || [];
+                            const sortedUser = userAnswer.slice().sort();
+                            const sortedCorrect = correctArr.slice().sort();
+                            isCorrect = JSON.stringify(sortedUser) === JSON.stringify(sortedCorrect);
+                            userAnswerStr = userAnswer.map(i => q.options[i] || 'не выбран').join(', ');
+                        } else { userAnswerStr = 'не отвечено'; }
+                    } else {
+                        if (userAnswer && userAnswer.length > 0) {
+                            const userText = userAnswer[0].toLowerCase().trim();
+                            const correctTexts = (q.correct || []).map(c => c.toLowerCase().trim());
+                            isCorrect = correctTexts.some(c => userText.includes(c) || c.includes(userText));
+                            userAnswerStr = userAnswer[0] || 'не введено';
+                        } else { userAnswerStr = 'не введено'; }
+                    }
+                    if (isCorrect) correctCount++;
+                    details.push({ question: q.text, type: q.type === 'choice' ? 'Выбор' : 'Текст', userAnswer: userAnswerStr, isCorrect: isCorrect });
+                    answerDetails.push({ userAnswer: userAnswerStr, isCorrect: isCorrect });
+                });
+
+                const percentage = Math.round((correctCount / total) * 100);
+                const passed = percentage >= test.passingScore;
+                const score = Math.round((correctCount / total) * 5);
+
+                const result = {
+                    id: Date.now(),
+                    testId: test.id,
+                    userNick: this.userNick,
+                    date: new Date().toLocaleString(),
+                    score: score,
+                    percentage: percentage,
+                    passed: passed,
+                    answers: answerDetails,
+                    status: 'pending',
+                    adminScore: null,
+                    adminComment: null,
+                    reviewedBy: null,
+                    reviewedAt: null
+                };
+                this.results.push(result);
+                this.saveData();
+
+                let html = `
+                    <div class="score-display">
+                        <div style="color:var(--text-secondary);font-size:16px;margin-bottom:6px;">👤 ${this.userNick}</div>
+                        <div class="score-number">${score}/5</div>
+                        <div class="score-label">Баллов</div>
+                        <div class="score-percent">${percentage}%</div>
+                        <div class="score-result ${passed ? 'passed' : 'failed'}">${passed ? '✅ СДАН' : '❌ НЕ СДАН'}</div>
+                        <div class="score-detail">Правильных: ${correctCount} из ${total}</div>
+                        <div class="score-pending">⏳ Результат отправлен на проверку</div>
+                    </div>
+                    <div style="margin-top:20px;"><h4 style="color:var(--text-secondary);font-family:'JetBrains Mono',monospace;font-size:14px;margin-bottom:10px;">📊 Детали</h4>`;
+                details.forEach((d, i) => {
+                    html += `<div class="answer-detail ${d.isCorrect ? 'correct' : 'wrong'}">
+                        <div class="q-label">Вопрос ${i+1} (${d.type})</div>
+                        <div class="q-text">${d.question}</div>
+                        <div class="user-answer">Ответ: ${d.userAnswer}</div>
+                        <div style="color:${d.isCorrect ? 'var(--accent-green)' : 'var(--accent-red)'};font-size:12px;font-weight:600;margin-top:4px;">${d.isCorrect ? '✅ Правильно' : '❌ Неправильно'}</div>
+                    </div>`;
+                });
+                html += `</div>
+                    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;">
+                        <button class="btn btn-primary" id="finishTestBtn">📋 Завершить</button>
+                        <button class="btn" id="retryTestBtn">🔄 Заново</button>
+                    </div>
+                `;
+                container.innerHTML = html;
+
+                document.getElementById('finishTestBtn').addEventListener('click', () => {
+                    document.getElementById('testList').classList.remove('hidden');
+                    document.getElementById('resultsList').classList.add('hidden');
+                    document.getElementById('testTaking').classList.remove('active');
+                    if (this.testTimer) clearInterval(this.testTimer);
+                    this.renderTests();
+                    this.renderResults();
+                });
+                document.getElementById('retryTestBtn').addEventListener('click', () => {
+                    this.testResults = null;
+                    this.testStartTime = null;
+                    this.currentQuestionIndex = 0;
+                    if (this.testTimer) clearInterval(this.testTimer);
+                    this.showNickInput();
+                });
+            },
+
+            formatTime(seconds) {
+                if (seconds < 0) seconds = 0;
+                const m = Math.floor(seconds / 60);
+                const s = seconds % 60;
+                return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+            },
+
+            setupEventListeners() {
+                document.getElementById('testsTab').addEventListener('click', () => {
+                    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+                    document.getElementById('testsTab').classList.add('active');
+                    document.getElementById('testList').classList.remove('hidden');
+                    document.getElementById('resultsList').classList.add('hidden');
+                    document.getElementById('testTaking').classList.remove('active');
+                    if (this.testTimer) clearInterval(this.testTimer);
+                    this.renderTests();
+                });
+
+                document.getElementById('resultsTab').addEventListener('click', () => {
+                    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+                    document.getElementById('resultsTab').classList.add('active');
+                    document.getElementById('testList').classList.add('hidden');
+                    document.getElementById('resultsList').classList.remove('hidden');
+                    document.getElementById('testTaking').classList.remove('active');
+                    if (this.testTimer) clearInterval(this.testTimer);
+                    this.renderResults();
+                });
+
+                document.getElementById('editTab').addEventListener('click', () => {
+                    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+                    document.getElementById('editTab').classList.add('active');
+                    document.getElementById('editModal').classList.add('show');
+                    if (this.isLoggedIn) this.showAdminPanel();
+                    else {
+                        document.getElementById('loginForm').style.display = 'block';
+                        document.getElementById('adminPanel').style.display = 'none';
+                        document.getElementById('loginInput').value = '';
+                        document.getElementById('passwordInput').value = '';
+                        document.getElementById('loginError').textContent = '';
                     }
                 });
-                grid.appendChild(card);
-            });
-            count.textContent = testData.tests.length;
-        }
 
-        function startTest(testId) {
-            const test = testData.tests.find(t => t.id === testId);
-            if (!test) return;
-            currentTest = test;
-            testResults = null;
-            testStartTime = null;
-            userNick = '';
-            currentQuestionIndex = 0;
-            document.getElementById('testList').classList.add('hidden');
-            document.getElementById('testTaking').classList.add('active');
-            showNickInput();
-        }
-
-        function showNickInput() {
-            const container = document.getElementById('testContent');
-            container.innerHTML = `
-                <div class="nick-input-container">
-                    <h3>👤 Введите ваше имя</h3>
-                    <input type="text" class="field-control" id="nickInput" placeholder="Имя или позывной" style="text-align:center;">
-                    <button class="btn btn-primary btn-block" style="margin-top:12px;" id="startTestBtn">Начать тест</button>
-                </div>
-            `;
-            document.getElementById('startTestBtn').addEventListener('click', () => {
-                const nick = document.getElementById('nickInput').value.trim();
-                if (!nick) { showToast('⚠️ Введите имя'); document.getElementById('nickInput').classList.add('error'); return; }
-                userNick = nick;
-                document.getElementById('nickInput').classList.remove('error');
-                currentQuestionIndex = 0;
-                renderTestQuestion();
-            });
-            document.getElementById('nickInput').addEventListener('keydown', (e) => { if (e.key === 'Enter') document.getElementById('startTestBtn').click(); });
-            document.getElementById('nickInput').focus();
-        }
-
-        function renderTestQuestion() {
-            const container = document.getElementById('testContent');
-            const test = currentTest;
-            if (!test) return;
-            const index = currentQuestionIndex;
-            if (index >= test.questions.length) { finishTest(); return; }
-            const q = test.questions[index];
-            const total = test.questions.length;
-
-            let html = `
-                <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;margin-bottom:4px;">
-                    <span class="question-progress">👤 ${userNick} · ${index+1}/${total}</span>
-                    <span class="question-progress">${q.type === 'choice' ? 'Выбор' : 'Текст'}</span>
-                </div>
-                <div class="timer-test" id="testTimer">${formatTime(test.timeLimit)}</div>
-                <div class="question-text">${q.text}</div>
-            `;
-
-            if (q.type === 'choice') {
-                q.options.forEach((opt, i) => {
-                    const checked = testResults && testResults[index] && testResults[index].includes(i) ? 'checked' : '';
-                    const inputType = q.correct.length > 1 ? 'checkbox' : 'radio';
-                    html += `<label class="option-label ${checked ? 'selected' : ''}"><input type="${inputType}" name="question" value="${i}" ${checked}>${opt}</label>`;
+                document.getElementById('closeEditModal').addEventListener('click', () => {
+                    document.getElementById('editModal').classList.remove('show');
+                    document.getElementById('editTab').classList.remove('active');
+                    document.getElementById('testsTab').click();
                 });
-                html += `<div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;">
-                    <button class="btn btn-primary" id="nextQuestionBtn">${index === total-1 ? '📤 Завершить' : 'Далее →'}</button>
-                    ${index > 0 ? `<button class="btn" id="prevQuestionBtn">← Назад</button>` : ''}
-                </div>`;
-            } else {
-                const val = testResults && testResults[index] ? testResults[index][0] || '' : '';
-                html += `<div class="text-answer"><textarea id="textAnswer" placeholder="Введите ответ...">${val}</textarea></div>
-                <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;">
-                    <button class="btn btn-primary" id="nextQuestionBtn">${index === total-1 ? '📤 Завершить' : 'Далее →'}</button>
-                    ${index > 0 ? `<button class="btn" id="prevQuestionBtn">← Назад</button>` : ''}
-                </div>`;
-            }
-            container.innerHTML = html;
 
-            if (!testStartTime) {
-                testStartTime = Date.now();
-                if (testTimer) clearInterval(testTimer);
-                testTimer = setInterval(() => {
-                    const elapsed = Math.floor((Date.now() - testStartTime) / 1000);
-                    const remaining = test.timeLimit - elapsed;
-                    if (remaining <= 0) { clearInterval(testTimer); finishTest(); return; }
-                    const timerEl = document.getElementById('testTimer');
-                    if (timerEl) {
-                        timerEl.textContent = formatTime(remaining);
-                        timerEl.className = 'timer-test' + (remaining < 30 ? ' danger' : remaining < 60 ? ' warning' : '');
-                    }
-                }, 1000);
-            }
-
-            document.querySelectorAll('.option-label input').forEach(inp => {
-                inp.addEventListener('change', function() {
-                    document.querySelectorAll('.option-label').forEach(l => l.classList.remove('selected'));
-                    this.closest('.option-label').classList.add('selected');
+                document.getElementById('closeTestPasswordModal').addEventListener('click', () => {
+                    document.getElementById('testPasswordModal').classList.remove('show');
+                    this.pendingTestId = null;
                 });
-            });
 
-            document.getElementById('nextQuestionBtn').addEventListener('click', () => {
-                if (q.type === 'choice') {
-                    const selected = document.querySelectorAll('input[name="question"]:checked');
-                    if (selected.length === 0) { showToast('⚠️ Выберите ответ'); return; }
-                    const values = Array.from(selected).map(el => parseInt(el.value));
-                    if (!testResults) testResults = [];
-                    testResults[index] = values;
-                } else {
-                    const textarea = document.getElementById('textAnswer');
-                    if (textarea) {
-                        const val = textarea.value.trim();
-                        if (!val) { showToast('⚠️ Введите ответ'); return; }
-                        if (!testResults) testResults = [];
-                        testResults[index] = [val];
+                document.getElementById('testPasswordSubmit').addEventListener('click', () => {
+                    const password = document.getElementById('testPasswordInput').value.trim();
+                    const test = this.tests.find(t => t.id === this.pendingTestId);
+                    if (!test) { document.getElementById('testPasswordError').textContent = '❌ Тест не найден'; return; }
+                    if (password === test.password) {
+                        document.getElementById('testPasswordModal').classList.remove('show');
+                        this.startTest(this.pendingTestId);
+                        this.pendingTestId = null;
+                    } else {
+                        document.getElementById('testPasswordError').textContent = '❌ Неверный пароль';
+                        document.getElementById('testPasswordInput').value = '';
+                        document.getElementById('testPasswordInput').focus();
                     }
+                });
+                document.getElementById('testPasswordInput').addEventListener('keydown', (e) => { if (e.key === 'Enter') document.getElementById('testPasswordSubmit').click(); });
+
+                document.getElementById('loginBtn').addEventListener('click', () => {
+                    const login = document.getElementById('loginInput').value.trim();
+                    const pass = document.getElementById('passwordInput').value.trim();
+                    const admin = this.admins.find(a => a.login === login && a.password === pass);
+                    if (admin) {
+                        this.currentUser = admin;
+                        this.isLoggedIn = true;
+                        this.saveSession();
+                        document.getElementById('loginError').textContent = '';
+                        this.showAdminPanel();
+                        this.updateAdminStatus();
+                        this.renderResults();
+                        this.showToast('✅ Добро пожаловать, ' + login);
+                    } else {
+                        document.getElementById('loginError').textContent = '❌ Неверный логин или пароль';
+                    }
+                });
+
+                document.getElementById('logoutBtn').addEventListener('click', () => {
+                    this.isLoggedIn = false;
+                    this.currentUser = null;
+                    this.saveSession();
+                    this.updateAdminStatus();
+                    document.getElementById('loginForm').style.display = 'block';
+                    document.getElementById('adminPanel').style.display = 'none';
+                    document.getElementById('loginInput').value = '';
+                    document.getElementById('passwordInput').value = '';
+                    document.getElementById('loginError').textContent = '';
+                    this.renderResults();
+                    this.showToast('👋 Вы вышли');
+                });
+
+                document.getElementById('newTestBtn').addEventListener('click', () => {
+                    this.draftData = null;
+                    this.saveDraft();
+                    this.openTestEditor(null);
+                });
+
+                document.getElementById('continueDraftBtn').addEventListener('click', () => {
+                    if (this.draftData) this.openTestEditor(null, true);
+                    else this.showToast('⚠️ Нет черновика');
+                });
+
+                document.getElementById('resetTestsBtn').addEventListener('click', () => this.resetToDefault());
+
+                document.getElementById('addAdminBtn').addEventListener('click', () => {
+                    const login = document.getElementById('newAdminLogin').value.trim();
+                    const pass = document.getElementById('newAdminPass').value.trim();
+                    if (!login || !pass) { this.showToast('⚠️ Заполните поля'); return; }
+                    if (this.admins.some(a => a.login === login)) { this.showToast('⚠️ Пользователь уже существует'); return; }
+                    this.admins.push({ login, password: pass, protected: false });
+                    this.saveData();
+                    this.renderAdminList();
+                    document.getElementById('newAdminLogin').value = '';
+                    document.getElementById('newAdminPass').value = '';
+                    this.showToast('✅ Добавлен');
+                });
+
+                document.getElementById('closeTestEditor').addEventListener('click', () => {
+                    document.getElementById('testEditorModal').classList.remove('show');
+                    this.renderTests();
+                    this.renderTestsAdminList();
+                });
+
+                document.getElementById('backToTests').addEventListener('click', () => {
+                    document.getElementById('testList').classList.remove('hidden');
+                    document.getElementById('resultsList').classList.add('hidden');
+                    document.getElementById('testTaking').classList.remove('active');
+                    if (this.testTimer) clearInterval(this.testTimer);
+                    this.renderTests();
+                });
+
+                document.getElementById('closeReviewModal').addEventListener('click', () => {
+                    document.getElementById('reviewModal').classList.remove('show');
+                    this.renderResults();
+                });
+
+                document.getElementById('loginInput').addEventListener('keydown', (e) => { if (e.key === 'Enter') document.getElementById('loginBtn').click(); });
+                document.getElementById('passwordInput').addEventListener('keydown', (e) => { if (e.key === 'Enter') document.getElementById('loginBtn').click(); });
+
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape') document.querySelectorAll('.modal-overlay.show').forEach(el => el.classList.remove('show'));
+                });
+
+                document.querySelectorAll('.modal-overlay').forEach(overlay => {
+                    overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.classList.remove('show'); });
+                });
+            },
+
+            showAdminPanel() {
+                document.getElementById('loginForm').style.display = 'none';
+                document.getElementById('adminPanel').style.display = 'block';
+                document.getElementById('adminNameDisplay').textContent = this.currentUser ? this.currentUser.login : 'admin';
+                this.renderAdminList();
+                this.renderTestsAdminList();
+            },
+
+            renderAdminList() {
+                const tbody = document.getElementById('adminListBody');
+                tbody.innerHTML = '';
+                this.admins.forEach((admin, idx) => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `<td>${admin.login}</td><td><span class="status-badge ${admin.protected ? 'protected' : 'normal'}">${admin.protected ? '🔒 Защищен' : '👤 Пользователь'}</span></td>
+                        <td>${!admin.protected ? `<button class="btn btn-danger btn-sm" data-idx="${idx}">Удалить</button>` : '—'}</td>`;
+                    tbody.appendChild(tr);
+                });
+                tbody.querySelectorAll('.btn-danger').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const idx = parseInt(btn.dataset.idx);
+                        if (this.admins[idx] && !this.admins[idx].protected) {
+                            if (confirm(`Удалить "${this.admins[idx].login}"?`)) {
+                                this.admins.splice(idx, 1);
+                                this.saveData();
+                                this.renderAdminList();
+                                this.showToast('🗑 Удален');
+                            }
+                        }
+                    });
+                });
+            },
+
+            renderTestsAdminList() {
+                const container = document.getElementById('testsAdminList');
+                container.innerHTML = '';
+                if (this.tests.length === 0) {
+                    container.innerHTML = `<div class="empty-state" style="padding:20px;"><div class="desc">Нет тестов</div></div>`;
+                    return;
                 }
-                currentQuestionIndex++;
-                renderTestQuestion();
-            });
+                this.tests.forEach((test, idx) => {
+                    const div = document.createElement('div');
+                    div.className = 'test-card';
+                    div.style.marginBottom = '10px';
+                    const qCount = test.questions.length;
+                    const hasPassword = test.password && test.password.length > 0;
+                    div.innerHTML = `
+                        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+                            <div><div class="test-name" style="font-size:15px;">${test.name}</div>
+                            <div class="test-meta" style="font-size:12px;">${qCount} вопросов · ${hasPassword ? '🔒 Защищен' : '🔓 Открытый'}</div></div>
+                            <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                                <button class="btn btn-success btn-sm" data-idx="${idx}">✏️</button>
+                                <button class="btn btn-danger btn-sm" data-idx="${idx}">🗑</button>
+                            </div>
+                        </div>
+                    `;
+                    container.appendChild(div);
+                });
+                container.querySelectorAll('.btn-success').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const idx = parseInt(btn.dataset.idx);
+                        this.openTestEditor(this.tests[idx]);
+                    });
+                });
+                container.querySelectorAll('.btn-danger').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const idx = parseInt(btn.dataset.idx);
+                        if (confirm(`Удалить "${this.tests[idx].name}"?`)) {
+                            this.tests.splice(idx, 1);
+                            this.saveData();
+                            this.renderTestsAdminList();
+                            this.renderTests();
+                            this.updateTestCount();
+                            this.showToast('🗑 Тест удален');
+                        }
+                    });
+                });
+            },
 
-            const prevBtn = document.getElementById('prevQuestionBtn');
-            if (prevBtn) { prevBtn.addEventListener('click', () => { currentQuestionIndex--; renderTestQuestion(); }); }
-        }
-
-        function finishTest() {
-            if (testTimer) { clearInterval(testTimer); testTimer = null; }
-            showResults();
-        }
-
-        function showResults() {
-            if (testTimer) { clearInterval(testTimer); testTimer = null; }
-            const container = document.getElementById('testContent');
-            const test = currentTest;
-            let correctCount = 0;
-            const total = test.questions.length;
-            let details = [];
-
-            test.questions.forEach((q, idx) => {
-                const userAnswer = testResults && testResults[idx] ? testResults[idx] : null;
-                let isCorrect = false, userAnswerStr = '';
-                if (q.type === 'choice') {
-                    if (userAnswer) {
-                        const correctArr = q.correct || [];
-                        const sortedUser = userAnswer.slice().sort();
-                        const sortedCorrect = correctArr.slice().sort();
-                        isCorrect = JSON.stringify(sortedUser) === JSON.stringify(sortedCorrect);
-                        userAnswerStr = userAnswer.map(i => q.options[i] || 'не выбран').join(', ');
-                    } else { userAnswerStr = 'не отвечено'; }
+            openTestEditor(test, fromDraft = false) {
+                const modal = document.getElementById('testEditorModal');
+                const container = document.getElementById('editorContent');
+                const isNew = !test;
+                let t;
+                if (fromDraft && this.draftData) {
+                    t = this.draftData;
+                    document.getElementById('editorTitle').textContent = '📝 Черновик';
+                } else if (test) {
+                    t = JSON.parse(JSON.stringify(test));
+                    document.getElementById('editorTitle').textContent = `✏️ ${test.name}`;
                 } else {
-                    if (userAnswer && userAnswer.length > 0) {
-                        const userText = userAnswer[0].toLowerCase().trim();
-                        const correctTexts = (q.correct || []).map(c => c.toLowerCase().trim());
-                        isCorrect = correctTexts.some(c => userText.includes(c) || c.includes(userText));
-                        userAnswerStr = userAnswer[0] || 'не введено';
-                    } else { userAnswerStr = 'не введено'; }
+                    t = { id: Date.now(), name: '', password: '', questions: [{ type: 'choice', text: '', options: ['', ''], correct: [0] }], timeLimit: 300, passingScore: 70 };
+                    document.getElementById('editorTitle').textContent = '📝 Новый тест';
                 }
-                if (isCorrect) correctCount++;
-                details.push({ question: q.text, type: q.type === 'choice' ? 'Выбор' : 'Текст', userAnswer: userAnswerStr, isCorrect: isCorrect });
-            });
 
-            const percentage = Math.round((correctCount / total) * 100);
-            const passed = percentage >= test.passingScore;
-            const score = Math.round((correctCount / total) * 5);
+                let html = `
+                    <div class="form-group"><label>Название</label><input type="text" class="form-control" id="editTestName" value="${t.name || ''}"></div>
+                    <div class="form-group"><label>Пароль (пусто — открытый)</label><input type="text" class="form-control" id="editTestPassword" value="${t.password || ''}" placeholder="Оставьте пустым"></div>
+                    <div class="form-group"><label>Время (сек)</label><input type="number" class="form-control" id="editTimeLimit" value="${t.timeLimit || 300}"></div>
+                    <div class="form-group"><label>Проходной балл (%)</label><input type="number" class="form-control" id="editPassingScore" value="${t.passingScore || 70}" min="0" max="100"></div>
+                    <div class="form-group"><label>Вопросы</label><div id="questionsContainer"></div>
+                        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;">
+                            <button class="btn btn-success btn-sm" id="addChoiceQuestion">+ Выбор</button>
+                            <button class="btn btn-success btn-sm" id="addTextQuestion">+ Текст</button>
+                        </div>
+                    </div>
+                    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;">
+                        <button class="btn btn-primary" id="saveTestBtn">💾 Сохранить</button>
+                        <button class="btn btn-warning" id="saveDraftBtn">📂 Черновик</button>
+                        <button class="btn" id="cancelEditBtn">Отмена</button>
+                    </div>
+                `;
+                container.innerHTML = html;
 
-            // Сохраняем результат
-            const result = {
-                id: Date.now(),
-                testId: test.id,
-                userNick: userNick,
-                date: new Date().toLocaleString(),
-                score: score,
-                percentage: percentage,
-                passed: passed,
-                answers: details.map(d => ({ userAnswer: d.userAnswer, isCorrect: d.isCorrect })),
-                status: 'pending',
-                adminScore: null,
-                adminComment: null,
-                reviewedBy: null,
-                reviewedAt: null
-            };
-            testData.results.push(result);
-            saveTestData();
+                const qContainer = document.getElementById('questionsContainer');
+                let questions = t.questions || [{ type: 'choice', text: '', options: ['', ''], correct: [0] }];
 
-            let html = `
-                <div class="score-display">
-                    <div style="color:var(--text-secondary);font-size:15px;margin-bottom:4px;">👤 ${userNick}</div>
-                    <div class="score-number">${score}/5</div>
-                    <div class="score-label">Баллов</div>
-                    <div class="score-percent">${percentage}%</div>
-                    <div class="score-result ${passed ? 'passed' : 'failed'}">${passed ? '✅ СДАН' : '❌ НЕ СДАН'}</div>
-                    <div class="score-detail">Правильных: ${correctCount} из ${total}</div>
-                    <div class="score-pending">⏳ Результат отправлен на проверку</div>
-                </div>
-                <div style="margin-top:16px;"><h4 style="color:var(--text-secondary);font-family:'JetBrains Mono',monospace;font-size:14px;margin-bottom:8px;">📊 Детали</h4>`;
-            details.forEach((d, i) => {
-                html += `<div class="answer-detail ${d.isCorrect ? 'correct' : 'wrong'}">
-                    <div class="q-label">Вопрос ${i+1} (${d.type})</div>
-                    <div class="q-text">${d.question}</div>
-                    <div class="user-answer">Ответ: ${d.userAnswer}</div>
-                    <div style="color:${d.isCorrect ? 'var(--accent-green)' : 'var(--accent-red)'};font-size:12px;font-weight:600;margin-top:4px;">${d.isCorrect ? '✅ Правильно' : '❌ Неправильно'}</div>
-                </div>`;
-            });
-            html += `</div>
-                <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;">
-                    <button class="btn btn-primary" id="finishTestBtn">📋 Завершить</button>
-                    <button class="btn" id="retryTestBtn">🔄 Заново</button>
-                </div>
-            `;
-            container.innerHTML = html;
+                function renderQuestions() {
+                    qContainer.innerHTML = '';
+                    questions.forEach((q, idx) => {
+                        const div = document.createElement('div');
+                        div.className = 'question-item';
+                        let optionsHtml = '';
+                        if (q.type === 'choice') {
+                            const opts = q.options || ['', ''];
+                            optionsHtml = `
+                                <div class="form-group" style="margin-bottom:8px;">
+                                    <label style="font-size:11px;">Варианты</label>
+                                    ${opts.map((opt, oi) => `
+                                        <div class="option-row">
+                                            <input type="text" class="q-option-input" placeholder="Вариант ${oi+1}" value="${opt || ''}" data-q="${idx}" data-opt="${oi}">
+                                            <input type="checkbox" class="q-option-correct" data-q="${idx}" data-opt="${oi}" ${(q.correct || []).includes(oi) ? 'checked' : ''}>
+                                            <span class="correct-label">✔</span>
+                                            ${opts.length > 2 ? `<button class="btn btn-danger btn-sm remove-option" data-q="${idx}" data-opt="${oi}">✕</button>` : ''}
+                                        </div>
+                                    `).join('')}
+                                    <button class="btn btn-success btn-sm" style="margin-top:4px;" data-add-option="${idx}">+ Добавить</button>
+                                </div>
+                            `;
+                        } else {
+                            optionsHtml = `
+                                <div class="form-group" style="margin-bottom:4px;">
+                                    <label style="font-size:11px;">Правильные ответы</label>
+                                    <input type="text" class="form-control q-correct-text" placeholder="ответ1, ответ2" value="${(q.correct || []).join(', ')}" data-idx="${idx}">
+                                </div>
+                            `;
+                        }
+                        div.innerHTML = `
+                            <div class="q-header"><span class="q-number">Вопрос ${idx+1} (${q.type === 'choice' ? 'Выбор' : 'Текст'})</span>
+                            <button class="btn btn-danger btn-sm" data-idx="${idx}">✕</button></div>
+                            <div class="form-group" style="margin-bottom:8px;">
+                                <select class="form-control q-type-select" data-idx="${idx}" style="padding:6px 12px;font-size:13px;">
+                                    <option value="choice" ${q.type === 'choice' ? 'selected' : ''}>Выбор</option>
+                                    <option value="text" ${q.type === 'text' ? 'selected' : ''}>Текст</option>
+                                </select>
+                            </div>
+                            <div class="form-group" style="margin-bottom:8px;">
+                                <input type="text" class="form-control q-text-input" placeholder="Текст вопроса" value="${q.text || ''}" data-idx="${idx}">
+                            </div>
+                            ${optionsHtml}
+                        `;
+                        qContainer.appendChild(div);
+                    });
 
-            document.getElementById('finishTestBtn').addEventListener('click', () => {
-                document.getElementById('testList').classList.remove('hidden');
-                document.getElementById('testTaking').classList.remove('active');
-                if (testTimer) clearInterval(testTimer);
-                renderTests();
-            });
-            document.getElementById('retryTestBtn').addEventListener('click', () => {
-                testResults = null;
-                testStartTime = null;
-                currentQuestionIndex = 0;
-                if (testTimer) clearInterval(testTimer);
-                showNickInput();
-            });
-        }
+                    qContainer.querySelectorAll('.q-header .btn-danger').forEach(btn => {
+                        btn.addEventListener('click', () => {
+                            const idx = parseInt(btn.dataset.idx);
+                            if (questions.length > 1) { questions.splice(idx, 1); renderQuestions(); autoSaveDraft(); }
+                            else App.showToast('⚠️ Хотя бы один вопрос');
+                        });
+                    });
 
-        function formatTime(seconds) {
-            if (seconds < 0) seconds = 0;
-            const m = Math.floor(seconds / 60);
-            const s = seconds % 60;
-            return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
-        }
+                    qContainer.querySelectorAll('[data-add-option]').forEach(btn => {
+                        btn.addEventListener('click', () => {
+                            const idx = parseInt(btn.dataset.addOption);
+                            if (questions[idx]) { if (!questions[idx].options) questions[idx].options = []; questions[idx].options.push(''); renderQuestions(); autoSaveDraft(); }
+                        });
+                    });
 
-        function showToast(msg) {
-            const toast = document.getElementById('toast');
-            toast.textContent = msg;
-            toast.classList.add('show');
-            clearTimeout(toast._timeout);
-            toast._timeout = setTimeout(() => toast.classList.remove('show'), 2500);
-        }
+                    qContainer.querySelectorAll('.remove-option').forEach(btn => {
+                        btn.addEventListener('click', () => {
+                            const qIdx = parseInt(btn.dataset.q);
+                            const optIdx = parseInt(btn.dataset.opt);
+                            if (questions[qIdx] && questions[qIdx].options.length > 2) {
+                                questions[qIdx].options.splice(optIdx, 1);
+                                if (questions[qIdx].correct) {
+                                    questions[qIdx].correct = questions[qIdx].correct.filter(c => c !== optIdx).map(c => c > optIdx ? c - 1 : c);
+                                }
+                                renderQuestions(); autoSaveDraft();
+                            } else App.showToast('⚠️ Минимум 2 варианта');
+                        });
+                    });
 
-        // Кнопка "Назад" в тестах
-        document.getElementById('backToTests').addEventListener('click', function() {
-            document.getElementById('testList').classList.remove('hidden');
-            document.getElementById('testTaking').classList.remove('active');
-            if (testTimer) clearInterval(testTimer);
-            renderTests();
-        });
+                    qContainer.querySelectorAll('.q-type-select').forEach(sel => {
+                        sel.addEventListener('change', () => {
+                            const idx = parseInt(sel.dataset.idx);
+                            questions[idx].type = sel.value;
+                            if (sel.value === 'choice' && !questions[idx].options) { questions[idx].options = ['', '']; questions[idx].correct = [0]; }
+                            if (sel.value === 'text') { questions[idx].options = []; questions[idx].correct = []; }
+                            renderQuestions(); autoSaveDraft();
+                        });
+                    });
 
-        // Инициализация тестов
-        loadTestData();
-        renderTests();
+                    qContainer.querySelectorAll('.q-text-input').forEach(inp => {
+                        inp.addEventListener('input', () => { const idx = parseInt(inp.dataset.idx); if (questions[idx]) questions[idx].text = inp.value; autoSaveDraft(); });
+                    });
 
-        // ============================================================
-        // 4. Синхронизация toast
-        // ============================================================
-        // Переопределяем showToast глобально для доклада и тестов
-        const originalShowToast = window.showToast;
-        window.showToast = showToast;
+                    qContainer.querySelectorAll('.q-option-input').forEach(inp => {
+                        inp.addEventListener('input', () => { const qIdx = parseInt(inp.dataset.q); const optIdx = parseInt(inp.dataset.opt); if (questions[qIdx] && questions[qIdx].options) { questions[qIdx].options[optIdx] = inp.value; autoSaveDraft(); } });
+                    });
 
-        // ============================================================
-        // 5. Старт — по умолчанию доклад
-        // ============================================================
-        // Убедимся, что активен модуль доклада
-        document.querySelector('.nav-btn[data-module="report"]').click();
+                    qContainer.querySelectorAll('.q-option-correct').forEach(cb => {
+                        cb.addEventListener('change', () => {
+                            const qIdx = parseInt(cb.dataset.q);
+                            const optIdx = parseInt(cb.dataset.opt);
+                            if (questions[qIdx]) {
+                                if (!questions[qIdx].correct) questions[qIdx].correct = [];
+                                if (cb.checked) { if (!questions[qIdx].correct.includes(optIdx)) questions[qIdx].correct.push(optIdx); }
+                                else { questions[qIdx].correct = questions[qIdx].correct.filter(c => c !== optIdx); }
+                                autoSaveDraft();
+                            }
+                        });
+                    });
 
+                    qContainer.querySelectorAll('.q-correct-text').forEach(inp => {
+                        inp.addEventListener('input', () => { const idx = parseInt(inp.dataset.idx); if (questions[idx]) { questions[idx].correct = inp.value.split(',').map(s => s.trim()).filter(s => s); autoSaveDraft(); } });
+                    });
+                }
+
+                function autoSaveDraft() {
+                    const name = document.getElementById('editTestName').value.trim();
+                    const password = document.getElementById('editTestPassword').value.trim();
+                    const timeLimit = parseInt(document.getElementById('editTimeLimit').value) || 300;
+                    const passingScore = parseInt(document.getElementById('editPassingScore').value) || 70;
+                    App.draftData = { name, password, questions: JSON.parse(JSON.stringify(questions)), timeLimit, passingScore };
+                    App.saveDraft();
+                }
+
+                renderQuestions();
+
+                document.getElementById('addChoiceQuestion').addEventListener('click', () => {
+                    questions.push({ type: 'choice', text: '', options: ['', ''], correct: [0] });
+                    renderQuestions(); autoSaveDraft();
+                });
+
+                document.getElementById('addTextQuestion').addEventListener('click', () => {
+                    questions.push({ type: 'text', text: '', correct: [] });
+                    renderQuestions(); autoSaveDraft();
+                });
+
+                document.getElementById('saveDraftBtn').addEventListener('click', () => { autoSaveDraft(); App.showToast('📂 Черновик сохранен'); });
+
+                document.getElementById('saveTestBtn').addEventListener('click', () => {
+                    const name = document.getElementById('editTestName').value.trim();
+                    const password = document.getElementById('editTestPassword').value.trim();
+                    const timeLimit = parseInt(document.getElementById('editTimeLimit').value) || 300;
+                    const passingScore = parseInt(document.getElementById('editPassingScore').value) || 70;
+                    if (!name) { App.showToast('⚠️ Введите название'); return; }
+
+                    const qItems = qContainer.querySelectorAll('.question-item');
+                    const newQuestions = [];
+                    let valid = true;
+                    qItems.forEach(item => {
+                        const type = item.querySelector('.q-type-select').value;
+                        const text = item.querySelector('.q-text-input').value.trim();
+                        if (!text) { App.showToast('⚠️ Вопрос без текста'); valid = false; return; }
+                        let correct = [], options = [];
+                        if (type === 'choice') {
+                            const optInputs = item.querySelectorAll('.q-option-input');
+                            options = Array.from(optInputs).map(inp => inp.value.trim());
+                            if (options.length < 2) { App.showToast('⚠️ Минимум 2 варианта'); valid = false; return; }
+                            if (options.some(o => !o)) { App.showToast('⚠️ Заполните варианты'); valid = false; return; }
+                            const correctCheckboxes = item.querySelectorAll('.q-option-correct:checked');
+                            correct = Array.from(correctCheckboxes).map(cb => parseInt(cb.dataset.opt));
+                            if (correct.length === 0) { App.showToast('⚠️ Отметьте правильные'); valid = false; return; }
+                        } else {
+                            const correctInput = item.querySelector('.q-correct-text');
+                            if (correctInput) {
+                                correct = correctInput.value.split(',').map(s => s.trim()).filter(s => s);
+                                if (correct.length === 0) { App.showToast('⚠️ Укажите правильные ответы'); valid = false; return; }
+                            }
+                        }
+                        newQuestions.push({ type, text, options, correct });
+                    });
+                    if (!valid || newQuestions.length === 0) return;
+
+                    if (fromDraft && App.draftData) {
+                        App.tests.push({ id: Date.now(), name, password: password || '', questions: newQuestions, timeLimit, passingScore, createdAt: Date.now() });
+                        App.draftData = null; App.saveDraft();
+                    } else if (isNew) {
+                        App.tests.push({ id: Date.now(), name, password: password || '', questions: newQuestions, timeLimit, passingScore, createdAt: Date.now() });
+                    } else {
+                        const idx = App.tests.indexOf(test);
+                        if (idx !== -1) { App.tests[idx] = { ...App.tests[idx], name, password: password || '', questions: newQuestions, timeLimit, passingScore }; }
+                    }
+                    App.saveData();
+                    App.renderTests();
+                    App.renderTestsAdminList();
+                    App.updateTestCount();
+                    modal.classList.remove('show');
+                    App.showToast('✅ Тест сохранен');
+                });
+
+                document.getElementById('cancelEditBtn').addEventListener('click', () => modal.classList.remove('show'));
+
+                document.getElementById('editTestName').addEventListener('input', autoSaveDraft);
+                document.getElementById('editTestPassword').addEventListener('input', autoSaveDraft);
+                document.getElementById('editTimeLimit').addEventListener('input', autoSaveDraft);
+                document.getElementById('editPassingScore').addEventListener('input', autoSaveDraft);
+
+                modal.classList.add('show');
+            },
+
+            showToast(message) {
+                const toast = document.getElementById('toast');
+                toast.textContent = message;
+                toast.classList.add('show');
+                clearTimeout(toast._timeout);
+                toast._timeout = setTimeout(() => toast.classList.remove('show'), 2500);
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', () => App.init());
     })();
 </script>
 
