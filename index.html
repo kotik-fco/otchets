@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>ФСО Тестирование</title>
+    <title>ФСО Тестирование с проверкой</title>
     <style>
         * {
             margin: 0;
@@ -135,55 +135,180 @@
             min-height: 500px;
         }
 
-        .tests-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
+        .flex-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
         }
 
-        .test-card {
-            background: #0e161f;
-            border: 1px solid #1f323d;
-            border-radius: 16px;
-            padding: 20px;
-            transition: all 0.25s;
-            cursor: pointer;
-            position: relative;
+        .flex-between {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
-        .test-card:hover {
-            border-color: #3a6072;
-            box-shadow: 0 0 30px rgba(0, 180, 255, 0.05);
-            transform: translateY(-2px);
-        }
+        .mt-10 { margin-top: 10px; }
+        .mt-20 { margin-top: 20px; }
+        .mb-10 { margin-bottom: 10px; }
+        .mb-20 { margin-bottom: 20px; }
 
-        .test-card .test-name {
-            color: #dcecf5;
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-
-        .test-card .test-meta {
-            color: #7a9aa8;
-            font-size: 13px;
+        .btn-primary {
+            background: #1a3340;
+            border: 1px solid #2f5465;
+            color: #c4e4f0;
+            padding: 12px 28px;
+            border-radius: 40px;
             font-family: 'Courier New', monospace;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.25s;
+            text-transform: uppercase;
         }
 
-        .test-card .test-stats {
-            color: #5d8b9a;
+        .btn-primary:hover {
+            background: #234a5a;
+            border-color: #4a8aa0;
+            box-shadow: 0 0 30px rgba(74, 138, 160, 0.15);
+        }
+
+        .btn-danger {
+            background: #2a1a1a;
+            border: 1px solid #6a2a2a;
+            color: #f0b0b0;
+            padding: 8px 16px;
+            border-radius: 40px;
+            font-family: 'Courier New', monospace;
             font-size: 12px;
-            margin-top: 10px;
-            padding-top: 10px;
-            border-top: 1px solid #1f323d;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.25s;
         }
 
-        .test-card .lock-badge {
-            position: absolute;
-            top: 15px;
-            right: 15px;
+        .btn-danger:hover {
+            background: #3a2222;
+            border-color: #8a3a3a;
+        }
+
+        .btn-success {
+            background: #1a2a2a;
+            border: 1px solid #2a5a5a;
+            color: #6fd6b8;
+            padding: 8px 16px;
+            border-radius: 40px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+
+        .btn-success:hover {
+            background: #1a3a3a;
+            border-color: #3a7a7a;
+        }
+
+        .btn-success-small {
+            background: #1a2a2a;
+            border: 1px solid #2a5a5a;
+            color: #6fd6b8;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+
+        .btn-success-small:hover {
+            background: #1a3a3a;
+            border-color: #3a7a7a;
+        }
+
+        .btn-danger-small {
+            background: #2a1a1a;
+            border: 1px solid #6a2a2a;
+            color: #f0b0b0;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+
+        .btn-danger-small:hover {
+            background: #3a2222;
+            border-color: #8a3a3a;
+        }
+
+        .btn-warning {
+            background: #2a2a1a;
+            border: 1px solid #6a6a2a;
             color: #f5c27a;
-            font-size: 18px;
+            padding: 6px 14px;
+            border-radius: 40px;
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+
+        .btn-warning:hover {
+            background: #3a3a22;
+            border-color: #8a8a3a;
+        }
+
+        .form-control {
+            background: #0e161e;
+            border: 1px solid #21343f;
+            border-radius: 10px;
+            padding: 10px 14px;
+            color: #dcecf5;
+            font-size: 14px;
+            width: 100%;
+            outline: none;
+            transition: 0.25s;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .form-control:focus {
+            border-color: #4a8aa0;
+            box-shadow: 0 0 0 3px rgba(74, 138, 160, 0.15);
+        }
+
+        .form-control.error {
+            border-color: #8a3a3a;
+            box-shadow: 0 0 0 3px rgba(138, 58, 58, 0.2);
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1a3340;
+            border: 1px solid #4a8aa0;
+            color: #cce2ec;
+            padding: 12px 28px;
+            border-radius: 40px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        .toast.show {
+            opacity: 1;
         }
 
         .modal-overlay {
@@ -242,192 +367,56 @@
             color: #e8827a;
         }
 
-        .form-group {
-            margin-bottom: 16px;
+        /* Стили для тестов */
+        .tests-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
         }
 
-        .form-group label {
-            display: block;
-            color: #7a9aa8;
-            font-size: 12px;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-            font-family: 'Courier New', monospace;
-            margin-bottom: 4px;
-        }
-
-        .form-control {
-            background: #0e161e;
-            border: 1px solid #21343f;
-            border-radius: 10px;
-            padding: 10px 14px;
-            color: #dcecf5;
-            font-size: 14px;
-            width: 100%;
-            outline: none;
-            transition: 0.25s;
-            font-family: 'Segoe UI', sans-serif;
-        }
-
-        .form-control:focus {
-            border-color: #4a8aa0;
-            box-shadow: 0 0 0 3px rgba(74, 138, 160, 0.15);
-        }
-
-        .form-control.error {
-            border-color: #8a3a3a;
-            box-shadow: 0 0 0 3px rgba(138, 58, 58, 0.2);
-        }
-
-        .btn-primary {
-            background: #1a3340;
-            border: 1px solid #2f5465;
-            color: #c4e4f0;
-            padding: 12px 28px;
-            border-radius: 40px;
-            font-family: 'Courier New', monospace;
-            font-size: 14px;
-            font-weight: 700;
-            letter-spacing: 1px;
-            cursor: pointer;
-            transition: all 0.25s;
-            text-transform: uppercase;
-        }
-
-        .btn-primary:hover {
-            background: #234a5a;
-            border-color: #4a8aa0;
-            box-shadow: 0 0 30px rgba(74, 138, 160, 0.15);
-        }
-
-        .btn-danger {
-            background: #2a1a1a;
-            border: 1px solid #6a2a2a;
-            color: #f0b0b0;
-            padding: 8px 16px;
-            border-radius: 40px;
-            font-family: 'Courier New', monospace;
-            font-size: 12px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.25s;
-        }
-
-        .btn-danger:hover {
-            background: #3a2222;
-            border-color: #8a3a3a;
-        }
-
-        .btn-danger-small {
-            background: #2a1a1a;
-            border: 1px solid #6a2a2a;
-            color: #f0b0b0;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-family: 'Courier New', monospace;
-            font-size: 11px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.25s;
-        }
-
-        .btn-danger-small:hover {
-            background: #3a2222;
-            border-color: #8a3a3a;
-        }
-
-        .btn-success {
-            background: #1a2a2a;
-            border: 1px solid #2a5a5a;
-            color: #6fd6b8;
-            padding: 8px 16px;
-            border-radius: 40px;
-            font-family: 'Courier New', monospace;
-            font-size: 12px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.25s;
-        }
-
-        .btn-success:hover {
-            background: #1a3a3a;
-            border-color: #3a7a7a;
-        }
-
-        .btn-success-small {
-            background: #1a2a2a;
-            border: 1px solid #2a5a5a;
-            color: #6fd6b8;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-family: 'Courier New', monospace;
-            font-size: 11px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.25s;
-        }
-
-        .btn-success-small:hover {
-            background: #1a3a3a;
-            border-color: #3a7a7a;
-        }
-
-        .question-item {
+        .test-card {
             background: #0e161f;
             border: 1px solid #1f323d;
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 12px;
+            border-radius: 16px;
+            padding: 20px;
+            transition: all 0.25s;
+            cursor: pointer;
+            position: relative;
         }
 
-        .question-item .q-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .test-card:hover {
+            border-color: #3a6072;
+            box-shadow: 0 0 30px rgba(0, 180, 255, 0.05);
+            transform: translateY(-2px);
+        }
+
+        .test-card .test-name {
+            color: #dcecf5;
+            font-size: 18px;
+            font-weight: 600;
             margin-bottom: 8px;
         }
 
-        .flex-row {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            align-items: center;
-        }
-
-        .flex-between {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .mt-10 { margin-top: 10px; }
-        .mt-20 { margin-top: 20px; }
-        .mb-10 { margin-bottom: 10px; }
-        .mb-20 { margin-bottom: 20px; }
-
-        .toast {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #1a3340;
-            border: 1px solid #4a8aa0;
-            color: #cce2ec;
-            padding: 12px 28px;
-            border-radius: 40px;
+        .test-card .test-meta {
+            color: #7a9aa8;
+            font-size: 13px;
             font-family: 'Courier New', monospace;
-            font-size: 14px;
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            pointer-events: none;
-            z-index: 999;
         }
 
-        .toast.show {
-            opacity: 1;
+        .test-card .test-stats {
+            color: #5d8b9a;
+            font-size: 12px;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #1f323d;
+        }
+
+        .test-card .lock-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            color: #f5c27a;
+            font-size: 18px;
         }
 
         .test-taking {
@@ -467,60 +456,29 @@
             accent-color: #4a8aa0;
         }
 
-        .option-label.correct {
-            border-color: #3ccf9e;
-            background: #0a2a2a;
-        }
-
-        .option-label.wrong {
-            border-color: #e8827a;
-            background: #2a1818;
-        }
-
-        .admin-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .admin-table th {
-            color: #7a9aa8;
-            font-family: 'Courier New', monospace;
-            font-size: 12px;
-            text-transform: uppercase;
-            text-align: left;
-            padding: 8px 12px;
-            border-bottom: 1px solid #1f323d;
-        }
-
-        .admin-table td {
+        .text-answer {
             color: #cce2ec;
             padding: 8px 12px;
-            border-bottom: 1px solid #1f323d;
+            margin: 4px 0;
+            border: 1px solid #1f323d;
+            border-radius: 8px;
+            background: #0e161e;
         }
 
-        .admin-table tr:hover td {
-            background: #0e161f;
+        .text-answer textarea {
+            background: transparent;
+            border: none;
+            color: #cce2ec;
+            width: 100%;
+            resize: vertical;
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 14px;
+            outline: none;
+            padding: 4px;
         }
 
-        .status-badge {
-            display: inline-block;
-            padding: 2px 12px;
-            border-radius: 40px;
-            font-family: 'Courier New', monospace;
-            font-size: 11px;
-            font-weight: 600;
-        }
-
-        .status-badge.protected {
-            color: #6fd6b8;
-            border: 1px solid #2b6a5c;
-            background: #0f2e2a;
-        }
-
-        .status-badge.normal {
-            color: #8ab8d4;
-            border: 1px solid #2a4a6a;
-            background: #18222e;
+        .text-answer textarea:focus {
+            border-color: #4a8aa0;
         }
 
         .timer-test {
@@ -586,29 +544,170 @@
             margin: 0 auto;
         }
 
-        .text-answer {
+        /* Результаты */
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+
+        .result-card {
+            background: #0e161f;
+            border: 1px solid #1f323d;
+            border-radius: 12px;
+            padding: 15px;
+            transition: all 0.25s;
+        }
+
+        .result-card:hover {
+            border-color: #3a6072;
+        }
+
+        .result-card .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .result-card .result-user {
+            color: #9fc8d9;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .result-card .result-date {
+            color: #5d8b9a;
+            font-size: 12px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .result-card .result-test {
+            color: #7a9aa8;
+            font-size: 14px;
+        }
+
+        .result-card .result-score {
+            color: #6fd6b8;
+            font-size: 18px;
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+        }
+
+        .result-card .status-badge {
+            display: inline-block;
+            padding: 2px 12px;
+            border-radius: 40px;
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .status-pending {
+            color: #f5c27a;
+            border: 1px solid #7a6a3a;
+            background: #2e2818;
+        }
+
+        .status-checked {
+            color: #6fd6b8;
+            border: 1px solid #2b6a5c;
+            background: #0f2e2a;
+        }
+
+        .status-revision {
+            color: #e8827a;
+            border: 1px solid #7a3a3a;
+            background: #2e1818;
+        }
+
+        .result-actions {
+            margin-top: 10px;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        /* Админские таблицы */
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .admin-table th {
+            color: #7a9aa8;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            text-transform: uppercase;
+            text-align: left;
+            padding: 8px 12px;
+            border-bottom: 1px solid #1f323d;
+        }
+
+        .admin-table td {
             color: #cce2ec;
             padding: 8px 12px;
-            margin: 4px 0;
+            border-bottom: 1px solid #1f323d;
+        }
+
+        .admin-table tr:hover td {
+            background: #0e161f;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 2px 12px;
+            border-radius: 40px;
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .status-badge.protected {
+            color: #6fd6b8;
+            border: 1px solid #2b6a5c;
+            background: #0f2e2a;
+        }
+
+        .status-badge.normal {
+            color: #8ab8d4;
+            border: 1px solid #2a4a6a;
+            background: #18222e;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #7a9aa8;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            font-family: 'Courier New', monospace;
+            margin-bottom: 4px;
+        }
+
+        .question-item {
+            background: #0e161f;
             border: 1px solid #1f323d;
-            border-radius: 8px;
-            background: #0e161e;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 12px;
         }
 
-        .text-answer textarea {
-            background: transparent;
-            border: none;
-            color: #cce2ec;
-            width: 100%;
-            resize: vertical;
-            font-family: 'Segoe UI', sans-serif;
-            font-size: 14px;
-            outline: none;
-            padding: 4px;
+        .question-item .q-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
         }
 
-        .text-answer textarea:focus {
-            border-color: #4a8aa0;
+        .question-item .q-text {
+            color: #dcecf5;
+            font-size: 15px;
         }
 
         .option-row {
@@ -641,17 +740,86 @@
             flex-shrink: 0;
         }
 
-        .user-info {
-            color: #7a9aa8;
-            font-size: 13px;
-            font-family: 'Courier New', monospace;
+        .checkbox-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .checkbox-group label {
+            color: #cce2ec;
+            font-size: 14px;
+            cursor: pointer;
             display: flex;
             align-items: center;
             gap: 5px;
         }
 
-        .user-info .highlight {
+        .checkbox-group input[type="radio"] {
+            accent-color: #4a8aa0;
+            width: 16px;
+            height: 16px;
+        }
+
+        .comment-box {
+            background: #0e161e;
+            border: 1px solid #21343f;
+            border-radius: 8px;
+            padding: 10px;
+            color: #cce2ec;
+            width: 100%;
+            min-height: 80px;
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 14px;
+            outline: none;
+            resize: vertical;
+        }
+
+        .comment-box:focus {
+            border-color: #4a8aa0;
+        }
+
+        .answer-detail {
+            padding: 8px 12px;
+            margin: 4px 0;
+            border-radius: 6px;
+            background: #0a121a;
+            border-left: 3px solid #1f323d;
+        }
+
+        .answer-detail.correct-answer {
+            border-left-color: #3ccf9e;
+        }
+
+        .answer-detail.wrong-answer {
+            border-left-color: #e8827a;
+        }
+
+        .answer-detail .q-label {
+            color: #7a9aa8;
+            font-size: 12px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .answer-detail .q-text {
+            color: #dcecf5;
+            margin: 4px 0;
+        }
+
+        .answer-detail .user-answer {
+            color: #f5c27a;
+            font-size: 14px;
+        }
+
+        .answer-detail .correct-answer-text {
             color: #6fd6b8;
+            font-size: 14px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #5d8b9a;
         }
     </style>
 </head>
@@ -661,18 +829,20 @@
     <div class="header">
         <div class="header-title">
             📋 ФСО ТЕСТИРОВАНИЕ
-            <span class="badge">v2.0</span>
+            <span class="badge">v3.0</span>
         </div>
         <div class="header-right">
             <div id="adminStatusContainer"></div>
             <div class="header-controls">
                 <button class="nav-btn active" id="testsTab">📝 Тесты</button>
+                <button class="nav-btn" id="resultsTab">📊 Результаты</button>
                 <button class="nav-btn" id="editTab">⚙️ Редактирование</button>
             </div>
         </div>
     </div>
 
     <div class="content" id="mainContent">
+        <!-- Список тестов -->
         <div class="test-list" id="testList">
             <div class="flex-between mb-20">
                 <h2 style="color:#9fc8d9;font-family:'Courier New',monospace;font-size:20px;">Доступные тесты</h2>
@@ -681,13 +851,24 @@
             <div class="tests-grid" id="testsGrid"></div>
         </div>
 
+        <!-- Прохождение теста -->
         <div class="test-taking" id="testTaking">
             <button class="btn-primary mb-20" id="backToTests">← Назад к тестам</button>
             <div id="testContent"></div>
         </div>
+
+        <!-- Результаты -->
+        <div class="test-list hidden" id="resultsList">
+            <div class="flex-between mb-20">
+                <h2 style="color:#9fc8d9;font-family:'Courier New',monospace;font-size:20px;">Результаты тестов</h2>
+                <span style="color:#5d8b9a;font-size:13px;" id="resultsCount">0 результатов</span>
+            </div>
+            <div id="resultsGrid" class="results-grid"></div>
+        </div>
     </div>
 </div>
 
+<!-- Модалка авторизации -->
 <div class="modal-overlay" id="editModal">
     <div class="modal">
         <button class="modal-close" id="closeEditModal">✕</button>
@@ -739,6 +920,7 @@
     </div>
 </div>
 
+<!-- Модалка редактора тестов -->
 <div class="modal-overlay" id="testEditorModal">
     <div class="modal">
         <button class="modal-close" id="closeTestEditor">✕</button>
@@ -747,6 +929,7 @@
     </div>
 </div>
 
+<!-- Модалка пароля для теста -->
 <div class="modal-overlay" id="testPasswordModal">
     <div class="modal">
         <button class="modal-close" id="closeTestPasswordModal">✕</button>
@@ -762,12 +945,22 @@
     </div>
 </div>
 
+<!-- Модалка проверки результата -->
+<div class="modal-overlay" id="reviewModal">
+    <div class="modal">
+        <button class="modal-close" id="closeReviewModal">✕</button>
+        <div class="modal-title">📝 Проверка результата</div>
+        <div id="reviewContent"></div>
+    </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
     const App = {
         tests: [],
         admins: [],
+        results: [],
         currentUser: null,
         isLoggedIn: false,
         currentTest: null,
@@ -783,6 +976,7 @@
             this.loadSession();
             this.loadDraft();
             this.renderTests();
+            this.renderResults();
             this.setupEventListeners();
             this.updateTestCount();
             this.updateAdminStatus();
@@ -799,6 +993,7 @@
                     const data = JSON.parse(saved);
                     this.tests = data.tests || [];
                     this.admins = data.admins || [];
+                    this.results = data.results || [];
                     
                     const adminExists = this.admins.some(a => a.login === 'admin');
                     if (!adminExists) {
@@ -864,8 +1059,13 @@
             }
         },
 
+        saveResults() {
+            localStorage.setItem('fso_results', JSON.stringify(this.results));
+        },
+
         setDefaultData() {
             this.admins = [{ login: 'admin', password: '123mastyrbist', protected: true }];
+            this.results = [];
             this.tests = [
                 {
                     id: 1,
@@ -935,12 +1135,14 @@
                 }
             ];
             this.saveData();
+            this.saveResults();
         },
 
         saveData() {
             localStorage.setItem('fso_tests_data', JSON.stringify({
                 tests: this.tests,
-                admins: this.admins
+                admins: this.admins,
+                results: this.results
             }));
         },
 
@@ -1001,6 +1203,264 @@
             }
         },
 
+        renderResults() {
+            const grid = document.getElementById('resultsGrid');
+            grid.innerHTML = '';
+            
+            if (this.results.length === 0) {
+                grid.innerHTML = '<div class="empty-state">📭 Нет результатов тестов</div>';
+                document.getElementById('resultsCount').textContent = '0 результатов';
+                return;
+            }
+
+            const sortedResults = [...this.results].reverse();
+            sortedResults.forEach(result => {
+                const card = document.createElement('div');
+                card.className = 'result-card';
+                
+                const statusMap = {
+                    'pending': '⏳ Ожидает проверки',
+                    'checked': '✅ Проверено',
+                    'revision': '🔄 Требует пересмотра'
+                };
+                
+                const statusClassMap = {
+                    'pending': 'status-pending',
+                    'checked': 'status-checked',
+                    'revision': 'status-revision'
+                };
+                
+                const test = this.tests.find(t => t.id === result.testId);
+                const testName = test ? test.name : 'Тест удален';
+                
+                card.innerHTML = `
+                    <div class="result-header">
+                        <span class="result-user">👤 ${result.userNick}</span>
+                        <span class="result-date">${result.date}</span>
+                    </div>
+                    <div class="result-test">📝 ${testName}</div>
+                    <div class="flex-between mt-10">
+                        <span class="result-score">${result.adminScore !== undefined ? result.adminScore : result.score}/5</span>
+                        <span class="status-badge ${statusClassMap[result.status] || 'status-pending'}">${statusMap[result.status] || '⏳ Ожидает проверки'}</span>
+                    </div>
+                    ${result.adminComment ? `<div style="color:#7a9aa8;font-size:13px;margin-top:5px;">💬 ${result.adminComment}</div>` : ''}
+                    <div class="result-actions">
+                        <button class="btn-success-small" data-id="${result.id}">📋 Подробнее</button>
+                        ${this.isLoggedIn ? `<button class="btn-warning" data-id="${result.id}">✏️ Проверить</button>` : ''}
+                    </div>
+                `;
+                
+                grid.appendChild(card);
+            });
+            
+            document.getElementById('resultsCount').textContent = `${this.results.length} результатов`;
+            
+            // Подробнее
+            grid.querySelectorAll('.btn-success-small').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const id = parseInt(btn.dataset.id);
+                    this.showResultDetail(id);
+                });
+            });
+            
+            // Проверить
+            grid.querySelectorAll('.btn-warning').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const id = parseInt(btn.dataset.id);
+                    this.openReview(id);
+                });
+            });
+        },
+
+        showResultDetail(id) {
+            const result = this.results.find(r => r.id === id);
+            if (!result) {
+                this.showToast('❌ Результат не найден');
+                return;
+            }
+            
+            const test = this.tests.find(t => t.id === result.testId);
+            if (!test) {
+                this.showToast('❌ Тест не найден');
+                return;
+            }
+            
+            const statusMap = {
+                'pending': '⏳ Ожидает проверки',
+                'checked': '✅ Проверено',
+                'revision': '🔄 Требует пересмотра'
+            };
+            
+            let detailsHtml = '';
+            result.answers.forEach((answer, idx) => {
+                const q = test.questions[idx];
+                if (!q) return;
+                
+                const isCorrect = answer.isCorrect;
+                detailsHtml += `
+                    <div class="answer-detail ${isCorrect ? 'correct-answer' : 'wrong-answer'}">
+                        <div class="q-label">Вопрос ${idx + 1} (${q.type === 'choice' ? 'Выбор' : 'Ввод текста'})</div>
+                        <div class="q-text">${q.text}</div>
+                        <div class="user-answer">Ответ пользователя: ${answer.userAnswer}</div>
+                        ${!isCorrect && q.type === 'choice' ? `<div class="correct-answer-text">Правильный ответ: ${q.correct.map(i => q.options[i]).join(', ')}</div>` : ''}
+                        ${!isCorrect && q.type === 'text' ? `<div class="correct-answer-text">Правильный ответ: ${q.correct.join(', ')}</div>` : ''}
+                        <div style="color:${isCorrect ? '#6fd6b8' : '#e8827a'};font-size:12px;margin-top:4px;">
+                            ${isCorrect ? '✅ Правильно' : '❌ Неправильно'}
+                        </div>
+                    </div>
+                `;
+            });
+            
+            const modal = document.getElementById('reviewModal');
+            document.getElementById('reviewContent').innerHTML = `
+                <div class="flex-between mb-20">
+                    <div>
+                        <div style="color:#9fc8d9;font-size:18px;">👤 ${result.userNick}</div>
+                        <div style="color:#7a9aa8;font-size:14px;">📝 ${test.name}</div>
+                        <div style="color:#5d8b9a;font-size:13px;">📅 ${result.date}</div>
+                    </div>
+                    <div>
+                        <div style="color:#6fd6b8;font-size:24px;font-weight:700;">${result.adminScore !== undefined ? result.adminScore : result.score}/5</div>
+                        <div style="color:#7a9aa8;font-size:12px;">${result.adminScore !== undefined ? 'Ручная проверка' : 'Автоматическая'}</div>
+                        <div style="color:#5d8b9a;font-size:12px;margin-top:4px;">${statusMap[result.status] || '⏳ Ожидает проверки'}</div>
+                    </div>
+                </div>
+                ${result.adminComment ? `<div style="color:#f5c27a;font-size:14px;margin-bottom:15px;">💬 Комментарий: ${result.adminComment}</div>` : ''}
+                <div style="margin-top:20px;">
+                    <h4 style="color:#9fc8d9;font-family:'Courier New',monospace;margin-bottom:10px;">📊 Детали ответов</h4>
+                    ${detailsHtml}
+                </div>
+                <div class="flex-row mt-20">
+                    <button class="btn-primary" id="closeReviewDetail">Закрыть</button>
+                    ${this.isLoggedIn ? `<button class="btn-warning" id="reviewFromDetail">✏️ Проверить</button>` : ''}
+                </div>
+            `;
+            
+            document.getElementById('closeReviewDetail').addEventListener('click', () => {
+                document.getElementById('reviewModal').classList.remove('show');
+            });
+            
+            const reviewBtn = document.getElementById('reviewFromDetail');
+            if (reviewBtn) {
+                reviewBtn.addEventListener('click', () => {
+                    document.getElementById('reviewModal').classList.remove('show');
+                    this.openReview(id);
+                });
+            }
+            
+            modal.classList.add('show');
+        },
+
+        openReview(id) {
+            const result = this.results.find(r => r.id === id);
+            if (!result) {
+                this.showToast('❌ Результат не найден');
+                return;
+            }
+            
+            const test = this.tests.find(t => t.id === result.testId);
+            if (!test) {
+                this.showToast('❌ Тест не найден');
+                return;
+            }
+            
+            let detailsHtml = '';
+            result.answers.forEach((answer, idx) => {
+                const q = test.questions[idx];
+                if (!q) return;
+                
+                detailsHtml += `
+                    <div class="answer-detail">
+                        <div class="q-label">Вопрос ${idx + 1} (${q.type === 'choice' ? 'Выбор' : 'Ввод текста'})</div>
+                        <div class="q-text">${q.text}</div>
+                        <div class="user-answer">Ответ пользователя: ${answer.userAnswer}</div>
+                        ${q.type === 'choice' ? `<div class="correct-answer-text">Правильные ответы: ${q.correct.map(i => q.options[i]).join(', ')}</div>` : ''}
+                        ${q.type === 'text' ? `<div class="correct-answer-text">Ожидаемый ответ: ${q.correct.join(', ')}</div>` : ''}
+                        <div style="color:#5d8b9a;font-size:12px;margin-top:4px;">
+                            ${answer.isCorrect ? '✅ Был засчитан как правильный' : '❌ Был засчитан как неправильный'}
+                        </div>
+                    </div>
+                `;
+            });
+            
+            const modal = document.getElementById('reviewModal');
+            document.getElementById('reviewContent').innerHTML = `
+                <div class="flex-between mb-20">
+                    <div>
+                        <div style="color:#9fc8d9;font-size:18px;">👤 ${result.userNick}</div>
+                        <div style="color:#7a9aa8;font-size:14px;">📝 ${test.name}</div>
+                        <div style="color:#5d8b9a;font-size:13px;">📅 ${result.date}</div>
+                    </div>
+                    <div>
+                        <div style="color:#6fd6b8;font-size:20px;">
+                            Текущая оценка: ${result.adminScore !== undefined ? result.adminScore : result.score}/5
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Новая оценка (0-5)</label>
+                    <input type="number" class="form-control" id="reviewScore" min="0" max="5" value="${result.adminScore !== undefined ? result.adminScore : result.score}" step="0.5">
+                </div>
+                
+                <div class="form-group">
+                    <label>Статус проверки</label>
+                    <div class="checkbox-group">
+                        <label><input type="radio" name="reviewStatus" value="pending" ${result.status === 'pending' ? 'checked' : ''}> ⏳ Ожидает</label>
+                        <label><input type="radio" name="reviewStatus" value="checked" ${result.status === 'checked' ? 'checked' : ''}> ✅ Проверено</label>
+                        <label><input type="radio" name="reviewStatus" value="revision" ${result.status === 'revision' ? 'checked' : ''}> 🔄 Пересмотреть</label>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Комментарий к проверке</label>
+                    <textarea class="comment-box" id="reviewComment" placeholder="Оставьте комментарий к проверке...">${result.adminComment || ''}</textarea>
+                </div>
+                
+                <div style="margin-top:20px;">
+                    <h4 style="color:#9fc8d9;font-family:'Courier New',monospace;margin-bottom:10px;">📊 Детали ответов</h4>
+                    ${detailsHtml}
+                </div>
+                
+                <div class="flex-row mt-20">
+                    <button class="btn-success" id="saveReviewBtn">💾 Сохранить проверку</button>
+                    <button class="btn-danger" id="closeReviewBtn">Отмена</button>
+                </div>
+            `;
+            
+            document.getElementById('closeReviewBtn').addEventListener('click', () => {
+                document.getElementById('reviewModal').classList.remove('show');
+                this.renderResults();
+            });
+            
+            document.getElementById('saveReviewBtn').addEventListener('click', () => {
+                const score = parseFloat(document.getElementById('reviewScore').value);
+                const status = document.querySelector('input[name="reviewStatus"]:checked').value;
+                const comment = document.getElementById('reviewComment').value.trim();
+                
+                if (isNaN(score) || score < 0 || score > 5) {
+                    this.showToast('⚠️ Оценка должна быть от 0 до 5');
+                    return;
+                }
+                
+                const idx = this.results.indexOf(result);
+                if (idx !== -1) {
+                    this.results[idx].adminScore = score;
+                    this.results[idx].status = status;
+                    this.results[idx].adminComment = comment;
+                    this.results[idx].reviewedBy = this.currentUser ? this.currentUser.login : 'admin';
+                    this.results[idx].reviewedAt = new Date().toLocaleString();
+                    this.saveData();
+                    this.saveResults();
+                    document.getElementById('reviewModal').classList.remove('show');
+                    this.renderResults();
+                    this.showToast('✅ Проверка сохранена');
+                }
+            });
+            
+            modal.classList.add('show');
+        },
+
         startTest(testId) {
             const test = this.tests.find(t => t.id === testId);
             if (!test) return;
@@ -1011,6 +1471,7 @@
             this.userNick = '';
 
             document.getElementById('testList').classList.add('hidden');
+            document.getElementById('resultsList').classList.add('hidden');
             document.getElementById('testTaking').classList.add('active');
 
             this.showNickInput();
@@ -1057,8 +1518,6 @@
             const total = test.questions.length;
             const timeLeft = test.timeLimit - Math.floor((Date.now() - this.testStartTime) / 1000);
 
-            const correctIndices = q.correct || [];
-
             let html = `
                 <div class="flex-between mb-10">
                     <span style="color:#7a9aa8;font-family:'Courier New',monospace;">
@@ -1074,11 +1533,10 @@
 
             if (q.type === 'choice') {
                 q.options.forEach((opt, i) => {
-                    const isCorrect = correctIndices.includes(i);
                     const checked = this.testResults && this.testResults[index] && this.testResults[index].includes(i) ? 'checked' : '';
-                    const inputType = correctIndices.length > 1 ? 'checkbox' : 'radio';
+                    const inputType = q.correct.length > 1 ? 'checkbox' : 'radio';
                     html += `
-                        <label class="option-label" data-index="${i}" data-correct="${isCorrect}">
+                        <label class="option-label" data-index="${i}">
                             <input type="${inputType}" name="question" value="${i}" ${checked}>
                             ${opt}
                         </label>
@@ -1113,7 +1571,7 @@
                     const remaining = test.timeLimit - elapsed;
                     if (remaining <= 0) {
                         clearInterval(this.testTimer);
-                        this.showResults();
+                        this.finishTest();
                         return;
                     }
                     const timerEl = document.getElementById('testTimer');
@@ -1162,6 +1620,14 @@
             }
         },
 
+        finishTest() {
+            if (this.testTimer) {
+                clearInterval(this.testTimer);
+                this.testTimer = null;
+            }
+            this.showResults();
+        },
+
         showResults() {
             if (this.testTimer) {
                 clearInterval(this.testTimer);
@@ -1173,6 +1639,7 @@
             let correctCount = 0;
             let totalQuestions = test.questions.length;
             let details = [];
+            let answerDetails = [];
 
             test.questions.forEach((q, idx) => {
                 const userAnswer = this.testResults && this.testResults[idx] ? this.testResults[idx] : null;
@@ -1208,11 +1675,37 @@
                     userAnswer: userAnswerStr,
                     isCorrect: isCorrect
                 });
+                
+                answerDetails.push({
+                    userAnswer: userAnswerStr,
+                    isCorrect: isCorrect
+                });
             });
 
             const percentage = Math.round((correctCount / totalQuestions) * 100);
             const passed = percentage >= test.passingScore;
             const score = Math.round((correctCount / totalQuestions) * 5);
+
+            // Сохраняем результат
+            const result = {
+                id: Date.now(),
+                testId: test.id,
+                userNick: this.userNick,
+                date: new Date().toLocaleString(),
+                score: score,
+                percentage: percentage,
+                passed: passed,
+                answers: answerDetails,
+                status: 'pending',
+                adminScore: null,
+                adminComment: null,
+                reviewedBy: null,
+                reviewedAt: null
+            };
+            
+            this.results.push(result);
+            this.saveData();
+            this.saveResults();
 
             let html = `
                 <div class="score-display">
@@ -1225,6 +1718,9 @@
                     </div>
                     <div style="color:#5d8b9a;font-size:13px;margin-top:10px;">
                         Правильных ответов: ${correctCount} из ${totalQuestions}
+                    </div>
+                    <div style="color:#f5c27a;font-size:13px;margin-top:10px;">
+                        ⏳ Результат отправлен на проверку администратору
                     </div>
                 </div>
                 <div style="margin-top:20px;">
@@ -1247,31 +1743,22 @@
             html += `
                 </div>
                 <div class="flex-row mt-20">
-                    <button class="btn-primary" id="retryTestBtn">🔄 Пройти заново</button>
                     <button class="btn-primary" id="finishTestBtn">📋 Завершить</button>
                 </div>
             `;
 
             container.innerHTML = html;
 
-            document.getElementById('retryTestBtn').addEventListener('click', () => {
-                this.testResults = null;
-                this.testStartTime = null;
-                if (this.testTimer) {
-                    clearInterval(this.testTimer);
-                    this.testTimer = null;
-                }
-                this.showNickInput();
-            });
-
             document.getElementById('finishTestBtn').addEventListener('click', () => {
                 document.getElementById('testList').classList.remove('hidden');
+                document.getElementById('resultsList').classList.add('hidden');
                 document.getElementById('testTaking').classList.remove('active');
                 if (this.testTimer) {
                     clearInterval(this.testTimer);
                     this.testTimer = null;
                 }
                 this.renderTests();
+                this.renderResults();
             });
         },
 
@@ -1285,8 +1772,10 @@
         setupEventListeners() {
             document.getElementById('testsTab').addEventListener('click', () => {
                 document.getElementById('testsTab').classList.add('active');
+                document.getElementById('resultsTab').classList.remove('active');
                 document.getElementById('editTab').classList.remove('active');
                 document.getElementById('testList').classList.remove('hidden');
+                document.getElementById('resultsList').classList.add('hidden');
                 document.getElementById('testTaking').classList.remove('active');
                 if (this.testTimer) {
                     clearInterval(this.testTimer);
@@ -1295,9 +1784,24 @@
                 this.renderTests();
             });
 
+            document.getElementById('resultsTab').addEventListener('click', () => {
+                document.getElementById('resultsTab').classList.add('active');
+                document.getElementById('testsTab').classList.remove('active');
+                document.getElementById('editTab').classList.remove('active');
+                document.getElementById('testList').classList.add('hidden');
+                document.getElementById('resultsList').classList.remove('hidden');
+                document.getElementById('testTaking').classList.remove('active');
+                if (this.testTimer) {
+                    clearInterval(this.testTimer);
+                    this.testTimer = null;
+                }
+                this.renderResults();
+            });
+
             document.getElementById('editTab').addEventListener('click', () => {
                 document.getElementById('editTab').classList.add('active');
                 document.getElementById('testsTab').classList.remove('active');
+                document.getElementById('resultsTab').classList.remove('active');
                 document.getElementById('editModal').classList.add('show');
                 if (this.isLoggedIn) {
                     this.showAdminPanel();
@@ -1354,6 +1858,7 @@
                     document.getElementById('loginError').textContent = '';
                     this.showAdminPanel();
                     this.updateAdminStatus();
+                    this.renderResults();
                     this.showToast('✅ Добро пожаловать, ' + login);
                 } else {
                     document.getElementById('loginError').textContent = '❌ Неверный логин или пароль';
@@ -1370,6 +1875,7 @@
                 document.getElementById('loginInput').value = '';
                 document.getElementById('passwordInput').value = '';
                 document.getElementById('loginError').textContent = '';
+                this.renderResults();
                 this.showToast('👋 Вы вышли из системы');
             });
 
@@ -1414,12 +1920,18 @@
 
             document.getElementById('backToTests').addEventListener('click', () => {
                 document.getElementById('testList').classList.remove('hidden');
+                document.getElementById('resultsList').classList.add('hidden');
                 document.getElementById('testTaking').classList.remove('active');
                 if (this.testTimer) {
                     clearInterval(this.testTimer);
                     this.testTimer = null;
                 }
                 this.renderTests();
+            });
+
+            document.getElementById('closeReviewModal').addEventListener('click', () => {
+                document.getElementById('reviewModal').classList.remove('show');
+                this.renderResults();
             });
 
             document.addEventListener('keydown', (e) => {
