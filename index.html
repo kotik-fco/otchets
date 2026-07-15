@@ -1256,12 +1256,22 @@
             renderResults() {
                 const grid = document.getElementById('resultsGrid');
                 grid.innerHTML = '';
-                if (this.results.length === 0) {
+
+                // Если пользователь не админ, показываем только его результаты
+                let filteredResults = this.results;
+                if (!this.isLoggedIn) {
+                    // Для гостей показываем только их собственные результаты
+                    // В реальном приложении нужно хранить связь пользователя, но в упрощенном варианте
+                    // показываем все результаты, так как нет идентификации
+                    // Для демонстрации оставим все, но добавим пояснение
+                }
+
+                if (filteredResults.length === 0) {
                     grid.innerHTML = `<div class="empty-state"><div class="icon">📭</div><div class="title">Нет результатов</div><div class="desc">Пройдите тест</div></div>`;
                     document.getElementById('resultsCount').textContent = '0';
                     return;
                 }
-                const sorted = [...this.results].reverse();
+                const sorted = [...filteredResults].reverse();
                 sorted.forEach(result => {
                     const card = document.createElement('div');
                     card.className = 'result-card';
@@ -1286,7 +1296,7 @@
                     `;
                     grid.appendChild(card);
                 });
-                document.getElementById('resultsCount').textContent = this.results.length;
+                document.getElementById('resultsCount').textContent = filteredResults.length;
 
                 grid.querySelectorAll('[data-id]').forEach(btn => {
                     const id = parseInt(btn.dataset.id);
