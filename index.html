@@ -906,6 +906,17 @@
 
         .toast.show { opacity: 1; }
 
+        .user-badge {
+            display: inline-block;
+            padding: 4px 14px;
+            border-radius: var(--radius-full);
+            font-size: 12px;
+            font-weight: 600;
+            background: var(--accent-blue-dim);
+            border: 1px solid var(--accent-blue);
+            color: var(--text-primary);
+        }
+
         @media (max-width: 768px) {
             .header { padding: 14px 18px; flex-direction: column; align-items: stretch; gap: 10px; top: 10px; }
             .header-title { font-size: 18px; justify-content: center; }
@@ -971,6 +982,7 @@
                     📊 Результаты
                     <span class="count" id="resultsCount">0</span>
                 </div>
+                <div id="currentUserBadge"></div>
             </div>
             <div id="resultsGrid" class="results-grid"></div>
         </div>
@@ -1069,6 +1081,7 @@
                 this.setupEventListeners();
                 this.updateTestCount();
                 this.updateAdminStatus();
+                this.updateUserBadge();
                 if (this.isLoggedIn) document.getElementById('editTab').click();
             },
 
@@ -1253,24 +1266,41 @@
                 }
             },
 
+            updateUserBadge() {
+                const badge = document.getElementById('currentUserBadge');
+                if (this.isLoggedIn) {
+                    badge.innerHTML = `<span class="user-badge">👤 Админ: ${this.currentUser.login}</span>`;
+                } else {
+                    badge.innerHTML = `<span class="user-badge" style="background:var(--bg-input);border-color:var(--border-color);color:var(--text-secondary);">👤 Гость</span>`;
+                }
+            },
+
             renderResults() {
                 const grid = document.getElementById('resultsGrid');
                 grid.innerHTML = '';
 
-                // Если пользователь не админ, показываем только его результаты
-                let filteredResults = this.results;
-                if (!this.isLoggedIn) {
-                    // Для гостей показываем только их собственные результаты
-                    // В реальном приложении нужно хранить связь пользователя, но в упрощенном варианте
-                    // показываем все результаты, так как нет идентификации
-                    // Для демонстрации оставим все, но добавим пояснение
+                let filteredResults = [];
+                if (this.isLoggedIn) {
+                    // Админ видит все результаты
+                    filteredResults = this.results;
+                } else {
+                    // Обычный пользователь видит только свои результаты
+                    // Сохраняем никнейм пользователя в сессии браузера
+                    let userNick = localStorage.getItem('fso_user_nick') || '';
+                    if (userNick) {
+                        filteredResults = this.results.filter(r => r.userNick === userNick);
+                    } else {
+                        // Если ник не сохранен, показываем все (но с подсказкой)
+                        filteredResults = this.results;
+                    }
                 }
 
                 if (filteredResults.length === 0) {
-                    grid.innerHTML = `<div class="empty-state"><div class="icon">📭</div><div class="title">Нет результатов</div><div class="desc">Пройдите тест</div></div>`;
+                    grid.innerHTML = `<div class="empty-state"><div class="icon">📭</div><div class="title">Нет результатов</div><div class="desc">Пройдите тест, чтобы увидеть свои результаты</div></div>`;
                     document.getElementById('resultsCount').textContent = '0';
                     return;
                 }
+
                 const sorted = [...filteredResults].reverse();
                 sorted.forEach(result => {
                     const card = document.createElement('div');
@@ -1454,6 +1484,8 @@
                     const nick = document.getElementById('nickInput').value.trim();
                     if (!nick) { this.showToast('⚠️ Введите имя'); document.getElementById('nickInput').classList.add('error'); return; }
                     this.userNick = nick;
+                    // Сохраняем ник для фильтрации результатов
+                    localStorage.setItem('fso_user_nick', nick);
                     document.getElementById('nickInput').classList.remove('error');
                     this.currentQuestionIndex = 0;
                     this.renderTestQuestion();
@@ -1730,6 +1762,7 @@
                         document.getElementById('loginError').textContent = '';
                         this.showAdminPanel();
                         this.updateAdminStatus();
+                        this.updateUserBadge();
                         this.renderResults();
                         this.showToast('✅ Добро пожаловать, ' + login);
                     } else {
@@ -1742,6 +1775,7 @@
                     this.currentUser = null;
                     this.saveSession();
                     this.updateAdminStatus();
+                    this.updateUserBadge();
                     document.getElementById('loginForm').style.display = 'block';
                     document.getElementById('adminPanel').style.display = 'none';
                     document.getElementById('loginInput').value = '';
